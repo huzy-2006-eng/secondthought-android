@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_base" translatable="false">https://secondthought-q61k.onrender.com</string>
+    <string name="channel_calls">Unknown callers</string>
+    <string name="channel_calls_desc">Asks whether you want SecondThought to protect a call from a number that is not in your contacts.</string>
+    <string name="channel_alerts">Scam alerts</string>
+    <string name="channel_alerts_desc">Alerts from family members you protect, and warnings about risky calls.</string>
+    <string name="incoming_title">Unknown number calling</string>
+    <string name="incoming_test_prefix">[Test call]</string>
+    <string name="incoming_checking">Checking this number against scam reports…</string>
+    <string name="incoming_reported">Warning: this number appears in %1$d scam report(s).</string>
+    <string name="incoming_not_reported">Not in scam reports. Still be careful with unknown callers.</string>
+    <string name="incoming_offline">Could not check the number (no internet).</string>
+    <string name="incoming_ask">Protect this call? Nothing is listened to unless you say yes.</string>
+    <string name="incoming_protect">Protect this call</string>
+    <string name="incoming_not_now">Not now</string>
+    <string name="share_label">Check with SecondThought</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_calls">Números desconocidos</string>
+    <string name="channel_calls_desc">Pregunta si quieres que SecondThought proteja una llamada de un número que no está en tus contactos.</string>
+    <string name="channel_alerts">Alertas de estafa</string>
+    <string name="channel_alerts_desc">Alertas de familiares que proteges y avisos de llamadas de riesgo.</string>
+    <string name="incoming_title">Llamada de un número desconocido</string>
+    <string name="incoming_test_prefix">[Llamada de prueba]</string>
+    <string name="incoming_checking">Comprobando este número en denuncias de estafa…</string>
+    <string name="incoming_reported">Atención: este número aparece en %1$d denuncia(s) de estafa.</string>
+    <string name="incoming_not_reported">No aparece en denuncias. Aun así, ten cuidado con desconocidos.</string>
+    <string name="incoming_offline">No se pudo comprobar el número (sin internet).</string>
+    <string name="incoming_ask">¿Proteger esta llamada? No se escucha nada si no dices que sí.</string>
+    <string name="incoming_protect">Proteger llamada</string>
+    <string name="incoming_not_now">Ahora no</string>
+    <string name="share_label">Comprobar con SecondThought</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_calls">अनजान कॉल</string>
+    <string name="channel_calls_desc">जब कोई ऐसा नंबर कॉल करे जो आपके कॉन्टैक्ट में नहीं है, तो पूछता है कि क्या SecondThought कॉल को सुरक्षित करे।</string>
+    <string name="channel_alerts">स्कैम अलर्ट</string>
+    <string name="channel_alerts_desc">जिन परिवारजनों की आप सुरक्षा करते हैं उनके अलर्ट, और जोखिम भरी कॉल की चेतावनी।</string>
+    <string name="incoming_title">अनजान नंबर से कॉल</string>
+    <string name="incoming_test_prefix">[टेस्ट कॉल]</string>
+    <string name="incoming_checking">स्कैम रिपोर्ट में यह नंबर जाँचा जा रहा है…</string>
+    <string name="incoming_reported">चेतावनी: यह नंबर %1$d स्कैम रिपोर्ट में मिला है।</string>
+    <string name="incoming_not_reported">स्कैम रिपोर्ट में नहीं मिला। फिर भी अनजान कॉल से सावधान रहें।</string>
+    <string name="incoming_offline">नंबर जाँच नहीं पाए (इंटरनेट नहीं है)।</string>
+    <string name="incoming_ask">क्या इस कॉल को सुरक्षित करें? आपकी हाँ के बिना कुछ नहीं सुना जाता।</string>
+    <string name="incoming_protect">कॉल सुरक्षित करें</string>
+    <string name="incoming_not_now">अभी नहीं</string>
+    <string name="share_label">SecondThought से जाँचें</string>
+</resources>
