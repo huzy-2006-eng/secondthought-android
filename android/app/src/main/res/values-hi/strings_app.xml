@@ -10,7 +10,7 @@
     <string name="incoming_reported">चेतावनी: यह नंबर %1$d स्कैम रिपोर्ट में मिला है।</string>
     <string name="incoming_not_reported">स्कैम रिपोर्ट में नहीं मिला। फिर भी अनजान कॉल से सावधान रहें।</string>
     <string name="incoming_offline">नंबर जाँच नहीं पाए (इंटरनेट नहीं है)।</string>
-    <string name="incoming_ask">क्या इस कॉल को सुरक्षित करें? आपकी हाँ के बिना कुछ नहीं सुना जाता।</string>
+    <string name="incoming_ask">क्या इस कॉल को सुरक्षित करें? SecondThought नंबर जाँचता है और आपकी मदद करता है। आपकी कॉल कभी नहीं सुनता।</string>
     <string name="incoming_protect">कॉल सुरक्षित करें</string>
     <string name="incoming_not_now">अभी नहीं</string>
     <string name="share_label">SecondThought से जाँचें</string>

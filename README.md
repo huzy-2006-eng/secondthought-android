@@ -15,6 +15,7 @@ This repository is the Android app. The detection engine (rules, trained models,
 | **Unknown caller? It asks first.** | When a number that is **not in your contacts** calls, a notification asks: *"Unknown number calling. Protect this call?"* It already shows whether the number appears in scam reports. Nothing happens unless you say yes. |
 | **Saved contacts are never touched** | Android only gives a call-screening app calls from numbers that are not in the contacts (`CallScreeningService`, Android 10+). Calls from family and friends never reach SecondThought's code. |
 | **Easy for every age** | Three big buttons: *Check a message*, *Protect a call*, *Help! Alert my family*. Four tabs, large text option, and English, हिन्दी and Español. |
+| **During a call** | After "Yes, protect this call": safety tips, **Help**, **Type what the caller says**, **Make a payment** (payment pause), **Hand over to SecondThought**, **I know this person**, **End & report**. |
 | **Stop screen** | When a conversation crosses the risk line, a full-screen warning lists the tricks it noticed in plain words: *Hang up now*, *Hand over to SecondThought*, or a 10-second wait before continuing. |
 | **Help! Alert my family** | One tap prepares a text to your family member ("I'm getting a suspicious call from a number ending 4612… please call me now") and shows a big **Call** button. Their number is saved only on your phone, and it works without internet. |
 | **Live family alerts (optional)** | If the family member also has SecondThought, they get a live alert the moment a call turns dangerous: the warning only, never the conversation. |
@@ -26,11 +27,10 @@ This repository is the Android app. The detection engine (rules, trained models,
 
 ## Privacy, by design
 
-1. **It asks before listening, every time.** First the notification asks, then the app asks. Listening needs a separate consent checkbox.
-2. **Calls are never recorded.** Android gives apps silence instead of call audio on the phone that is in the call. SecondThought listens only through a **second phone or tablet** next to a call on speaker, or you type what the caller says. We state this plainly in the app.
-3. **Speech-to-text runs on the phone** when Android's on-device recogniser has the language. Otherwise it uses the phone's normal speech service. SecondThought never receives audio.
-4. **Text is masked on arrival** (OTPs, card, Aadhaar and PAN numbers, your own number, UPI ID and account). It is analysed in memory and never saved. A scammer's details go into the shared network only if you agree.
-5. The caller check sends the number once and **stores nothing**. The lock-screen notification shows only the last 4 digits.
+1. **It asks first, every time.** For each unknown call the notification asks whether to protect it, and the app asks again before doing anything.
+2. **Calls are never listened to or recorded.** The app has no microphone permission at all. During a call you can type what the caller says, and only that text is checked.
+3. **Text is masked on arrival** (OTPs, card, Aadhaar and PAN numbers, your own number, UPI ID and account). It is analysed in memory and never saved. A scammer's details go into the shared network only if you agree.
+4. The caller check sends the number once and **stores nothing**. The lock-screen notification shows only the last 4 digits.
 
 ## How the native parts work
 
@@ -39,7 +39,7 @@ android/app/src/main/java/app/secondthought/guardian/
   ScreeningService.java     CallScreeningService: lets every call ring normally, then posts the question
   CallNotifier.java         "Unknown number calling. Protect this call?" + family alert notifications
   CallerCheck.java          is this number in scam reports? (GET /api/graph/lookup, nothing stored)
-  SecondThoughtPlugin.java  bridge to the UI: call-screening role, notifications, SpeechRecognizer,
+  SecondThoughtPlugin.java  bridge to the UI: call-screening role, notifications,
                             test call, share sheet, text/call a family member,
                             notification taps / shared text -> app screen
   LaunchQueue.java          routes notification taps and "Share to SecondThought" into the app
@@ -83,12 +83,12 @@ The free server sleeps when idle, so the first request can take up to a minute. 
 | Setup | Home | Unknown caller | Protected | Stop screen |
 |---|---|---|---|---|
 | ![](screenshots/preview/01-setup.png) | ![](screenshots/preview/03-home.png) | ![](screenshots/preview/04-unknown-call-question.png) | ![](screenshots/preview/05-unknown-call-protected.png) | ![](screenshots/preview/06-stop-screen.png) |
-| **Help → text ready** | **Check a message** | **Listen consent** | **Live family alert** | **Hindi** |
-| ![](screenshots/preview/05b-help-texted.png) | ![](screenshots/preview/08-check-message.png) | ![](screenshots/preview/09-listen-consent.png) | ![](screenshots/preview/10-family-alert.png) | ![](screenshots/preview/15-home-hindi.png) |
+| **Help → text ready** | **Check a message** | **Type what the caller says** | **Live family alert** | **Hindi** |
+| ![](screenshots/preview/05b-help-texted.png) | ![](screenshots/preview/08-check-message.png) | ![](screenshots/preview/09-type-call.png) | ![](screenshots/preview/10-family-alert.png) | ![](screenshots/preview/15-home-hindi.png) |
 
 ## Limits (said plainly)
 
-- Same-phone call audio is blocked by Android for every ordinary app. Live listening therefore needs a second device or typing. The production route is a carrier or "add SecondThought to the call" (conference) integration.
+- Android doesn't let ordinary apps hear calls, so SecondThought doesn't listen to calls: during a real call you type what the caller says. The simulated scam call shows the full live-detection experience. Live call analysis would need a carrier or "add SecondThought to the call" (conference) integration.
 - Call screening needs Android 10+, and the person must pick SecondThought as the call-screening app. Only one app can hold that role, so it replaces Truecaller's screening if that was chosen.
 - Help uses a normal text message that the person sends with one tap (apps can't send texts silently without a restricted permission).
 - Live family alerts arrive while the guardian's app is open or in recent use, and the free server forgets pairings when it restarts. Always-on alerts need push messaging (FCM), which is the next step.

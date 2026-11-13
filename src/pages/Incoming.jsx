@@ -94,11 +94,8 @@ export default function Incoming({ query, go }) {
               <span className="ico"><Icon name="play" /></span><span><strong>{t("inc_play_demo")}</strong><small>{t("inc_test")}</small></span>
             </button>
           ) : null}
-          <button className="bigaction" onClick={() => go("/protect?mode=chat")}>
-            <span className="ico"><Icon name="chat" /></span><span><strong>{t("inc_type")}</strong><small>{t("inc_type_sub")}</small></span>
-          </button>
           <button className="bigaction" onClick={() => go("/protect?mode=call")}>
-            <span className="ico"><Icon name="mic" /></span><span><strong>{t("inc_listen")}</strong><small>{t("inc_listen_sub")}</small></span>
+            <span className="ico"><Icon name="chat" /></span><span><strong>{t("inc_type")}</strong><small>{t("inc_type_sub")}</small></span>
           </button>
           <p className="tiny">{t("inc_same_phone")}</p>
         </>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
 import { api, API_BASE } from "../api.js";
-import { isNative, ST } from "../native.js";
+import { isNative } from "../native.js";
 import Icon from "../components/Icon.jsx";
 import Intervention from "../components/Intervention.jsx";
 import { Identifiers, RiskMeter, TacticList, Transcript } from "../components/Risk.jsx";
@@ -10,10 +10,6 @@ import { useContext } from "react";
 import { scamTypeText } from "../tactics_i18n.js";
 import { useSession } from "../session.jsx";
 
-const SPEECH_LANGS = [
-  { id: "en-IN", label: "English (India)" }, { id: "en-US", label: "English (US)" }, { id: "en-GB", label: "English (UK)" },
-  { id: "hi-IN", label: "हिन्दी / Hinglish" }, { id: "es-ES", label: "Español" },
-];
 const TTS_LANG = { en: "en-IN", "hi-Latn": "hi-IN", hi: "hi-IN", es: "es-ES" };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const PROGRESS = {}; // playback position per session, survives leaving and returning to this screen
@@ -59,7 +55,7 @@ export default function Shield({ go, query }) {
     <>
       {!active ? <Start t={t} s={s} scenarios={scenarios} scenarioId={scenarioId} setScenarioId={setScenarioId} /> : null}
       {active && s.channel === "simulated" ? <SimulatedCall s={s} scenario={scenarios.find((x) => x.id === scenarioId)} paused={overlay} /> : null}
-      {active && s.channel === "call" ? <ListenMode s={s} t={t} /> : null}
+      {active && s.channel === "call" ? <ChatMode s={s} t={t} call /> : null}
       {active && s.channel === "chat" ? <ChatMode s={s} t={t} /> : null}
       {active ? <LiveView t={t} s={s} go={go} /> : null}
       {!active && !isNative ? <GuardianSetup t={t} s={s} /> : null}
@@ -98,7 +94,7 @@ function Start({ t, s, scenarios, scenarioId, setScenarioId }) {
           <Icon name="play" />{t("play_sim")}
         </button>
         <div className="grid2">
-          <button className="btn" disabled={busy} onClick={() => begin("call")}><Icon name="mic" />{t("listen")}</button>
+          <button className="btn" disabled={busy} onClick={() => begin("call")}><Icon name="phone" />{t("type_call")}</button>
           <button className="btn" disabled={busy} onClick={() => begin("chat")}><Icon name="chat" />{t("paste_chat")}</button>
         </div>
       </div>
@@ -216,205 +212,28 @@ function SimulatedCall({ s, scenario, paused }) {
   );
 }
 
-// ------------------------------------------------------------- speakerphone
-function ListenMode({ s, t }) {
-  if (isNative) return <NativeListenMode s={s} t={t} />;
-  return <BrowserListenMode s={s} t={t} />;
-}
-
-function Consent({ t, audioKey, onStart }) {
-  const [agree, setAgree] = useState(false);
-  return (
-    <div className="card stack" role="region" aria-labelledby="consent-title">
-      <h2 id="consent-title"><Icon name="shield" style={{ width: 20, height: 20, verticalAlign: "-4px" }} /> {t("consent_title")}</h2>
-      <ul style={{ margin: 0, paddingLeft: 18 }} className="stack">
-        <li>{t(audioKey)}</li>
-        <li>{t("consent_text")}</li>
-        <li>{t("consent_guardian")}</li>
-        <li><strong>{t("consent_other")}</strong></li>
-      </ul>
-      <label className="row" style={{ alignItems: "flex-start" }}>
-        <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 24, height: 24, marginTop: 2 }} />
-        {t("consent_agree")}
-      </label>
-      <button className="btn primary big block" disabled={!agree} onClick={onStart}><Icon name="mic" />{t("consent_start")}</button>
-    </div>
-  );
-}
-
-// Android: the phone's own SpeechRecognizer (the WebView has no Web Speech API).
-// Meant for a second phone or tablet next to a call on speaker: Android gives apps silence
-// instead of call audio on the phone that is in the call.
-function NativeListenMode({ s, t }) {
-  const [lang, setLang] = useState("en-IN");
-  const [consented, setConsented] = useState(false);
-  const [listening, setListening] = useState(false);
-  const [onDevice, setOnDevice] = useState(false);
-  const [speaker, setSpeaker] = useState("other");
-  const [interim, setInterim] = useState("");
-  const [err, setErr] = useState(null);
-  const speakerRef = useRef(speaker);
-  speakerRef.current = speaker;
-
-  useEffect(() => {
-    const subs = [
-      ST.addListener("speech", (e) => {
-        if (e.final) { setInterim(""); s.send(e.text, speakerRef.current); } else setInterim(e.text);
-      }),
-      ST.addListener("speechState", (e) => {
-        setListening(Boolean(e.listening)); setOnDevice(Boolean(e.onDevice));
-        if (e.error) setErr(e.error);
-      }),
-    ];
-    return () => { subs.forEach((p) => p.then((h) => h.remove()).catch(() => {})); ST.stopListening().catch(() => {}); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [s.sessionId]);
-
-  const start = async () => {
-    setErr(null);
-    try { const r = await ST.startListening({ lang }); setListening(true); setOnDevice(Boolean(r.onDevice)); }
-    catch (e) { setErr(e.message); setListening(false); }
-  };
-  const stop = async () => { try { await ST.stopListening(); } catch { /* ignore */ } setListening(false); };
-  const [once, setOnce] = useState(false);
-  const speakOnce = async () => {
-    setErr(null); setOnce(true);
-    try {
-      if (listening) await stop();
-      const r = await ST.recognizeOnce({ lang, prompt: speaker === "other" ? "Caller is speaking…" : "You are speaking…" });
-      if (r.text) s.send(r.text, speakerRef.current);
-    } catch (e) { setErr(e.message); } finally { setOnce(false); }
-  };
-
-  if (!consented) return <Consent t={t} audioKey="consent_audio_app" onStart={() => { setConsented(true); start(); }} />;
-  return (
-    <div className="card stack">
-      <div className="row">
-        <select className="input" style={{ flex: 1 }} value={lang} onChange={(e) => setLang(e.target.value)} disabled={listening} aria-label="Speech language">
-          {SPEECH_LANGS.map((l) => <option key={l.id} value={l.id}>{l.label}</option>)}
-        </select>
-        {listening
-          ? <button className="btn danger" onClick={stop}><Icon name="mic" />{t("stop")}</button>
-          : <button className="btn primary" onClick={start}><Icon name="mic" />{t("consent_start")}</button>}
-      </div>
-      <div className="row" role="radiogroup" aria-label="Who is speaking">
-        <span className="tiny">Who is speaking now:</span>
-        <button className={`btn ${speaker === "other" ? "primary" : ""}`} aria-pressed={speaker === "other"} onClick={() => setSpeaker("other")}>Caller</button>
-        <button className={`btn ${speaker === "user" ? "primary" : ""}`} aria-pressed={speaker === "user"} onClick={() => setSpeaker("user")}>Me</button>
-      </div>
-      {listening ? <div className="tiny"><span className="pulse" style={{ display: "inline-block", marginRight: 6 }} />Listening{onDevice ? " (on this phone)" : ""}. {interim ? <em>“{interim}”</em> : null}</div> : null}
-      {err ? <div className="banner bad"><Icon name="alert" />{err}</div> : null}
-      <button className={`btn block ${err ? "primary big" : ""}`} onClick={speakOnce} disabled={once}><Icon name="mic" />{t("speak_once")}</button>
-      <div className="tiny">{t("speak_once_sub")}</div>
-      <div className="tiny">{t("inc_same_phone")}</div>
-    </div>
-  );
-}
-
-function BrowserListenMode({ s, t }) {
-  const Rec = typeof window !== "undefined" ? window.SpeechRecognition || window.webkitSpeechRecognition : null;
-  const [lang, setLang] = useState("en-IN");
-  const [listening, setListening] = useState(false);
-  const [speaker, setSpeaker] = useState("other");
-  const [interim, setInterim] = useState("");
-  const [err, setErr] = useState(null);
-  const [consented, setConsented] = useState(false);
-  const [agree, setAgree] = useState(false);
-  const recRef = useRef(null);
-  const want = useRef(false);
-  const speakerRef = useRef(speaker);
-  speakerRef.current = speaker;
-
-  const start = useCallback(() => {
-    if (!Rec) return;
-    setErr(null);
-    const rec = new Rec();
-    rec.lang = lang;
-    rec.continuous = true;
-    rec.interimResults = true;
-    rec.onresult = (e) => {
-      let partial = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const r = e.results[i];
-        if (r.isFinal) s.send(r[0].transcript, speakerRef.current);
-        else partial += r[0].transcript;
-      }
-      setInterim(partial);
-    };
-    rec.onerror = (e) => { if (e.error === "not-allowed" || e.error === "service-not-allowed") { want.current = false; setErr("Microphone permission was denied."); } };
-    rec.onend = () => { setInterim(""); if (want.current) { try { rec.start(); } catch { /* restarting */ } } else setListening(false); };
-    recRef.current = rec;
-    want.current = true;
-    try { rec.start(); setListening(true); } catch (e) { setErr(e.message); }
-  }, [Rec, lang, s]);
-
-  const stop = () => { want.current = false; try { recRef.current?.stop(); } catch { /* ignore */ } setListening(false); };
-  useEffect(() => () => { want.current = false; try { recRef.current?.stop(); } catch { /* ignore */ } }, []);
-
-  if (!consented) {
-    return (
-      <div className="card stack" role="region" aria-labelledby="consent-title">
-        <h2 id="consent-title"><Icon name="shield" style={{ width: 20, height: 20, verticalAlign: "-4px" }} /> {t("consent_title")}</h2>
-        <ul style={{ margin: 0, paddingLeft: 18 }} className="stack">
-          <li>{t("consent_audio")}</li>
-          <li>{t("consent_text")}</li>
-          <li>{t("consent_guardian")}</li>
-          <li><strong>{t("consent_other")}</strong></li>
-        </ul>
-        <label className="row" style={{ alignItems: "flex-start" }}>
-          <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 20, height: 20, marginTop: 2 }} />
-          {t("consent_agree")}
-        </label>
-        <button className="btn primary block" disabled={!agree} onClick={() => setConsented(true)}><Icon name="mic" />{t("consent_start")}</button>
-      </div>
-    );
-  }
-  if (!Rec) {
-    return (
-      <div className="banner warn"><Icon name="alert" />
-        <div>Live speech recognition isn't available in this browser. Use Chrome on Android or desktop, or switch to chat mode.
-          <ChatMode s={s} t={t} embedded />
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div className="card stack">
-      <div className="row">
-        <select className="input" style={{ flex: 1 }} value={lang} onChange={(e) => setLang(e.target.value)} disabled={listening} aria-label="Speech language">
-          {SPEECH_LANGS.map((l) => <option key={l.id} value={l.id}>{l.label}</option>)}
-        </select>
-        {listening
-          ? <button className="btn danger" onClick={stop}><Icon name="mic" />Stop listening</button>
-          : <button className="btn primary" onClick={start}><Icon name="mic" />Start listening</button>}
-      </div>
-      <div className="row" role="radiogroup" aria-label="Who is speaking">
-        <span className="tiny">Who is speaking now:</span>
-        <button className={`btn ${speaker === "other" ? "primary" : ""}`} aria-pressed={speaker === "other"} onClick={() => setSpeaker("other")}>Caller</button>
-        <button className={`btn ${speaker === "user" ? "primary" : ""}`} aria-pressed={speaker === "user"} onClick={() => setSpeaker("user")}>Me</button>
-      </div>
-      {listening ? <div className="tiny"><span className="pulse" style={{ display: "inline-block", marginRight: 6 }} />Listening. Put the call on speaker. {interim ? <em>“{interim}”</em> : null}</div> : null}
-      {err ? <div className="banner bad"><Icon name="alert" />{err}</div> : null}
-      <div className="tiny">{t("consent_audio")}</div>
-    </div>
-  );
-}
-
 // ------------------------------------------------------------- chat
-function ChatMode({ s, t, embedded }) {
+function ChatMode({ s, t, embedded, call }) {
   const [text, setText] = useState("");
   const submit = (speaker) => { if (text.trim()) { s.send(text, speaker); setText(""); } };
   const body = (
     <div className="stack">
-      <textarea className="input" value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste or type a message from the conversation…"
+      <textarea className="input" value={text} onChange={(e) => setText(e.target.value)} placeholder={call ? t("type_call_ph") : "Paste or type a message from the conversation…"}
         onKeyDown={(e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) submit("other"); }} aria-label="Message" />
       <div className="grid2">
-        <button className="btn primary" onClick={() => submit("other")}>{t("they_said")}</button>
+        <button className={`btn primary ${call ? "big" : ""}`} onClick={() => submit("other")}>{t("they_said")}</button>
         <button className="btn" onClick={() => submit("user")}>{t("i_said")}</button>
       </div>
     </div>
   );
-  return embedded ? <div style={{ marginTop: 10 }}>{body}</div> : <div className="card">{body}<div className="tiny" style={{ marginTop: 8 }}>{t("chat_privacy")}</div></div>;
+  if (embedded) return <div style={{ marginTop: 10 }}>{body}</div>;
+  return (
+    <div className="card">
+      {call ? <><h2 style={{ marginTop: 0 }}>{t("type_call")}</h2><p className="muted" style={{ marginTop: 0 }}>{t("type_call_sub")}</p></> : null}
+      {body}
+      <div className="tiny" style={{ marginTop: 8 }}>{t("chat_privacy")}</div>
+    </div>
+  );
 }
 
 // ------------------------------------------------------------- guardian pairing

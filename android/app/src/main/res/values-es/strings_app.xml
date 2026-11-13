@@ -10,7 +10,7 @@
     <string name="incoming_reported">Atención: este número aparece en %1$d denuncia(s) de estafa.</string>
     <string name="incoming_not_reported">No aparece en denuncias. Aun así, ten cuidado con desconocidos.</string>
     <string name="incoming_offline">No se pudo comprobar el número (sin internet).</string>
-    <string name="incoming_ask">¿Proteger esta llamada? No se escucha nada si no dices que sí.</string>
+    <string name="incoming_ask">¿Proteger esta llamada? SecondThought comprueba el número y te ayuda. Nunca escucha tus llamadas.</string>
     <string name="incoming_protect">Proteger llamada</string>
     <string name="incoming_not_now">Ahora no</string>
     <string name="share_label">Comprobar con SecondThought</string>

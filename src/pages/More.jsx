@@ -3,7 +3,6 @@ import { useT } from "../i18n.js";
 
 const ITEMS = [
   { path: "/protect?mode=demo", icon: "play", key: "more_practice" },
-  { path: "/protect?mode=call", icon: "mic", key: "more_listen" },
   { path: "/guardian", icon: "bell", key: "more_watch" },
   { path: "/intel", icon: "graph", key: "more_intel" },
   { path: "/results", icon: "chart", key: "more_results" },

@@ -11,7 +11,7 @@
     <string name="incoming_reported">Warning: this number appears in %1$d scam report(s).</string>
     <string name="incoming_not_reported">Not in scam reports. Still be careful with unknown callers.</string>
     <string name="incoming_offline">Could not check the number (no internet).</string>
-    <string name="incoming_ask">Protect this call? Nothing is listened to unless you say yes.</string>
+    <string name="incoming_ask">Protect this call? SecondThought checks the number and helps you stay safe. It never listens to your calls.</string>
     <string name="incoming_protect">Protect this call</string>
     <string name="incoming_not_now">Not now</string>
     <string name="share_label">Check with SecondThought</string>
