@@ -16,7 +16,8 @@ This repository is the Android app. The detection engine (rules, trained models,
 | **Saved contacts are never touched** | Android only gives a call-screening app calls from numbers that are not in the contacts (`CallScreeningService`, Android 10+). Calls from family and friends never reach SecondThought's code. |
 | **Easy for every age** | Three big buttons: *Check a message*, *Protect a call*, *Help! Alert my family*. Four tabs, large text option, and English, हिन्दी and Español. |
 | **Stop screen** | When a conversation crosses the risk line, a full-screen warning lists the tricks it noticed in plain words: *Hang up now*, *Hand over to SecondThought*, or a 10-second wait before continuing. |
-| **Family guardian** | A family member gets an alert (warning only, never the conversation) when a call turns dangerous, or when you press **Help**. They can acknowledge it so you see *"Aman is calling you now"*. |
+| **Help! Alert my family** | One tap prepares a text to your family member ("I'm getting a suspicious call from a number ending 4612… please call me now") and shows a big **Call** button. Their number is saved only on your phone, and it works without internet. |
+| **Live family alerts (optional)** | If the family member also has SecondThought, they get a live alert the moment a call turns dangerous: the warning only, never the conversation. |
 | **Check anything** | Paste text, or use **Share → SecondThought** from WhatsApp, SMS or email. You can also scan a QR code. The answer is *Scam*, *Suspicious* or *Looks safe*, with the reasons. |
 | **Payment pause** | A cooling-off check before paying someone mentioned in a risky conversation. |
 | **Honeypot** | Hand the scammer over to an AI that wastes their time and collects their payment details. |
@@ -37,9 +38,10 @@ This repository is the Android app. The detection engine (rules, trained models,
 android/app/src/main/java/app/secondthought/guardian/
   ScreeningService.java     CallScreeningService: lets every call ring normally, then posts the question
   CallNotifier.java         "Unknown number calling. Protect this call?" + family alert notifications
-  CallerCheck.java          POST /api/caller-check (is this number in scam reports?)
+  CallerCheck.java          is this number in scam reports? (GET /api/graph/lookup, nothing stored)
   SecondThoughtPlugin.java  bridge to the UI: call-screening role, notifications, SpeechRecognizer,
-                            test call, share sheet, notification taps / shared text -> app screen
+                            test call, share sheet, text/call a family member,
+                            notification taps / shared text -> app screen
   LaunchQueue.java          routes notification taps and "Share to SecondThought" into the app
   DismissReceiver.java      "Not now"
 src/                        the app UI (React); pages/Home, Incoming, Setup, More, Family are app-only
@@ -69,7 +71,8 @@ You can also drag the APK onto the scrcpy window.
 1. Open the app. Setup asks for notifications, then "Ask me when an unknown number calls". This opens Android's *call screening app* dialog: choose SecondThought.
 2. Tap **Try a test call** on the home screen. A test "Unknown number calling" notification appears after 3 seconds, and the number is one that has been reported. Tap **Protect this call** → **Play this scam call (demo)** to see the Stop screen.
 3. For a real test, call the phone from a number that is **not** saved in its contacts. Then call it from a saved contact: no prompt appears.
-4. On a second phone, open **Family → I want alerts about someone else** and enter the pairing code. Press **Help!** on the first phone.
+4. Add a family member's number in **Family**, then press **Help!**: your messages app opens with the text ready, and **Call** opens the dialler.
+5. Live alerts: on a second phone, open **Family → I want alerts about someone else** and enter the pairing code. Then play the demo scam call on the first phone.
 
 The free server sleeps when idle, so the first request can take up to a minute. The app shows *"Connecting…"* while it waits.
 
@@ -80,14 +83,15 @@ The free server sleeps when idle, so the first request can take up to a minute. 
 | Setup | Home | Unknown caller | Protected | Stop screen |
 |---|---|---|---|---|
 | ![](screenshots/preview/01-setup.png) | ![](screenshots/preview/03-home.png) | ![](screenshots/preview/04-unknown-call-question.png) | ![](screenshots/preview/05-unknown-call-protected.png) | ![](screenshots/preview/06-stop-screen.png) |
-| **Check a message** | **Listen consent** | **Family alert** | **More** | **Hindi** |
-| ![](screenshots/preview/08-check-message.png) | ![](screenshots/preview/09-listen-consent.png) | ![](screenshots/preview/10-family-alert.png) | ![](screenshots/preview/11-more.png) | ![](screenshots/preview/15-home-hindi.png) |
+| **Help → text ready** | **Check a message** | **Listen consent** | **Live family alert** | **Hindi** |
+| ![](screenshots/preview/05b-help-texted.png) | ![](screenshots/preview/08-check-message.png) | ![](screenshots/preview/09-listen-consent.png) | ![](screenshots/preview/10-family-alert.png) | ![](screenshots/preview/15-home-hindi.png) |
 
 ## Limits (said plainly)
 
 - Same-phone call audio is blocked by Android for every ordinary app. Live listening therefore needs a second device or typing. The production route is a carrier or "add SecondThought to the call" (conference) integration.
 - Call screening needs Android 10+, and the person must pick SecondThought as the call-screening app. Only one app can hold that role, so it replaces Truecaller's screening if that was chosen.
-- Family alerts arrive while the guardian's app is open or in recent use. Always-on background alerts need push messaging (FCM), which is the next step.
+- Help uses a normal text message that the person sends with one tap (apps can't send texts silently without a restricted permission).
+- Live family alerts arrive while the guardian's app is open or in recent use, and the free server forgets pairings when it restarts. Always-on alerts need push messaging (FCM), which is the next step.
 - This is a debug build (not signed for the Play Store).
 
 ## Credits

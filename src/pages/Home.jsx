@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { sendHelp } from "../api.js";
+import { getContact } from "../components/FamilyContact.jsx";
+import { callFamily, sendHelp } from "../help.js";
 import Icon from "../components/Icon.jsx";
 import { useT } from "../i18n.js";
 import { isNative, nativeStatus, ST } from "../native.js";
@@ -21,15 +22,16 @@ export default function Home({ go, online }) {
     return () => document.removeEventListener("visibilitychange", on);
   }, []);
 
+  const contact = getContact();
+  const helper = contact?.name || s.guardian?.guardian_name;
   const help = async () => {
-    if (!s.guardian) { go("/family"); return; }
+    if (!contact && !s.guardian) { go("/family"); return; }
     setBusy(true); setMsg({ ok: true, text: t("help_sending") });
-    try {
-      await sendHelp(s.guardian);
-      setMsg({ ok: true, text: t("help_sent", { name: s.guardian.guardian_name }) });
-    } catch (e) {
-      setMsg({ ok: false, text: `${t("help_failed")} (${e.message})` });
-    } finally { setBusy(false); }
+    const r = await sendHelp(s.guardian);
+    if (r.texted) setMsg({ ok: true, text: t("help_texted", { name: contact.name }), call: true });
+    else if (r.live) setMsg({ ok: true, text: t("help_sent", { name: s.guardian.guardian_name }) });
+    else setMsg({ ok: false, text: contact ? t("help_failed") : t("help_add_number"), add: !contact });
+    setBusy(false);
   };
 
   const turnOn = async () => {
@@ -74,10 +76,14 @@ export default function Home({ go, online }) {
       </button>
       <button className="bigaction danger" onClick={help} disabled={busy}>
         <span className="ico"><Icon name="users" /></span>
-        <span><strong>{t("home_help")}</strong><small>{s.guardian ? t("home_help_sub", { name: s.guardian.guardian_name }) : t("home_help_none")}</small></span>
+        <span><strong>{t("home_help")}</strong><small>{helper ? t("home_help_sub", { name: helper }) : t("home_help_none")}</small></span>
       </button>
 
       {msg ? <div className={`banner ${msg.ok ? "good" : "bad"}`} role="status"><Icon name={msg.ok ? "check" : "alert"} />{msg.text}</div> : null}
+      {contact && (msg?.call || msg?.ok === false) ? (
+        <button className="btn primary big block" onClick={callFamily}><Icon name="phone" />{t("call_name", { name: contact.name })}</button>
+      ) : null}
+      {msg?.add ? <button className="btn big block" onClick={() => go("/family")}>{t("contact_title")}</button> : null}
 
       {isNative && st?.screeningSupported ? (
         <button className="btn ghost block" onClick={testCall}><Icon name="bell" />{t("try_test_call")}</button>

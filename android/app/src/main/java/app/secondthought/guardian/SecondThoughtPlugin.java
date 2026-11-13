@@ -183,6 +183,34 @@ public class SecondThoughtPlugin extends Plugin {
         call.resolve();
     }
 
+    /** Opens the messages app with the help text ready; the person taps Send (no SMS permission needed). */
+    @PluginMethod
+    public void sms(PluginCall call) {
+        String to = call.getString("to", "");
+        Intent i = new Intent(Intent.ACTION_SENDTO, android.net.Uri.parse("smsto:" + android.net.Uri.encode(to)));
+        i.putExtra("sms_body", call.getString("body", ""));
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            getContext().startActivity(i);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("No messages app found.");
+        }
+    }
+
+    /** Opens the dialler with the number filled in (no CALL_PHONE permission needed). */
+    @PluginMethod
+    public void dial(PluginCall call) {
+        Intent i = new Intent(Intent.ACTION_DIAL, android.net.Uri.parse("tel:" + android.net.Uri.encode(call.getString("to", ""))));
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            getContext().startActivity(i);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("No phone app found.");
+        }
+    }
+
     // ------------------------------------------------------------------ speech (second phone / speaker)
     @PluginMethod
     public void startListening(PluginCall call) {

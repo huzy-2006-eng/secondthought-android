@@ -3,15 +3,14 @@ import { store } from "../api.js";
 import Icon from "../components/Icon.jsx";
 import { LANGS, useT } from "../i18n.js";
 import { isNative, nativeStatus, ST } from "../native.js";
-import { GuardianSetup } from "./Shield.jsx";
-import { useSession } from "../session.jsx";
+import FamilyContact, { getContact } from "../components/FamilyContact.jsx";
 
 // One-time setup (also reachable later from More → Settings).
 export default function Setup({ go, lang, setLang, large, setLarge }) {
   const t = useT();
-  const s = useSession();
   const [st, setSt] = useState(null);
   const [err, setErr] = useState(null);
+  const [contact, setContact] = useState(getContact);
   const refresh = () => nativeStatus().then(setSt);
   useEffect(() => { refresh(); }, []);
 
@@ -62,8 +61,8 @@ export default function Setup({ go, lang, setLang, large, setLarge }) {
         </>
       ) : null}
 
-      <Step n={isNative ? 3 : 1} done={Boolean(s.guardian)} title={t("setup_family")} sub={t("setup_family_sub")} t={t} />
-      <GuardianSetup t={t} s={s} />
+      <Step n={isNative ? 3 : 1} done={Boolean(contact)} title={t("setup_family")} sub={t("setup_family_sub")} t={t} />
+      <FamilyContact onSaved={setContact} />
 
       {err ? <div className="banner bad"><Icon name="alert" />{err}</div> : null}
       <button className="btn primary big block" onClick={finish}><Icon name="check" />{t("setup_done")}</button>

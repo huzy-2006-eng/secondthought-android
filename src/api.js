@@ -36,7 +36,13 @@ export const api = {
   paymentCheck: (body) => request("POST", "/api/payment-check", body),
   pair: (protected_name, guardian_name) => request("POST", "/api/guardian/pair", { protected_name, guardian_name }),
   // Pairings live in the server's memory; after a restart the phone puts its own pairing back.
-  restorePair: (g) => request("POST", "/api/guardian/pair", { protected_name: g.protected_name, guardian_name: g.guardian_name, restore_code: g.code }),
+  // Servers that support it put a forgotten pairing back under the same code; older servers hand out a
+  // new code instead, which we must not use (the family member's screen watches the old one).
+  restorePair: async (g) => {
+    const r = await request("POST", "/api/guardian/pair", { protected_name: g.protected_name, guardian_name: g.guardian_name, restore_code: g.code });
+    if (r.code !== g.code) throw new Error("pairing could not be restored");
+    return r;
+  },
   guardian: (code) => request("GET", `/api/guardian/${encodeURIComponent(code)}`),
   ack: (code, alert_id, message) => request("POST", `/api/guardian/${encodeURIComponent(code)}/ack`, { alert_id, message }),
   honeypotStart: (id) => request("POST", `/api/sessions/${id}/honeypot/start`),
@@ -45,7 +51,7 @@ export const api = {
   report: (id, body) => request("POST", `/api/sessions/${id}/report`, body),
   check: (text) => request("POST", "/api/check", { text }),
   graph: () => request("GET", "/api/graph"),
-  callerCheck: (number) => request("POST", "/api/caller-check", { number }),
+  lookup: (kind, value) => request("GET", `/api/graph/lookup?kind=${encodeURIComponent(kind)}&value=${encodeURIComponent(value)}`),
   help: (code, caller_hint, note) => request("POST", `/api/guardian/${encodeURIComponent(code)}/help`, { caller_hint, note }),
 };
 
@@ -99,5 +105,28 @@ export async function retryWhileWaking(fn, tries = 15) {
   }
 }
 
-export const sendHelp = (guardian, callerHint) =>
-  retryWhileWaking(() => withPairing(guardian, () => api.help(guardian.code, callerHint)));
+// Same rules the server uses for Indian numbers: 10 digits → +91…, 0XXXXXXXXXX → +91…, 91XXXXXXXXXX → +91…
+export function normalizePhone(raw) {
+  const plus = (raw || "").trim().startsWith("+");
+  const d = (raw || "").replace(/\D/g, "");
+  if (plus) return "+" + d;
+  if (d.length === 10) return "+91" + d;
+  if (d.length === 11 && d.startsWith("0")) return "+91" + d.slice(1);
+  if (d.length === 12 && d.startsWith("91")) return "+" + d;
+  return d ? "+" + d : "";
+}
+
+// Is this number in the scam-report network? Uses the long-standing lookup endpoint; nothing is stored.
+export async function callerCheck(number) {
+  const n = normalizePhone(number);
+  if (n.replace(/\D/g, "").length < 6) return { verdict: "unknown", reports: 0, reporters: 0 };
+  const hit = await api.lookup("phone", n);
+  const reports = hit.reports || 0, reporters = hit.reporters || 0;
+  return { verdict: reporters >= 3 ? "reported" : reports ? "seen" : "unknown", reports, reporters, includes_demo_data: Boolean(hit.includes_demo_data) };
+}
+
+// Live alert through the server, if this server supports it. Never throws.
+export async function serverHelp(guardian, callerHint) {
+  if (!guardian?.code) return false;
+  try { await withPairing(guardian, () => api.help(guardian.code, callerHint)); return true; } catch { return false; }
+}

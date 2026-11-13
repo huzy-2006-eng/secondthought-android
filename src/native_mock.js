@@ -14,6 +14,8 @@ export function mockPlugin() {
     simulateIncomingCall: async () => { setTimeout(() => { location.hash = "/incoming?n=%2B910000000102&sim=1"; }, 300); },
     consumeLaunch: async () => ({}),
     share: async () => {},
+    sms: async (o) => { (window.__sms = window.__sms || []).push(o); },
+    dial: async (o) => { (window.__dial = window.__dial || []).push(o); },
     startListening: async () => { setTimeout(() => emit("speechState", { listening: true, onDevice: true }), 50); return { listening: true, onDevice: true }; },
     stopListening: async () => {},
     addListener: (ev, f) => { (listeners[ev] = listeners[ev] || []).push(f); return Promise.resolve({ remove: () => { listeners[ev] = listeners[ev].filter((x) => x !== f); } }); },

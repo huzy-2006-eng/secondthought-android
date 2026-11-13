@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { api, retryWhileWaking, sendHelp } from "../api.js";
+import { callerCheck, retryWhileWaking } from "../api.js";
+import { getContact } from "../components/FamilyContact.jsx";
+import { callFamily, sendHelp } from "../help.js";
 import Icon from "../components/Icon.jsx";
 import { LangContext, useT } from "../i18n.js";
 import { useSession } from "../session.jsx";
@@ -27,18 +29,22 @@ export default function Incoming({ query, go }) {
   useEffect(() => {
     let stop = false;
     setCheck(null); setFailed(false);
-    retryWhileWaking(() => { if (stop) throw new Error("stopped"); return api.callerCheck(number || "0000"); })
+    retryWhileWaking(() => { if (stop) throw new Error("stopped"); return callerCheck(number); })
       .then((c) => { if (!stop) setCheck(c); })
       .catch(() => { if (!stop) setFailed(true); }); // the free server may take up to a minute to wake up
     return () => { stop = true; };
   }, [number]);
 
   const reported = check && check.verdict !== "unknown";
+  const contact = getContact();
+  const helper = contact?.name || s.guardian?.guardian_name;
   const help = async () => {
-    if (!s.guardian) { go("/family"); return; }
+    if (!contact && !s.guardian) { go("/family"); return; }
     setMsg({ ok: true, text: t("help_sending") });
-    try { await sendHelp(s.guardian, mask(number)); setMsg({ ok: true, text: t("help_sent", { name: s.guardian.guardian_name }) }); }
-    catch (e) { setMsg({ ok: false, text: `${t("help_failed")} (${e.message})` }); }
+    const r = await sendHelp(s.guardian, mask(number));
+    if (r.texted) setMsg({ ok: true, text: t("help_texted", { name: contact.name }) });
+    else if (r.live) setMsg({ ok: true, text: t("help_sent", { name: s.guardian.guardian_name }) });
+    else setMsg({ ok: false, text: contact ? t("help_failed") : t("help_add_number") });
   };
 
   return (
@@ -79,9 +85,10 @@ export default function Incoming({ query, go }) {
           </div>
           <button className="bigaction danger" onClick={help}>
             <span className="ico"><Icon name="users" /></span>
-            <span><strong>{t("home_help")}</strong><small>{s.guardian ? t("home_help_sub", { name: s.guardian.guardian_name }) : t("home_help_none")}</small></span>
+            <span><strong>{t("home_help")}</strong><small>{helper ? t("home_help_sub", { name: helper }) : t("home_help_none")}</small></span>
           </button>
           {msg ? <div className={`banner ${msg.ok ? "good" : "bad"}`} role="status"><Icon name={msg.ok ? "check" : "alert"} />{msg.text}</div> : null}
+          {contact ? <button className="btn primary big block" onClick={callFamily}><Icon name="phone" />{t("call_name", { name: contact.name })}</button> : null}
           {simulated ? (
             <button className="bigaction" onClick={() => go("/protect?mode=demo&scenario=en_digital_arrest")}>
               <span className="ico"><Icon name="play" /></span><span><strong>{t("inc_play_demo")}</strong><small>{t("inc_test")}</small></span>
