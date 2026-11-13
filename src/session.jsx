@@ -17,10 +17,6 @@ export function SessionProvider({ children }) {
   const idRef = useRef(null);
 
   const setGuardian = useCallback((g) => { setGuardianState(g); store.set("guardian", g); }, []);
-  useEffect(() => {
-    const g = store.get("guardian");
-    if (g) api.restorePair(g).catch(() => { /* offline or server waking up; retried when needed */ });
-  }, []);
   const setRegion = useCallback((r) => { setRegionState(r); store.set("region", r); }, []);
 
   const closeSocket = useCallback(() => {
@@ -65,7 +61,7 @@ export function SessionProvider({ children }) {
     try {
       res = await withPairing(guardian, () => api.createSession({ channel: ch, region, guardian_code: guardian?.code || null }));
     } catch (e) {
-      if (guardian && /guardian|code/i.test(e.message)) {
+      if (guardian && /guardian|code|pairing/i.test(e.message)) {
         // the pairing could not be restored (its code is taken): continue without it
         setGuardian(null);
         res = await api.createSession({ channel: ch, region });

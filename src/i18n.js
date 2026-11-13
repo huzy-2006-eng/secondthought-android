@@ -7,7 +7,7 @@ const T = {
   en: {
     nav_shield: "Shield", nav_check: "Check", nav_guardian: "Guardian", nav_intel: "Intel", nav_results: "Results",
     protect_title: "Protect a call or chat",
-    protect_sub: "SecondThought listens for manipulation tactics and pauses you before money moves.",
+    protect_sub: "SecondThought spots manipulation tactics and pauses you before money moves.",
     play_sim: "Play a simulated scam call", listen: "Listen on speakerphone", paste_chat: "Check a chat as it happens",
     choose_scenario: "Scenario", start: "Start", stop: "Stop", end: "End", pause: "Pause", resume: "Resume",
     level_safe: "Safe", level_caution: "Caution", level_high: "High risk", level_critical: "Critical",
