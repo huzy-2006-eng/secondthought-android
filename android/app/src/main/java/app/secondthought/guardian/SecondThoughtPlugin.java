@@ -251,6 +251,9 @@ public class SecondThoughtPlugin extends Plugin {
         main.post(() -> {
             wantListening = true;
             onDevice = Build.VERSION.SDK_INT >= 31 && SpeechRecognizer.isOnDeviceRecognitionAvailable(getContext());
+            services = recognitionServices();
+            serviceIndex = -1;  // -1 = the phone's default speech service
+            failures = 0;
             createAndStart();
             JSObject r = new JSObject();
             r.put("listening", true);
@@ -269,19 +272,61 @@ public class SecondThoughtPlugin extends Plugin {
         });
     }
 
+    // ---- speech engine selection: on-device first, then the default service, then every other
+    // speech service installed (Google app, Speech Services by Google, the phone maker's own).
+    // Some phones' default service disconnects (error 11); trying the next one fixes that.
+    private java.util.List<android.content.ComponentName> services = new ArrayList<>();
+    private int serviceIndex = -1;
+    private int failures = 0;
+    private Intent speechIntent;
+
+    private java.util.List<android.content.ComponentName> recognitionServices() {
+        java.util.List<android.content.ComponentName> out = new ArrayList<>();
+        try {
+            java.util.List<android.content.pm.ResolveInfo> list = getContext().getPackageManager()
+                .queryIntentServices(new Intent(android.speech.RecognitionService.SERVICE_INTERFACE), 0);
+            for (android.content.pm.ResolveInfo ri : list) {
+                if (ri.serviceInfo == null) continue;
+                android.content.ComponentName cn = new android.content.ComponentName(ri.serviceInfo.packageName, ri.serviceInfo.name);
+                if (ri.serviceInfo.packageName.equals("com.google.android.googlequicksearchbox")) out.add(0, cn);
+                else out.add(cn);
+            }
+        } catch (Exception ignored) { }
+        return out;
+    }
+
+    private String engineName() {
+        if (onDevice) return "on-device";
+        if (serviceIndex < 0 || serviceIndex >= services.size()) return "default";
+        return services.get(serviceIndex).getPackageName();
+    }
+
     private void createAndStart() {
         destroyRecognizer();
-        if (onDevice && Build.VERSION.SDK_INT >= 31) recognizer = SpeechRecognizer.createOnDeviceSpeechRecognizer(getContext());
-        else recognizer = SpeechRecognizer.createSpeechRecognizer(getContext());
+        try {
+            if (onDevice && Build.VERSION.SDK_INT >= 31) recognizer = SpeechRecognizer.createOnDeviceSpeechRecognizer(getContext());
+            else if (serviceIndex >= 0 && serviceIndex < services.size()) recognizer = SpeechRecognizer.createSpeechRecognizer(getContext(), services.get(serviceIndex));
+            else recognizer = SpeechRecognizer.createSpeechRecognizer(getContext());
+        } catch (Exception e) {
+            nextEngineOrFail(-1);
+            return;
+        }
         recognizer.setRecognitionListener(new Listener());
-        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, speechLang);
-        i.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
-        i.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
-        i.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 1500L);
-        recognizer.startListening(i);
+        speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, speechLang);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getContext().getPackageName());
+        listenAgain();
         emitState(true, null);
+    }
+
+    /** Starts the next utterance on the SAME recognizer: re-creating it rapidly makes some phones disconnect. */
+    private void listenAgain() {
+        if (recognizer == null || !wantListening) return;
+        try { recognizer.startListening(speechIntent); }
+        catch (Exception e) { main.postDelayed(() -> { if (wantListening) createAndStart(); }, 600); }
     }
 
     private void destroyRecognizer() {
@@ -292,13 +337,32 @@ public class SecondThoughtPlugin extends Plugin {
     }
 
     private void restartSoon() {
-        if (wantListening) main.postDelayed(() -> { if (wantListening) createAndStart(); }, 250);
+        if (wantListening) main.postDelayed(() -> { if (wantListening) listenAgain(); }, 300);
+    }
+
+    /** Moves to the next speech engine; gives up with a clear message when none works. */
+    private void nextEngineOrFail(int error) {
+        if (onDevice) {
+            onDevice = false;
+            serviceIndex = -1;
+        } else {
+            serviceIndex++;
+        }
+        if (!onDevice && serviceIndex >= services.size()) {
+            wantListening = false;
+            destroyRecognizer();
+            emitState(false, "This phone's speech service keeps disconnecting" + (error > 0 ? " (error " + error + ")" : "")
+                + ". Tap \"Speak once\" to use the voice typing popup instead, or type what they say.");
+            return;
+        }
+        main.postDelayed(() -> { if (wantListening) createAndStart(); }, 700);
     }
 
     private void emitState(boolean listening, String error) {
         JSObject s = new JSObject();
         s.put("listening", listening);
         s.put("onDevice", onDevice);
+        s.put("engine", engineName());
         if (error != null) s.put("error", error);
         notifyListeners("speechState", s);
     }
@@ -312,6 +376,35 @@ public class SecondThoughtPlugin extends Plugin {
         notifyListeners("speech", o);
     }
 
+    // ---- "Speak once": the system voice-typing popup. Works on phones whose background speech service fails.
+    @PluginMethod
+    public void recognizeOnce(PluginCall call) {
+        if (inCall()) { call.reject(IN_CALL_MSG, "IN_CALL"); return; }
+        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, call.getString("lang", "en-IN"));
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT, call.getString("prompt", "Listening…"));
+        i.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        try {
+            startActivityForResult(call, i, "onRecognizeOnce");
+        } catch (Exception e) {
+            call.reject("This phone has no voice typing app.");
+        }
+    }
+
+    @ActivityCallback
+    private void onRecognizeOnce(PluginCall call, ActivityResult result) {
+        if (call == null) return;
+        JSObject r = new JSObject();
+        String text = "";
+        if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+            ArrayList<String> list = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (list != null && !list.isEmpty()) text = list.get(0);
+        }
+        r.put("text", text);
+        call.resolve(r);
+    }
+
     private class Listener implements RecognitionListener {
         @Override public void onReadyForSpeech(Bundle params) { }
         @Override public void onBeginningOfSpeech() { }
@@ -320,33 +413,36 @@ public class SecondThoughtPlugin extends Plugin {
         @Override public void onEndOfSpeech() { }
         @Override public void onEvent(int eventType, Bundle params) { }
         @Override public void onPartialResults(Bundle partial) { emitText(partial, false); }
-        @Override public void onResults(Bundle results) { emitText(results, true); restartSoon(); }
+        @Override public void onResults(Bundle results) { failures = 0; emitText(results, true); restartSoon(); }
 
         @Override
         public void onError(int error) {
             if (!wantListening) return;
-            if (error == SpeechRecognizer.ERROR_NO_MATCH || error == SpeechRecognizer.ERROR_SPEECH_TIMEOUT
-                    || error == SpeechRecognizer.ERROR_RECOGNIZER_BUSY || error == SpeechRecognizer.ERROR_CLIENT) {
-                restartSoon();  // silence or a hiccup: keep listening
+            if (error == SpeechRecognizer.ERROR_NO_MATCH || error == SpeechRecognizer.ERROR_SPEECH_TIMEOUT) {
+                restartSoon();  // silence: keep listening
                 return;
             }
             if (inCall()) {
                 wantListening = false;
+                destroyRecognizer();
                 emitState(false, IN_CALL_MSG);
                 return;
             }
-            // 11 server disconnected, 12 language not supported, 13 language unavailable
-            if (onDevice && (error == 11 || error == 12 || error == 13)) {
-                onDevice = false;  // no offline pack for this language: fall back to the phone's normal speech service
-                restartSoon();
+            if (error == SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS) {
+                wantListening = false;
+                emitState(false, "Microphone permission was denied.");
                 return;
             }
-            wantListening = false;
-            String msg = error == SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS ? "Microphone permission was denied."
-                : error == SpeechRecognizer.ERROR_NETWORK || error == SpeechRecognizer.ERROR_NETWORK_TIMEOUT ? "No internet for speech recognition."
-                : error == SpeechRecognizer.ERROR_AUDIO ? "The microphone is busy (another app or a call is using it)."
-                : "Speech recognition stopped (error " + error + "). Tap Start listening to try again.";
-            emitState(false, msg);
+            if (error == SpeechRecognizer.ERROR_RECOGNIZER_BUSY || error == SpeechRecognizer.ERROR_CLIENT) {
+                // a hiccup: rebuild the same engine a couple of times, then try another one
+                if (++failures <= 2) { main.postDelayed(() -> { if (wantListening) createAndStart(); }, 800); return; }
+            }
+            if (error == SpeechRecognizer.ERROR_NETWORK || error == SpeechRecognizer.ERROR_NETWORK_TIMEOUT) {
+                if (++failures <= 3) { main.postDelayed(() -> { if (wantListening) listenAgain(); }, 1500); return; }
+            }
+            // 11 server disconnected, 12/13 language not available, 4 server error, others: next engine
+            failures = 0;
+            nextEngineOrFail(error);
         }
     }
 }

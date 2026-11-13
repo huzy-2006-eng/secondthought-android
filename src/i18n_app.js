@@ -1,6 +1,7 @@
 // Text for the Android app's own screens (easy home, unknown caller, setup, more).
 export const APP = {
   en: {
+    speak_once: "Speak once", speak_once_sub: "If listening keeps stopping, tap this: say one sentence (or hold the phone near the speaker) and it is checked.",
     help_texted: "A text to {name} is ready. Tap Send in your messages app.", help_add_number: "Add a family member's phone number first.",
     call_name: "Call {name}", contact_title: "Family member for Help", contact_sub: "When you press Help, SecondThought prepares a text to this person and lets you call them.",
     contact_name: "Their name", contact_phone: "Their phone number", contact_save: "Save", contact_change: "Change",
@@ -48,6 +49,7 @@ export const APP = {
     consent_audio_app: "Android's speech service on this phone turns what it hears into text (on the phone itself when the language pack is installed). SecondThought never receives or stores audio.",
   },
   hi: {
+    speak_once: "एक बार बोलें", speak_once_sub: "अगर सुनना बार-बार रुक जाए, तो इसे दबाएँ: एक वाक्य बोलें (या फोन को स्पीकर के पास रखें) और उसकी जाँच होगी।",
     help_texted: "{name} के लिए मैसेज तैयार है। मैसेज ऐप में भेजें दबाएँ।", help_add_number: "पहले परिवार के सदस्य का फोन नंबर जोड़ें।",
     call_name: "{name} को फोन करें", contact_title: "मदद के लिए परिवार का सदस्य", contact_sub: "मदद दबाने पर SecondThought इस व्यक्ति के लिए मैसेज तैयार करता है और आप उन्हें फोन कर सकते हैं।",
     contact_name: "उनका नाम", contact_phone: "उनका फोन नंबर", contact_save: "सेव करें", contact_change: "बदलें",
@@ -94,6 +96,7 @@ export const APP = {
     consent_audio_app: "इस फोन की Android स्पीच सेवा सुनी हुई बात को टेक्स्ट में बदलती है (भाषा पैक हो तो फोन पर ही)। SecondThought आवाज़ न पाता है, न सेव करता है।",
   },
   es: {
+    speak_once: "Hablar una vez", speak_once_sub: "Si la escucha se detiene, pulsa aquí: di una frase (o acerca el teléfono al altavoz) y se comprobará.",
     help_texted: "El mensaje para {name} está listo. Pulsa Enviar en tu app de mensajes.", help_add_number: "Primero añade el teléfono de un familiar.",
     call_name: "Llamar a {name}", contact_title: "Familiar para pedir ayuda", contact_sub: "Al pulsar Ayuda, SecondThought prepara un mensaje para esta persona y te deja llamarla.",
     contact_name: "Su nombre", contact_phone: "Su número de teléfono", contact_save: "Guardar", contact_change: "Cambiar",

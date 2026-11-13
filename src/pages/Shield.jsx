@@ -276,6 +276,15 @@ function NativeListenMode({ s, t }) {
     catch (e) { setErr(e.message); setListening(false); }
   };
   const stop = async () => { try { await ST.stopListening(); } catch { /* ignore */ } setListening(false); };
+  const [once, setOnce] = useState(false);
+  const speakOnce = async () => {
+    setErr(null); setOnce(true);
+    try {
+      if (listening) await stop();
+      const r = await ST.recognizeOnce({ lang, prompt: speaker === "other" ? "Caller is speaking…" : "You are speaking…" });
+      if (r.text) s.send(r.text, speakerRef.current);
+    } catch (e) { setErr(e.message); } finally { setOnce(false); }
+  };
 
   if (!consented) return <Consent t={t} audioKey="consent_audio_app" onStart={() => { setConsented(true); start(); }} />;
   return (
@@ -295,6 +304,8 @@ function NativeListenMode({ s, t }) {
       </div>
       {listening ? <div className="tiny"><span className="pulse" style={{ display: "inline-block", marginRight: 6 }} />Listening{onDevice ? " (on this phone)" : ""}. {interim ? <em>“{interim}”</em> : null}</div> : null}
       {err ? <div className="banner bad"><Icon name="alert" />{err}</div> : null}
+      <button className={`btn block ${err ? "primary big" : ""}`} onClick={speakOnce} disabled={once}><Icon name="mic" />{t("speak_once")}</button>
+      <div className="tiny">{t("speak_once_sub")}</div>
       <div className="tiny">{t("inc_same_phone")}</div>
     </div>
   );
