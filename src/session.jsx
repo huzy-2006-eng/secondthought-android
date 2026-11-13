@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { api, store, wsUrl } from "./api.js";
+import { api, store, withPairing, wsUrl } from "./api.js";
 
 const SessionContext = createContext(null);
 
@@ -17,6 +17,10 @@ export function SessionProvider({ children }) {
   const idRef = useRef(null);
 
   const setGuardian = useCallback((g) => { setGuardianState(g); store.set("guardian", g); }, []);
+  useEffect(() => {
+    const g = store.get("guardian");
+    if (g) api.restorePair(g).catch(() => { /* offline or server waking up; retried when needed */ });
+  }, []);
   const setRegion = useCallback((r) => { setRegionState(r); store.set("region", r); }, []);
 
   const closeSocket = useCallback(() => {
@@ -59,10 +63,10 @@ export function SessionProvider({ children }) {
     setTurns([]); setSnap(null); setAck(null);
     let res;
     try {
-      res = await api.createSession({ channel: ch, region, guardian_code: guardian?.code || null });
+      res = await withPairing(guardian, () => api.createSession({ channel: ch, region, guardian_code: guardian?.code || null }));
     } catch (e) {
-      if (guardian && /guardian/i.test(e.message)) {
-        // the server restarted and forgot the pairing: continue without it
+      if (guardian && /guardian|code/i.test(e.message)) {
+        // the pairing could not be restored (its code is taken): continue without it
         setGuardian(null);
         res = await api.createSession({ channel: ch, region });
       } else throw e;

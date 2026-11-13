@@ -13,16 +13,26 @@ export default function Guardian({ code: routeCode, go }) {
   const [live, setLive] = useState(false);
   const [err, setErr] = useState(null);
   const [alarm, setAlarm] = useState(false);
+  const [waiting, setWaiting] = useState(false);
   const audio = useRef(null);
 
   useEffect(() => { if (routeCode) setCode(routeCode.toUpperCase()); }, [routeCode]);
 
   useEffect(() => {
     if (!code) return;
-    let ws, stop = false, retry;
+    let ws, stop = false, bad = false, retry, reload;
     setErr(null);
-    api.guardian(code).then((g) => { setInfo(g); setAlerts(g.alerts); store.set("watchCode", code); })
-      .catch((e) => { setErr(e.message); setInfo(null); store.set("watchCode", null); });
+    // A code that worked before is never dropped: if the server restarted (or is waking up) we keep
+    // waiting until their phone reconnects and restores the pairing. Only a mistyped new code shows an error.
+    const confirmed = store.get("watchCode") === code;
+    const load = () => api.guardian(code)
+      .then((g) => { if (stop) return; setInfo(g); setAlerts(g.alerts); setWaiting(false); store.set("watchCode", code); })
+      .catch((e) => {
+        if (stop) return;
+        if (!confirmed && /unknown/i.test(e.message)) { bad = true; setErr(e.message); setInfo(null); return; }
+        setWaiting(true); reload = setTimeout(load, 5000);
+      });
+    load();
     const connect = () => {
       ws = new WebSocket(wsUrl(`/ws/guardian/${code}`));
       ws.onopen = () => setLive(true);
@@ -31,10 +41,10 @@ export default function Guardian({ code: routeCode, go }) {
         if (msg.type === "hello") setAlerts(msg.alerts);
         if (msg.type === "alert") { setAlerts((a) => [msg.alert, ...a.filter((x) => x.id !== msg.alert.id)]); ring(msg.alert); }
       };
-      ws.onclose = (e) => { setLive(false); if (!stop && e.code !== 4404) retry = setTimeout(connect, 2000); };
+      ws.onclose = (e) => { setLive(false); if (!stop && !bad) retry = setTimeout(connect, e.code === 4404 ? 5000 : 2000); };
     };
     connect();
-    return () => { stop = true; clearTimeout(retry); try { ws?.close(); } catch { /* ignore */ } };
+    return () => { stop = true; clearTimeout(retry); clearTimeout(reload); try { ws?.close(); } catch { /* ignore */ } };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
 
@@ -100,6 +110,7 @@ export default function Guardian({ code: routeCode, go }) {
           </div>
           <Icon name="shield" style={{ width: 36, height: 36, color: "var(--accent)" }} />
         </div>
+        {waiting ? <div className="banner info" style={{ marginTop: 12 }}><span className="pulse" />Waiting for {info?.protected_name || "their phone"} to reconnect. Alerts will arrive as soon as it does.</div> : null}
         {!alarm ? (
           <button className="btn primary block" style={{ marginTop: 12 }} onClick={enableAlerts}><Icon name="bell" />Turn on sound and notifications</button>
         ) : <div className="tiny" style={{ marginTop: 8 }}>Sound and notifications are on. Keep this screen open.</div>}

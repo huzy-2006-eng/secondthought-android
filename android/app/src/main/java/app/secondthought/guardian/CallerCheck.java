@@ -21,6 +21,21 @@ public final class CallerCheck {
         final Context app = ctx.getApplicationContext();
         final Handler main = new Handler(Looper.getMainLooper());
         new Thread(() -> {
+            String[] out = {"offline", "0"};
+            // The free server sleeps when idle and takes up to a minute to wake: keep trying for ~75 s.
+            for (int attempt = 0; attempt < 6 && "offline".equals(out[0]); attempt++) {
+                if (attempt > 0) {
+                    try { Thread.sleep(5000); } catch (InterruptedException e) { break; }
+                }
+                out = once(app, number);
+            }
+            final String v = out[0];
+            final int r = Integer.parseInt(out[1]);
+            main.post(() -> done.onResult(v, r));
+        }, "caller-check").start();
+    }
+
+    private static String[] once(Context app, String number) {
             String verdict = "offline";
             int reports = 0;
             HttpURLConnection c = null;
@@ -30,8 +45,8 @@ public final class CallerCheck {
                 } else {
                     URL url = new URL(app.getString(R.string.api_base) + "/api/caller-check");
                     c = (HttpURLConnection) url.openConnection();
-                    c.setConnectTimeout(6000);
-                    c.setReadTimeout(8000);
+                    c.setConnectTimeout(10000);
+                    c.setReadTimeout(15000);
                     c.setRequestMethod("POST");
                     c.setDoOutput(true);
                     c.setRequestProperty("Content-Type", "application/json");
@@ -54,9 +69,6 @@ public final class CallerCheck {
             } finally {
                 if (c != null) c.disconnect();
             }
-            final String v = verdict;
-            final int r = reports;
-            main.post(() -> done.onResult(v, r));
-        }, "caller-check").start();
+            return new String[] {verdict, String.valueOf(reports)};
     }
 }

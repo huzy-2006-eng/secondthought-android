@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
-import { api } from "../api.js";
+import { useContext, useEffect, useState } from "react";
+import { api, retryWhileWaking, sendHelp } from "../api.js";
 import Icon from "../components/Icon.jsx";
-import { useT } from "../i18n.js";
+import { LangContext, useT } from "../i18n.js";
 import { useSession } from "../session.jsx";
 
+const TIPS = {
+  en: ["Banks, police and government officials never ask for OTPs, PINs or passwords on a call.", "No real officer arrests anyone over a phone or video call.", "If they rush you or ask you to keep it secret, hang up and call back on a number you already have.", "Never install an app or share your screen because a caller asked you to."],
+  hi: ["बैंक, पुलिस या सरकारी अधिकारी कॉल पर कभी OTP, PIN या पासवर्ड नहीं माँगते।", "कोई असली अधिकारी फोन या वीडियो कॉल पर गिरफ़्तार नहीं करता।", "अगर वे जल्दी मचाएँ या बात छिपाने को कहें, तो फोन काटें और अपने पास के नंबर पर वापस कॉल करें।", "कॉल करने वाले के कहने पर कभी कोई ऐप इंस्टॉल न करें या स्क्रीन शेयर न करें।"],
+  es: ["Bancos, policía y funcionarios nunca piden OTP, PIN ni contraseñas por teléfono.", "Ningún agente real detiene a nadie por teléfono o videollamada.", "Si te meten prisa o te piden secreto, cuelga y llama tú a un número que ya tengas.", "Nunca instales una app ni compartas pantalla porque te lo pida quien llama."],
+};
 const mask = (n) => { const d = (n || "").replace(/\D/g, ""); return d.length > 4 ? "••••" + d.slice(-4) : d; };
 
 // Opened from the "Unknown number calling. Protect this call?" notification.
 // Asks again before doing anything; never listens on its own.
 export default function Incoming({ query, go }) {
   const t = useT();
+  const lang = useContext(LangContext);
   const s = useSession();
   const number = query.get("n") || "";
   const simulated = query.get("sim") === "1";
@@ -21,17 +27,18 @@ export default function Incoming({ query, go }) {
   useEffect(() => {
     let stop = false;
     setCheck(null); setFailed(false);
-    const tryOnce = (left) => api.callerCheck(number || "0000").then((c) => { if (!stop) setCheck(c); })
-      .catch(() => { if (stop) return; if (left > 0) setTimeout(() => tryOnce(left - 1), 4000); else setFailed(true); });
-    tryOnce(8); // the free server may take up to a minute to wake up
+    retryWhileWaking(() => { if (stop) throw new Error("stopped"); return api.callerCheck(number || "0000"); })
+      .then((c) => { if (!stop) setCheck(c); })
+      .catch(() => { if (!stop) setFailed(true); }); // the free server may take up to a minute to wake up
     return () => { stop = true; };
   }, [number]);
 
   const reported = check && check.verdict !== "unknown";
   const help = async () => {
     if (!s.guardian) { go("/family"); return; }
-    try { await api.help(s.guardian.code, mask(number)); setMsg({ ok: true, text: t("help_sent", { name: s.guardian.guardian_name }) }); }
-    catch { setMsg({ ok: false, text: t("help_failed") }); }
+    setMsg({ ok: true, text: t("help_sending") });
+    try { await sendHelp(s.guardian, mask(number)); setMsg({ ok: true, text: t("help_sent", { name: s.guardian.guardian_name }) }); }
+    catch (e) { setMsg({ ok: false, text: `${t("help_failed")} (${e.message})` }); }
   };
 
   return (
@@ -68,7 +75,7 @@ export default function Incoming({ query, go }) {
           <div className="card">
             <h2><Icon name="shield" style={{ width: 20, height: 20, verticalAlign: "-4px" }} /> {t("inc_protected")}</h2>
             <h3 style={{ marginTop: 10 }}>{t("inc_tips")}</h3>
-            <ul className="tips">{(check?.tips || []).map((x) => <li key={x}>{x}</li>)}</ul>
+            <ul className="tips">{(TIPS[lang] || TIPS.en).map((x) => <li key={x}>{x}</li>)}</ul>
           </div>
           <button className="bigaction danger" onClick={help}>
             <span className="ico"><Icon name="users" /></span>

@@ -5,6 +5,7 @@ import android.app.role.RoleManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -199,7 +200,22 @@ public class SecondThoughtPlugin extends Plugin {
         else call.reject("Microphone permission was denied.");
     }
 
+    /** True while this phone is in a phone/VoIP call: Android then gives apps silence instead of the call audio. */
+    private boolean inCall() {
+        AudioManager am = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        if (am == null) return false;
+        int m = am.getMode();
+        return m == AudioManager.MODE_IN_CALL || m == AudioManager.MODE_IN_COMMUNICATION;
+    }
+
+    private static final String IN_CALL_MSG =
+        "This phone is in a call, and Android doesn't let any app hear calls. Open SecondThought on a second phone next to the speaker, or tap \"Type what they're saying\".";
+
     private void beginListening(PluginCall call) {
+        if (inCall()) {
+            call.reject(IN_CALL_MSG, "IN_CALL");
+            return;
+        }
         if (!SpeechRecognizer.isRecognitionAvailable(getContext())) {
             call.reject("Speech recognition is not available on this phone.");
             return;
@@ -286,7 +302,13 @@ public class SecondThoughtPlugin extends Plugin {
                 restartSoon();  // silence or a hiccup: keep listening
                 return;
             }
-            if (onDevice && (error == 12 || error == 13)) {  // ERROR_LANGUAGE_NOT_SUPPORTED / ERROR_LANGUAGE_UNAVAILABLE
+            if (inCall()) {
+                wantListening = false;
+                emitState(false, IN_CALL_MSG);
+                return;
+            }
+            // 11 server disconnected, 12 language not supported, 13 language unavailable
+            if (onDevice && (error == 11 || error == 12 || error == 13)) {
                 onDevice = false;  // no offline pack for this language: fall back to the phone's normal speech service
                 restartSoon();
                 return;
@@ -294,7 +316,8 @@ public class SecondThoughtPlugin extends Plugin {
             wantListening = false;
             String msg = error == SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS ? "Microphone permission was denied."
                 : error == SpeechRecognizer.ERROR_NETWORK || error == SpeechRecognizer.ERROR_NETWORK_TIMEOUT ? "No internet for speech recognition."
-                : "Speech recognition stopped (error " + error + ").";
+                : error == SpeechRecognizer.ERROR_AUDIO ? "The microphone is busy (another app or a call is using it)."
+                : "Speech recognition stopped (error " + error + "). Tap Start listening to try again.";
             emitState(false, msg);
         }
     }

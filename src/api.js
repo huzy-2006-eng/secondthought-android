@@ -35,6 +35,8 @@ export const api = {
   endSession: (id) => request("DELETE", `/api/sessions/${id}`),
   paymentCheck: (body) => request("POST", "/api/payment-check", body),
   pair: (protected_name, guardian_name) => request("POST", "/api/guardian/pair", { protected_name, guardian_name }),
+  // Pairings live in the server's memory; after a restart the phone puts its own pairing back.
+  restorePair: (g) => request("POST", "/api/guardian/pair", { protected_name: g.protected_name, guardian_name: g.guardian_name, restore_code: g.code }),
   guardian: (code) => request("GET", `/api/guardian/${encodeURIComponent(code)}`),
   ack: (code, alert_id, message) => request("POST", `/api/guardian/${encodeURIComponent(code)}/ack`, { alert_id, message }),
   honeypotStart: (id) => request("POST", `/api/sessions/${id}/honeypot/start`),
@@ -72,3 +74,30 @@ export const store = {
     }
   },
 };
+
+// Runs fn(); if the server has forgotten the family pairing (it restarted), restores it and tries once more.
+export async function withPairing(guardian, fn) {
+  try {
+    return await fn();
+  } catch (e) {
+    if (!guardian || !/guardian/i.test(e.message)) throw e;
+    await api.restorePair(guardian);
+    return fn();
+  }
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Keeps trying while the free server wakes up (up to about 75 s). Real "no" answers (4xx) are not retried.
+export async function retryWhileWaking(fn, tries = 15) {
+  for (let i = 0; ; i++) {
+    try { return await fn(); } catch (e) {
+      const network = /fetch|network|load failed|\(50[234]\)/i.test(e.message);
+      if (!network || i >= tries - 1) throw e;
+      await sleep(5000);
+    }
+  }
+}
+
+export const sendHelp = (guardian, callerHint) =>
+  retryWhileWaking(() => withPairing(guardian, () => api.help(guardian.code, callerHint)));

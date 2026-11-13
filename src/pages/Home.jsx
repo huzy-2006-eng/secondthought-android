@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../api.js";
+import { sendHelp } from "../api.js";
 import Icon from "../components/Icon.jsx";
 import { useT } from "../i18n.js";
 import { isNative, nativeStatus, ST } from "../native.js";
@@ -23,12 +23,12 @@ export default function Home({ go, online }) {
 
   const help = async () => {
     if (!s.guardian) { go("/family"); return; }
-    setBusy(true); setMsg(null);
+    setBusy(true); setMsg({ ok: true, text: t("help_sending") });
     try {
-      await api.help(s.guardian.code);
+      await sendHelp(s.guardian);
       setMsg({ ok: true, text: t("help_sent", { name: s.guardian.guardian_name }) });
-    } catch {
-      setMsg({ ok: false, text: t("help_failed") });
+    } catch (e) {
+      setMsg({ ok: false, text: `${t("help_failed")} (${e.message})` });
     } finally { setBusy(false); }
   };
 
