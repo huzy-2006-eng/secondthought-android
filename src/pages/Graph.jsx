@@ -63,16 +63,24 @@ export default function Graph() {
               {active === c.id ? <div className="row" style={{ marginTop: 6 }}>{c.identifiers.map((i) => <span key={i.kind + i.value} className="chip"><strong>{i.kind.toUpperCase()}</strong> {i.value}</span>)}</div> : null}
             </div>
           ))}
-          <details>
-            <summary className="tiny" style={{ cursor: "pointer" }}>Table view</summary>
-            <div className="table-wrap">
-              <table>
-                <thead><tr><th>Campaign</th><th className="num">Reports</th><th className="num">Reporters</th><th>Identifiers</th></tr></thead>
-                <tbody>{data.campaigns.map((c) => (
-                  <tr key={c.id}><td>{c.scam_types[0] || c.id}</td><td className="num">{c.reports}</td><td className="num">{c.reporters}</td>
-                    <td>{c.identifiers.map((i) => `${i.kind}: ${i.value}`).join(", ")}</td></tr>))}</tbody>
-              </table>
-            </div>
+          <details className="camplist">
+            <summary>All campaigns ({data.campaigns.length})</summary>
+            {data.campaigns.map((c) => (
+              <div key={c.id} className="camprow">
+                <div className="camprow-head">
+                  <strong>{c.scam_types[0] || "Unclassified scam"}</strong>
+                  {c.demo_data ? <span className="demo">demo</span> : null}
+                </div>
+                <div className="camprow-stats">
+                  <span><b>{c.reports}</b> report{c.reports !== 1 ? "s" : ""}</span>
+                  <span><b>{c.reporters}</b> reporter{c.reporters !== 1 ? "s" : ""}</span>
+                  <span><b>{c.identifiers.length}</b> detail{c.identifiers.length !== 1 ? "s" : ""}</span>
+                </div>
+                <div className="camprow-ids">
+                  {c.identifiers.map((i) => <span key={i.kind + i.value} className="idchip"><em>{i.kind.toUpperCase()}</em>{i.value}</span>)}
+                </div>
+              </div>
+            ))}
           </details>
         </div>
       </div>

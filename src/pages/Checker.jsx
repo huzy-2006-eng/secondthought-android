@@ -142,21 +142,20 @@ export default function Checker({ initialText, initialImage, go }) {
             <ul style={{ margin: 0, paddingLeft: 18 }}>{res.reasons.map((r, i) => <li key={i} style={{ marginBottom: 6 }}>{r.text}{r.advice ? <div className="tiny">{r.advice}</div> : null}</li>)}</ul>
           ) : <p className="muted">No warning signs found. Still, never share codes or PINs with anyone.</p>}
           {res.verdict !== "looks safe" ? (
-            <div className="grid2">
-              <button className="btn primary" onClick={trapIt}><Icon name="bot" />{t("trap_reply")}</button>
-              <button className="btn" onClick={chakshu}><Icon name="file" />{t("report_chakshu")}</button>
+            <div className="stack">
+              <button className="btn primary big block" onClick={trapIt}><Icon name="bot" />{t("trap_reply")}</button>
+              <button className="btn big block" onClick={chakshu}><Icon name="file" />{t("report_chakshu")}</button>
             </div>
           ) : null}
           {note ? <div className="banner info"><Icon name="info" />{note}</div> : null}
-          <table>
-            <caption className="visually-hidden">How each check scored</caption>
-            <thead><tr><th>Check</th><th className="num">Risk</th></tr></thead>
-            <tbody>
-              <tr><td>Manipulation tactics (rules + trained model)</td><td className="num">{res.parts.tactics}</td></tr>
-              <tr><td>Message model (trained on real scam/spam SMS)</td><td className="num">{res.parts.message_model}</td></tr>
-              <tr><td>Links (phishing URL model + blocklist)</td><td className="num">{res.parts.links}</td></tr>
-            </tbody>
-          </table>
+          <div className="scorebars" role="list" aria-label="How each check scored">
+            {[["Manipulation tactics", "rules + trained model", res.parts.tactics], ["Message model", "trained on real scam SMS", res.parts.message_model], ["Links", "phishing model + blocklist", res.parts.links]].map(([name, sub, v]) => (
+              <div key={name} className="scorebar" role="listitem">
+                <div className="sb-head"><span><strong>{name}</strong> <small>{sub}</small></span><b className={v >= 60 ? "hi" : v >= 35 ? "mid" : "lo"}>{v}</b></div>
+                <div className="sb-track"><i className={v >= 60 ? "hi" : v >= 35 ? "mid" : "lo"} style={{ width: `${Math.max(3, v)}%` }} /></div>
+              </div>
+            ))}
+          </div>
           {res.links.length ? (
             <div><h3>Links</h3>{res.links.map((l) => (
               <div key={l.url} className="row" style={{ justifyContent: "space-between", borderBottom: "1px solid var(--border)", padding: "6px 0" }}>
