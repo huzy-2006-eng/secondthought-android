@@ -64,6 +64,7 @@ function Shell({ lang, setLang, large, setLarge }) {
     const open = (l) => {
       if (!l || !l.route) return;
       if (l.text) setShared({ text: l.text, at: Date.now() });
+      if (l.image) setShared({ image: l.image, at: Date.now() });
       go(l.route);
     };
     ST.consumeLaunch().then(open).catch(() => {});
@@ -79,7 +80,7 @@ function Shell({ lang, setLang, large, setLarge }) {
 
   let page;
   switch (base) {
-    case "check": page = <Checker key={shared?.at || 0} initialText={shared?.text} go={go} />; break;
+    case "check": page = <Checker key={shared?.at || 0} initialText={shared?.text} initialImage={shared?.image} go={go} />; break;
     case "family": page = <Family go={go} />; break;
     case "more": page = <More go={go} />; break;
     case "setup": page = <Setup go={go} lang={lang} setLang={setLang} large={large} setLarge={setLarge} />; break;

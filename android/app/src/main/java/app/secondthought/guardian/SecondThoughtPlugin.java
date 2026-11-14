@@ -167,6 +167,52 @@ public class SecondThoughtPlugin extends Plugin {
         call.resolve();
     }
 
+    // ------------------------------------------------------------------ screenshot scan (on-device OCR)
+    /** Lets the person pick a screenshot, then reads its text on the phone. */
+    @PluginMethod
+    public void scanImage(PluginCall call) {
+        Intent pick = new Intent(Intent.ACTION_GET_CONTENT);
+        pick.setType("image/*");
+        pick.addCategory(Intent.CATEGORY_OPENABLE);
+        try {
+            startActivityForResult(call, Intent.createChooser(pick, "Choose a screenshot"), "onImagePicked");
+        } catch (Exception e) {
+            call.reject("No gallery or files app found.");
+        }
+    }
+
+    @ActivityCallback
+    private void onImagePicked(PluginCall call, ActivityResult result) {
+        if (call == null) return;
+        if (result.getResultCode() != android.app.Activity.RESULT_OK || result.getData() == null || result.getData().getData() == null) {
+            JSObject r = new JSObject();
+            r.put("cancelled", true);
+            call.resolve(r);
+            return;
+        }
+        readUri(call, result.getData().getData());
+    }
+
+    /** Reads a screenshot that was shared to SecondThought (uri from the launch event). */
+    @PluginMethod
+    public void readSharedImage(PluginCall call) {
+        String uri = call.getString("uri", "");
+        if (uri.isEmpty()) { call.reject("No image."); return; }
+        readUri(call, android.net.Uri.parse(uri));
+    }
+
+    private void readUri(PluginCall call, android.net.Uri uri) {
+        ScreenshotReader.read(getContext(), uri, new ScreenshotReader.Done() {
+            @Override public void onText(String text, String script) {
+                JSObject r = new JSObject();
+                r.put("text", text);
+                r.put("script", script);
+                call.resolve(r);
+            }
+            @Override public void onError(String message) { call.reject(message); }
+        });
+    }
+
     /** Opens a website (e.g. Sanchar Saathi / Chakshu, cybercrime.gov.in) in the phone's browser. */
     @PluginMethod
     public void openUrl(PluginCall call) {

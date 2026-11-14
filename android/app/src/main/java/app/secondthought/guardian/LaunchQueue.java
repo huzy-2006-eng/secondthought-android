@@ -31,6 +31,14 @@ final class LaunchQueue {
     private static JSObject parse(Intent intent) {
         if (intent == null) return null;
         String action = intent.getAction();
+        if (Intent.ACTION_SEND.equals(action) && intent.getType() != null && intent.getType().startsWith("image/")) {
+            Uri img = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            if (img == null) return null;
+            JSObject o = new JSObject();
+            o.put("route", "/check");
+            o.put("image", img.toString());   // read on the phone by readSharedImage()
+            return o;
+        }
         if (Intent.ACTION_SEND.equals(action) && "text/plain".equals(intent.getType())) {
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);

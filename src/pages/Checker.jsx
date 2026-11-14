@@ -4,7 +4,7 @@ import { getEngine } from "../engine/browser.js";
 import { lookupIdentifiers } from "../localchecks.js";
 import { useSession } from "../session.jsx";
 import { useT } from "../i18n.js";
-import { openExternal, CHAKSHU_URL } from "../native.js";
+import { openExternal, CHAKSHU_URL, isNative, ST } from "../native.js";
 import Icon from "../components/Icon.jsx";
 
 const EXAMPLES = [
@@ -20,7 +20,7 @@ const VERDICT = {
   "looks safe": { cls: "good", icon: "check", title: "Looks safe" },
 };
 
-export default function Checker({ initialText, go }) {
+export default function Checker({ initialText, initialImage, go }) {
   const [text, setText] = useState(initialText || "");
   const [res, setRes] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -29,6 +29,26 @@ export default function Checker({ initialText, go }) {
   const [note, setNote] = useState(null);
   const s = useSession();
   const t = useT();
+
+  const [reading, setReading] = useState(false);
+  const [fromImage, setFromImage] = useState(false);
+  // Screenshot text is read ON THE PHONE (ML Kit, bundled models), then checked by the on-device engine.
+  const useImageText = (r) => {
+    if (r?.cancelled) return;
+    const txt = (r?.text || "").trim();
+    if (!txt) { setErr(t("scan_no_text")); return; }
+    setText(txt); setFromImage(true); run(txt);
+  };
+  const scanScreenshot = async () => {
+    setErr(null); setReading(true);
+    try { useImageText(await ST.scanImage()); } catch (e) { setErr(e.message); } finally { setReading(false); }
+  };
+  useEffect(() => {
+    if (!initialImage || !isNative) return;
+    setReading(true);
+    ST.readSharedImage({ uri: initialImage }).then(useImageText).catch((e) => setErr(e.message)).finally(() => setReading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialImage]);
 
   const trapIt = async () => {
     try { sessionStorage.setItem("st:trapFirst", text.trim()); } catch { /* ignore */ }
@@ -88,6 +108,10 @@ export default function Checker({ initialText, go }) {
         <p className="muted">Paste anything suspicious: an SMS, a WhatsApp message, an email, a link. Or scan the QR code someone sent you.</p>
         <textarea className="input" value={text} maxLength={5000} onChange={(e) => setText(e.target.value)} placeholder="Paste the message or link here…" aria-label="Message to check" />
         <button className="btn primary big block" disabled={busy || !text.trim()} onClick={() => run()}><Icon name="search" />{busy ? "Checking…" : "Check it"}</button>
+        {isNative ? (
+          <button className="btn big block" onClick={scanScreenshot} disabled={reading}><Icon name="camera" />{reading ? t("scan_reading") : t("scan_screenshot")}</button>
+        ) : null}
+        {fromImage ? <div className="tiny">{t("scan_note")}</div> : null}
         <div className="grid2">
           <label className="btn" style={{ cursor: "pointer" }}><Icon name="qr" />QR from image
             <input type="file" accept="image/*" hidden onChange={(e) => e.target.files?.[0] && onQrFile(e.target.files[0])} /></label>

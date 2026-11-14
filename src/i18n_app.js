@@ -1,6 +1,8 @@
 // Text for the Android app's own screens (easy home, unknown caller, setup, more).
 export const APP = {
   en: {
+    scan_screenshot: "Scan a screenshot", scan_reading: "Reading the screenshot…", scan_no_text: "No text found in that image.",
+    scan_note: "Text read from the screenshot on this phone. The image was not uploaded.",
     trap_title: "ScammerTrap", trap_sub: "Got a scam message? Let a decoy reply, waste their time and catch their payment details.",
     trap_start: "Start ScammerTrap", trap_minutes: "of scammers' time wasted", trap_messages: "scammer messages answered",
     trap_captured: "payment details caught", trap_reports: "complaints prepared", trap_this_phone: "On this phone. Real numbers from your own use.",
@@ -52,6 +54,8 @@ export const APP = {
     family_title: "Family", family_watch: "I want alerts about someone else", family_watch_sub: "Enter the code from their phone.",
   },
   hi: {
+    scan_screenshot: "स्क्रीनशॉट स्कैन करें", scan_reading: "स्क्रीनशॉट पढ़ा जा रहा है…", scan_no_text: "इस तस्वीर में कोई टेक्स्ट नहीं मिला।",
+    scan_note: "टेक्स्ट इसी फोन पर स्क्रीनशॉट से पढ़ा गया। तस्वीर कहीं अपलोड नहीं हुई।",
     trap_title: "ScammerTrap", trap_sub: "स्कैम मैसेज आया? एक नकली जवाब देने वाला उनका समय बर्बाद करेगा और उनकी पेमेंट जानकारी पकड़ेगा।",
     trap_start: "ScammerTrap शुरू करें", trap_minutes: "स्कैमर्स का समय बर्बाद", trap_messages: "स्कैमर मैसेज का जवाब",
     trap_captured: "पेमेंट जानकारी पकड़ी", trap_reports: "शिकायतें तैयार", trap_this_phone: "इसी फोन पर। आपके अपने इस्तेमाल के असली आँकड़े।",
@@ -102,6 +106,8 @@ export const APP = {
     family_title: "परिवार", family_watch: "मुझे किसी और के अलर्ट चाहिए", family_watch_sub: "उनके फोन पर दिखा कोड डालें।",
   },
   es: {
+    scan_screenshot: "Escanear una captura", scan_reading: "Leyendo la captura…", scan_no_text: "No se encontró texto en esa imagen.",
+    scan_note: "Texto leído de la captura en este teléfono. La imagen no se subió.",
     trap_title: "ScammerTrap", trap_sub: "¿Te llegó un mensaje de estafa? Un señuelo responde, les hace perder el tiempo y captura sus datos de pago.",
     trap_start: "Iniciar ScammerTrap", trap_minutes: "de tiempo de estafadores perdido", trap_messages: "mensajes de estafadores respondidos",
     trap_captured: "datos de pago capturados", trap_reports: "denuncias preparadas", trap_this_phone: "En este teléfono. Datos reales de tu propio uso.",
