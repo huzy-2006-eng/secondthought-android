@@ -601,6 +601,8 @@ html.kb-open .nav { display: none; }
 html.kb-open main { padding-bottom: 24px; }
 
 /* ---------------------------------------------------------------- sender-ID check */
+.senderfield { display: flex; flex-direction: column; gap: 6px; }
+.senderfield label { padding-left: 14px; font-weight: 600; letter-spacing: .02em; }
 .pillinput.sender { border-radius: 16px; padding: 4px 6px 4px 14px; }
 .pillinput.sender svg { align-self: center; margin-top: 0; width: 20px; height: 20px; }
 .pillinput.sender input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--text); font: inherit; font-size: 1rem; padding: 10px 0; outline: none; letter-spacing: .02em; }

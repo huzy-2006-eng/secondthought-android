@@ -141,9 +141,11 @@ export default function Checker({ initialText, initialImage, initialSender, go }
         <div><div style={{ fontWeight: 700, fontSize: "1.1rem" }}>{t("check_label")}</div><div className="tiny">{t("check_sub")}</div></div>
         <div className="pillinput"><Icon name="search" />
           <textarea ref={box} value={text} maxLength={5000} onChange={(e) => setText(e.target.value)} placeholder="www.example.com, or paste the message…" aria-label="Message to check" /></div>
-        <div className="pillinput sender"><Icon name="user" />
-          <input value={sender} maxLength={40} onChange={(e) => setSender(e.target.value)} placeholder={t("sender_ph")} aria-label={t("sender_label")} autoCapitalize="characters" spellCheck={false} /></div>
-        <div className="tiny" style={{ marginTop: -6 }}>{t("sender_label")} · {t("sender_hint")}</div>
+        <div className="senderfield">
+          <label htmlFor="st-sender" className="tiny">{t("sender_label")}</label>
+          <div className="pillinput sender"><Icon name="user" />
+            <input id="st-sender" value={sender} maxLength={40} onChange={(e) => setSender(e.target.value)} placeholder={t("sender_ph")} title={t("sender_hint")} autoCapitalize="characters" spellCheck={false} /></div>
+        </div>
         <button className="btn primary big block" disabled={busy || !text.trim()} onClick={() => run()}><Icon name="search" />{busy ? "Checking…" : "Check it"}</button>
         {isNative ? <button className="btn big block" onClick={openInbox}><Icon name="inbox" />{t("inbox_pick")}</button> : null}
         {inbox ? <InboxSheet list={inbox} onPick={pickSms} onClose={() => setInbox(null)} t={t} /> : null}
