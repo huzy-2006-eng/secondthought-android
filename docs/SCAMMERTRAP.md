@@ -1,85 +1,117 @@
-# ScammerTrap: sample conversations
+# ScammerTrap
 
-ScammerTrap runs on the phone (`src/trap/`). For each scammer message it uses the detection engine to see the trick
-(lottery, KYC, police, family, job, OTP request, link...), answers in kind in the scammer's language, and steers them
-to repeat payment details. It never writes a number, never repeats itself, and works offline.
+ScammerTrap is the decoy on the home screen. It runs **on the phone** (`src/trap/`), works offline, and never uploads the scammer's messages.
 
-Below: real output of `src/trap/persona.js` on our test scams (S = scammer, D = decoy, [why it chose that reply]).
-Across all 26 scam conversations tested: **0 replies containing a number, 0 repeated replies.**
+## How it decides what to say
 
-## lottery_chat
+1. **Trained intent model** (`tools/trap/train_intents.py`): for each scammer message it predicts what the scammer is doing, from 26 situations:
+   loan / lottery / job / investment offers, police and account threats, family emergency, delivery, romance, tech support, marketplace,
+   asks for OTP, personal details, app install, clicking a link, calling a number, a fee, "did you pay?", urgency, anger, "are you a bot?",
+   questions, greetings and "ok". Character and word TF-IDF + one logistic regression per situation, the same kind of model as our scam detector.
+   - Trained on 4,344 example messages in English, Hinglish, Hindi and Spanish.
+   - **Held-out test messages** (phrased separately, never trained on, including real messages from testing): **35/36** correct.
+   - Stricter test, whole phrasings never seen in training (grouped 5-fold cross-validation): 69%. That's why step 2 exists.
+   - The app gives the same answers as the Python model: 36/36 (`node tools/trap/parity_intents.mjs`).
+2. **Engine rules and extraction** catch what must never be missed: OTP/PIN requests, app installs, and the UPI IDs, accounts, IFSC codes, phone numbers and links the scammer gives.
+3. **Conversation memory**: it reacts once to each new story (loan, lottery, police...), answers the actual request, remembers what it has caught, and steers the scammer to give a second account, bank/IFSC, name and number.
+   It never writes a number and never repeats a sentence.
+
+## Sample conversations (real output; S = scammer, D = decoy, [what it noticed | model readings])
+
+### user_loan
+```
+S: Upto 90,000 loan amount available. call this number for quick approval and link
+D [loan+f_loan | offer_loan]: Really, a loan without documents? My bank always says no to old people like me. How soon will the money come into my account?
+S: Call this number first
+D [call_nonum | ask_call]: Which number, dear? I don't see one in your message. And I hear badly on calls, can you write here instead?
+S: 9876543210 call karo
+D [call | ask_call]: I can't hear well on calls, dear. Can you just write it here instead?
+S: ok then pay 1500 file charge
+D [fee | ask_fee]: Okay, I can manage that. Which UPI or account should I send it to?
+S: send to loan.desk@ybl
+D [got_payment | gives_payment]: All right, I'm typing it in now. My fingers are slow, please be patient.
+S: did you pay?
+D [paid_check | ask_paid]: It says 'pending'. Can you check on your side? Maybe there's another account I should try?
+S: why so slow, are you a bot?
+D [suspicion | suspicion,angry]: Of course I'm real! My grandson says I type like a tortoise.
+caught: phone:+919876543210, upi:loan.desk@ybl
+```
+
+### lottery
 ```
 S: U have won a lottery
-D [reward/reward, en]: Really? Are you sure it's me? My late husband always said I was lucky. How do I claim it?
-S: Yes madam 25 lakh KBC lottery
-D [ask_payment/reward, en]: Can you write down where I should send it? I'll copy it very carefully.
+D [reward | offer_reward]: Really? Are you sure it's me? My late husband always said I was lucky. How do I claim it?
+S: Yes madam 25 lakh KBC
+D [next | confirm]: Yes, I understand. What's the next step?
 S: Pay 4999 processing fee first
-D [ask_payment/reward, en]: My grandson set up this payment app. What name or ID do I put in the box?
+D [fee | ask_fee]: All right, I'll pay the fee. Where do I send it?
 S: Send to UPI kbc.office@ybl
-D [got_payment/reward, en]: Thank you, I've written it down. I'm opening the app now, it's very slow.
+D [got_payment | gives_payment]: Thank you, I've written it down. I'm opening the app now, it's very slow.
 S: Did you send?
-D [paid_check/reward, en]: I pressed send but it's spinning. Did it come? If not, give me another account.
+D [paid_check | ask_paid]: I pressed send but it's spinning. Did it come? If not, give me another account.
 S: Send screenshot fast
-D [paid_check/reward, en]: It says 'pending'. Can you check on your side? Maybe there's another account I should try?
+D [paid_check | ask_paid]: It says 'pending'. Can you check on your side? Maybe there's another account I should try?
 caught: upi:kbc.office@ybl
 ```
 
-## hi_kyc_otp
+### kyc_hinglish
 ```
-S: Namaste sir, main SBI bank ke KYC department se bol raha hoon.
-D [official, hi-Latn]: Ji main hi hoon. Koi problem hai? Aise phone se mujhe ghabrahat hoti hai.
-S: Aapka KYC expire ho gaya hai, aaj raat tak update nahi kiya to aapka account band ho jayeg
-D [kyc/kyc, hi-Latn]: Arey, meri pension usi account mein aati hai! Band na ho, kya karun?
-S: Aapke mobile pe ek OTP aaya hoga, jaldi woh OTP mujhe batao, main abhi update kar deta hoo
-D [secret/kyc, hi-Latn]: Koi code nahi mil raha beta, sab messages ulajh gaye. Paise kahan bhejun?
-S: Aur yeh baat kisi ko mat batana, warna process cancel ho jayega.
-D [scared/kyc, hi-Latn]: Beta main budhi aurat hoon, jo bologe karungi. Kya karna hai batao?
-S: Agar problem ho to Quick Support app download karo, main screen pe help karunga.
-D [remote/kyc, hi-Latn]: Install kar rahi hoon par bahut kuch pooch raha hai. Tab tak batao paise kahan bhejun?
+S: Namaste ji, main SBI bank se bol raha hoon
+D [official | intro_official]: Ji main hi hoon. Koi problem hai? Aise phone se mujhe ghabrahat hoti hai.
+S: Aapka KYC expire ho gaya, account band ho jayega
+D [kyc | threat_account]: Arey, meri pension usi account mein aati hai! Band na ho, kya karun?
+S: Jaldi OTP batao
+D [secret | ask_otp]: Koi code nahi mil raha beta, sab messages ulajh gaye. Paise kahan bhejun?
+S: Is link pe jaake update karo sbi-kyc.top
+D [got_link | ask_click_link]: Link dabaya par safed screen aa rahi hai. Kisi aur tarah bhej sakti hoon kya?
+S: Pagal ho kya, jaldi karo
+D [angry | angry,urgency]: Naraz mat ho, ungliyan dheere chalti hain.
+caught: url:sbi-kyc.top
+```
+
+### job
+```
+S: Hello
+D [open | greeting]: Yes? Sorry, I don't know this number. What is it about?
+S: Part time job, earn 3000 per day by liking videos
+D [job | offer_job]: A job from home? Oh that would help me so much. What do I have to do first?
+S: ok
+D [next | confirm]: All right, dear. What do I do next?
+S: Pay 2000 to unlock the first task
+D [fee | ask_fee]: Okay, I can manage that. Which UPI or account should I send it to?
+S: account 50100234567812 ifsc HDFC0001234
+D [got_payment | gives_payment]: All right, I'm typing it in now. My fingers are slow, please be patient.
+S: done?
+D [ask_alt | confirm]: It's showing an error, dear. Is there another account or UPI I can try?
+caught: account:50100234567812, ifsc:HDFC0001234
+```
+
+### police
+```
+S: This is officer Verma from CBI
+D [official | intro_official]: Yes, that's me. Is there a problem? I get nervous with these calls.
+S: Your aadhaar is used in money laundering, arrest warrant issued
+D [gov+f_gov | threat_legal]: Oh no, please don't arrest me, I've never done anything wrong! I'll cooperate, just tell me what to do. What do I need to do to clear my name?
+S: Do not tell anyone, stay on call
+D [isolation | ask_call]: All right, it stays between us. Please tell me what to do.
+S: What is your full name and address?
+D [personal | ask_personal]: My grandson keeps all those papers, he'll be back in the evening. Can we do the payment part first?
+S: Transfer savings to RBI safe account
+D [fee | ask_fee]: Fine, I'll pay. Please write the payment details for me.
 caught: -
 ```
 
-## es_safe_account
+### es
 ```
-S: Buenos días, le llamo del departamento de fraude de su banco.
-D [official, es]: Sí, soy yo. ¿Hay algún problema? Me pongo nerviosa con estas llamadas.
-S: Hemos detectado accesos sospechosos y su cuenta será bloqueada en los próximos 20 minutos.
-D [kyc/kyc, es]: ¡Ay, ahí me ingresan la pensión! ¿Qué hago para que no la bloqueen?
-S: Para proteger su dinero, debe transferir su saldo a una cuenta segura que le vamos a facil
-D [ask_payment/kyc, es]: ¿Me puede escribir los datos de la cuenta? Los copio con cuidado.
-S: Es un procedimiento confidencial, no se lo diga a nadie de la sucursal y no cuelgue.
-D [ask_payment/kyc, es]: Ya estoy lista para enviarlo. ¿A dónde exactamente? Escríbamelo despacito.
-S: Dígame el código que le ha llegado por SMS para confirmar la operación. La cuenta es ES91 
-D [got_payment/kyc, es]: Gracias, ya lo he apuntado. Estoy abriendo la aplicación, va muy lenta.
-caught: iban:ES9121000418450200051332
-```
-
-## en_digital_arrest
-```
-S: Good afternoon, am I speaking with Mr. Sharma? This is Inspector Rajesh Verma calling from
-D [gov/gov, en]: Police? Oh dear, my hands are shaking. What do I have to pay to clear this?
-S: A parcel booked in your name was seized by customs. It contained five passports and 200 gr
-D [scared/gov, en]: Please, I'm an old woman, I'll do whatever you say. What do I need to do?
-S: There is an arrest warrant against you for money laundering. Your case number is MH-4471.
-D [ask_payment/gov, en]: My grandson set up this payment app. What name or ID do I put in the box?
-S: This is a confidential investigation. Do not tell your family or anyone at your bank, and 
-D [ask_payment/gov, en]: Which account do I send it to, dear? Please write it for me.
-S: To prove your innocence you must transfer your savings to the RBI safe account for verific
-D [ask_payment/gov, en]: Can you write down where I should send it? I'll copy it very carefully.
-S: Send 4,50,000 rupees to account number 000012345678901, IFSC DEMO0000001. The money will b
-D [got_payment/gov, en]: Thank you, I've written it down. I'm opening the app now, it's very slow.
-caught: account:000012345678901, ifsc:DEMO0000001
-```
-
-## v2_en_hi_mum
-```
-S: Hi Mum, it's me, I dropped my phone down the toilet so this is my new number. Save this on
-D [family/family, en]: Oh my dear, what happened? Don't worry, I'll help. How much do you need?
-S: Yeah fine, just annoying. Can't get into my banking app on this phone yet.
-D [ask_payment/family, en]: Can you write down where I should send it? I'll copy it very carefully.
-S: The thing is I owe the electrician 640 for the work and he needs it today, could you pay h
-D [ask_payment/family, en]: My grandson set up this payment app. What name or ID do I put in the box?
-S: I'll send you his details, sort code 40-11-62 account 71849203. I'll pay you back as soon 
-D [got_payment/family, en]: Thank you, I've written it down. I'm opening the app now, it's very slow.
+S: Buenos días, le llamo de su banco
+D [official | greeting,intro_official]: Sí, soy yo. ¿Hay algún problema? Me pongo nerviosa con estas llamadas.
+S: Su cuenta será bloqueada hoy
+D [kyc | threat_account]: ¡Ay, ahí me ingresan la pensión! ¿Qué hago para que no la bloqueen?
+S: Dígame el código que le ha llegado
+D [secret | ask_otp]: No encuentro ningún código, tengo los mensajes revueltos. ¿A dónde envío el dinero?
+S: Llame a este número
+D [call_nonum | ask_call]: ¿Qué número? No veo ninguno en su mensaje. Y oigo mal por teléfono, ¿me lo escribe aquí?
 caught: -
 ```
+
+Across these and our 26 test scam conversations: **0 replies containing a number, 0 repeated sentences.**

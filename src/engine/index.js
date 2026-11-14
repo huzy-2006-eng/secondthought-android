@@ -36,7 +36,7 @@ export async function loadEngine(loader, { blocklist = true } = {}) {
     const [meta, terms, idf, coef] = await Promise.all([loader.text(`${name}.json`).then(JSON.parse), loader.text(`${name}.terms.txt`), loader.binary(`${name}.idf.f32`), loader.binary(`${name}.coef.bin`)]);
     return new TextModel(meta, terms, idf, coef);
   };
-  const [tacticMsg, message, tacticCall] = await Promise.all([model("tactic_msg"), model("message"), model("tactic_call")]);
+  const [tacticMsg, message, tacticCall, trapIntent] = await Promise.all([model("tactic_msg"), model("message"), model("tactic_call"), model("trap_intent").catch(() => null)]);
   const models = { tacticMsg, message, tacticCall, prep };
   // The 390k-domain phishing list is big: "background" loads it after the engine is ready.
   const blockReady = blocklist ? loader.text("phishing_domains.txt").then(setBlocklist).catch(() => {}) : Promise.resolve();
@@ -56,6 +56,8 @@ export async function loadEngine(loader, { blocklist = true } = {}) {
       const m = domain === "message" ? tacticMsg : tacticCall;
       return text.trim() ? m.predict(prep(text)) : {};
     },
+    /** ScammerTrap: what is the scammer doing in this message? {intent: probability} (model trained by tools/trap/). */
+    intentScores: (text) => (trapIntent && text.trim() ? trapIntent.predict(prep(text)) : {}),
     messageProbability: (text) => (text.trim() ? message.predict(prep(text)).scam : null),
     /** A live conversation scored on the phone (calls use the conversation-trained tactic model). */
     conversation: (id = null) => {
