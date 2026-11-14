@@ -10,7 +10,7 @@
     "entities": "100.00%",
     "redaction": "100.00%",
     "message_model": "100.00%",
-    "avg_ms_per_message": 1.75,
+    "avg_ms_per_message": 1.94,
     "by_source": {
       "scamshield_test": "7275/7275",
       "heldout/messages.jsonl": "35/35",
@@ -33,7 +33,7 @@
     "final_probability": "100.00%",
     "verdict": "100.00%"
   },
-  "engine_load_ms": 571,
+  "engine_load_ms": 634,
   "mismatches": {
     "verdict": [],
     "score": [
