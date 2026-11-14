@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../api.js";
+import { paymentCheck } from "../localchecks.js";
 import Icon from "../components/Icon.jsx";
 import { useT } from "../i18n.js";
 import { useSession } from "../session.jsx";
@@ -21,7 +21,7 @@ export default function Pay({ go }) {
     e.preventDefault();
     setErr(null); setBusy(true);
     try {
-      const r = await api.paymentCheck({ session_id: s.sessionId, payee: payee || null, amount: amount ? Number(amount) : null });
+      const r = await paymentCheck(s.snap?.score || 0, payee || null, amount ? Number(amount) : null);
       if (r.decision === "pause") setCheck(r);
       else setDone("sent");
     } catch (e2) { setErr(e2.message); } finally { setBusy(false); }

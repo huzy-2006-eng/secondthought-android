@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "sync": "vite build && cap sync android",
-    "apk": "vite build && cap sync android && cd android && ./gradlew assembleDebug"
+    "apk": "vite build && cap sync android && cd android && ./gradlew assembleDebug",
+    "parity": "node tools/parity.mjs"
   },
   "dependencies": {
     "d3-force": "3.0.0",

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
 import { api, API_BASE } from "../api.js";
 import { isNative } from "../native.js";
+import { getScenarios } from "../engine/browser.js";
 import Icon from "../components/Icon.jsx";
 import Intervention from "../components/Intervention.jsx";
 import { Identifiers, RiskMeter, TacticList, Transcript } from "../components/Risk.jsx";
@@ -22,7 +23,7 @@ export default function Shield({ go, query }) {
   const [overlay, setOverlay] = useState(false);
   const seenLevel = useRef(null);
 
-  useEffect(() => { api.scenarios().then(setScenarios).catch(() => setScenarios([])); }, []);
+  useEffect(() => { getScenarios().then(setScenarios).catch(() => api.scenarios().then(setScenarios).catch(() => setScenarios([]))); }, []);
 
   // Opened with ?mode=call|chat|demo (from the home screen or the unknown-caller screen).
   const mode = query?.get("mode");
@@ -112,7 +113,7 @@ function LiveView({ t, s, go }) {
       <div className="card">
         <div className="row" style={{ justifyContent: "space-between", alignItems: "flex-start" }}>
           <RiskMeter snap={snap} />
-          {!s.connected ? <span className="pill" title="Reconnecting to the server">offline</span> : null}
+          <span className="pill on" title="Scored by the rules and trained models inside this app. Nothing is sent while you talk.">On this phone</span>
         </div>
         <p style={{ marginTop: 10, fontWeight: 600 }} aria-live="polite">{snap?.explanation || "Listening for manipulation tactics…"}</p>
         {snap?.scam_type ? <p className="muted">{scamTypeText(lang, snap.scam_type)}</p> : null}

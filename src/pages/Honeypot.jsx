@@ -23,9 +23,11 @@ export default function Honeypot({ go }) {
     if (!s.sessionId || started.current === s.sessionId) return;
     started.current = s.sessionId;
     setTurns([]); setIds([]); setIntel([]); setEnded(false); setSummary(null);
-    api.honeypotStart(s.sessionId)
+    // The honeypot persona runs on the server: this is when the conversation is shared with it.
+    s.ensureServer()
+      .then((sid) => api.honeypotStart(sid))
       .then((r) => setTurns([{ speaker: "persona", text: r.reply }]))
-      .catch((e) => setErr(e.message));
+      .catch((e) => { started.current = null; setErr(`The honeypot needs the internet (${e.message}).`); });
   }, [s.sessionId]);
 
   useEffect(() => { endRef.current?.scrollIntoView({ block: "nearest" }); }, [turns]);
@@ -47,7 +49,7 @@ export default function Honeypot({ go }) {
     setBusy(true); setErr(null); setText("");
     setTurns((t) => [...t, { speaker: "other", text: msg }]);
     try {
-      const r = await api.honeypotTurn(s.sessionId, msg);
+      const r = await api.honeypotTurn(await s.ensureServer(), msg);
       if (r.reply) setTurns((t) => [...t, { speaker: "persona", text: r.reply, engine: r.engine }]);
       setIds(r.identifiers || []);
       if (r.intel_matches?.length) setIntel((x) => [...x, ...r.intel_matches]);
@@ -56,7 +58,7 @@ export default function Honeypot({ go }) {
   };
 
   const stop = async () => {
-    try { setSummary(await api.honeypotStop(s.sessionId, share)); setEnded(true); } catch (e) { setErr(e.message); }
+    try { setSummary(await api.honeypotStop(await s.ensureServer(), share)); setEnded(true); } catch (e) { setErr(e.message); }
   };
   const hit = new Map(intel.map((i) => [`${i.kind}:${i.value}`, i]));
 

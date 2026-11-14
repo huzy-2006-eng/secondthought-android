@@ -3,6 +3,7 @@ import { api, store } from "./api.js";
 import Icon from "./components/Icon.jsx";
 import { LANGS, LangContext, translate } from "./i18n.js";
 import { isNative, ST } from "./native.js";
+import { getEngine } from "./engine/browser.js";
 import { SessionProvider, useSession } from "./session.jsx";
 import Checker from "./pages/Checker.jsx";
 import Family from "./pages/Family.jsx";
@@ -43,6 +44,9 @@ function Shell({ lang, setLang, large, setLarge }) {
   const [shared, setShared] = useState(null);
   const s = useSession();
   const t = (k, v) => translate(lang, k, v);
+
+  // Load the on-device detection engine in the background as soon as the app opens.
+  useEffect(() => { const t = setTimeout(() => getEngine().catch(() => {}), 300); return () => clearTimeout(t); }, []);
 
   // The free server sleeps when idle; keep trying quietly until it answers.
   useEffect(() => {

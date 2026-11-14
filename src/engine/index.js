@@ -1,0 +1,56 @@
+// SecondThought on-device engine: the same rules and trained models as the server, running in the app.
+// Nothing you check here leaves the phone.
+import { initRules } from "./rules.js";
+import { initTaxonomy, ConversationRisk, INTERVENE_AT } from "./fusion.js";
+import { initUrls, setBlocklist, checkUrl } from "./urls.js";
+import { TextModel } from "./textmodel.js";
+import { normalize } from "./normalize.js";
+import { checkText } from "./checker.js";
+import { extract, redact } from "./extract.js";
+
+const prep = (text) => normalize(text).deleet;  // identical preprocessing to training (ml.prep)
+
+/** loader: { text(name) -> Promise<string>, binary(name) -> Promise<ArrayBuffer> } */
+export async function loadEngine(loader, { blocklist = true } = {}) {
+  const t0 = Date.now();
+  const [rules, tax, urlModel, popular] = await Promise.all([
+    loader.text("rules.json").then(JSON.parse), loader.text("taxonomy.json").then(JSON.parse),
+    loader.text("url_model.json").then(JSON.parse), loader.text("top_domains.txt"),
+  ]);
+  initRules(rules); initTaxonomy(tax); initUrls(urlModel, popular, null);
+  const model = async (name) => {
+    const [meta, terms, idf, coef] = await Promise.all([loader.text(`${name}.json`).then(JSON.parse), loader.text(`${name}.terms.txt`), loader.binary(`${name}.idf.f32`), loader.binary(`${name}.coef.bin`)]);
+    return new TextModel(meta, terms, idf, coef);
+  };
+  const [tacticMsg, message, tacticCall] = await Promise.all([model("tactic_msg"), model("message"), model("tactic_call")]);
+  const models = { tacticMsg, message, tacticCall, prep };
+  // The 390k-domain phishing list is big: "background" loads it after the engine is ready.
+  const blockReady = blocklist ? loader.text("phishing_domains.txt").then(setBlocklist).catch(() => {}) : Promise.resolve();
+  if (blocklist !== "background") await blockReady;
+  const loadMs = Date.now() - t0;
+
+  return {
+    loadMs,
+    check: (text) => checkText(text, models),
+    checkUrl,
+    extract,
+    redact,
+    INTERVENE_AT,
+    tacticScores: (text, domain = "call") => {
+      const m = domain === "message" ? tacticMsg : tacticCall;
+      return text.trim() ? m.predict(prep(text)) : {};
+    },
+    messageProbability: (text) => (text.trim() ? message.predict(prep(text)).scam : null),
+    /** A live conversation scored on the phone (calls use the conversation-trained tactic model). */
+    conversation: (id = null) => {
+      const c = new ConversationRisk(id);
+      return {
+        risk: c,
+        add: (text, speaker = "other") => c.addUtterance(text, speaker, text.trim() ? tacticCall.predict(prep(text)) : {}),
+        dismiss: () => c.dismiss(),
+        applyIntel: (m) => c.applyIntel(m),
+        snapshot: () => c.snapshot([], []),
+      };
+    },
+  };
+}

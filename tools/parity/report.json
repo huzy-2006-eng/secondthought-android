@@ -1,0 +1,371 @@
+{
+  "messages": {
+    "n": 7339,
+    "verdict": "100.00%",
+    "score_exact": "99.56%",
+    "score_within_1": "99.99%",
+    "parts_exact": "98.92%",
+    "tactics": "99.89%",
+    "rules": "100.00%",
+    "entities": "100.00%",
+    "redaction": "100.00%",
+    "message_model": "100.00%",
+    "avg_ms_per_message": 1.73,
+    "by_source": {
+      "scamshield_test": "7275/7275",
+      "heldout/messages.jsonl": "35/35",
+      "dev/messages.jsonl": "29/29"
+    }
+  },
+  "conversations": {
+    "n": 39,
+    "turns": 166,
+    "turn_score_exact": "100.00%",
+    "turn_intervene": "100.00%",
+    "first_alert_turn": "39/39",
+    "final_score": "39/39",
+    "scam_type": "39/39"
+  },
+  "urls": {
+    "n": 6005,
+    "model_probability_within_0_001": "100.00%",
+    "max_model_diff": 5.71e-7,
+    "final_probability": "100.00%",
+    "verdict": "100.00%"
+  },
+  "engine_load_ms": 589,
+  "mismatches": {
+    "verdict": [],
+    "score": [
+      {
+        "text": "Crazy defntions: 1.Laziness? Asking lift 4 morning walk 2.Craziness? Get blank paper xerox 3.Honesty? Pregnant women tak",
+        "py": [
+          41,
+          {
+            "tactics": 0,
+            "message_model": 41,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          42,
+          {
+            "tactics": 0,
+            "message_model": 42,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Today 3 got 05 briefing..tink its at lvl 8 lab",
+        "py": [
+          1,
+          {
+            "tactics": 0,
+            "message_model": 1,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          6,
+          {
+            "tactics": 6,
+            "message_model": 1,
+            "links": 0
+          },
+          [
+            "urgency"
+          ]
+        ]
+      },
+      {
+        "text": "Response to Comment 03: We evaluated the performance of the Algorithm 1 with the data (150 samples) collected in section",
+        "py": [
+          15,
+          {
+            "tactics": 0,
+            "message_model": 15,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          16,
+          {
+            "tactics": 0,
+            "message_model": 16,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Oooh and guns n roses song just came on. Yay today is gonna be a good day!",
+        "py": [
+          1,
+          {
+            "tactics": 0,
+            "message_model": 1,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          2,
+          {
+            "tactics": 0,
+            "message_model": 2,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Same brand different model And somehow the original rx can bind to other txes perfectly fine zzz",
+        "py": [
+          29,
+          {
+            "tactics": 0,
+            "message_model": 29,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          28,
+          {
+            "tactics": 0,
+            "message_model": 28,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "This is august. May dis month of august bring you unexpected(august) joy  happiness  breakthrough  blessing  success  go",
+        "py": [
+          3,
+          {
+            "tactics": 0,
+            "message_model": 3,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          2,
+          {
+            "tactics": 0,
+            "message_model": 2,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Few things are more ironic than falling asleep at Starbucks",
+        "py": [
+          12,
+          {
+            "tactics": 0,
+            "message_model": 12,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          13,
+          {
+            "tactics": 0,
+            "message_model": 13,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Today can... I'm free after 5",
+        "py": [
+          19,
+          {
+            "tactics": 19,
+            "message_model": 0,
+            "links": 0
+          },
+          [
+            "reward",
+            "urgency"
+          ]
+        ],
+        "js": [
+          20,
+          {
+            "tactics": 20,
+            "message_model": 0,
+            "links": 0
+          },
+          [
+            "reward",
+            "urgency"
+          ]
+        ]
+      },
+      {
+        "text": "If People Criticise u  Hurt u  Or Shout at u  Dont be Bothered. Just Remembr one Thing  In Evry 'Game' Audience make the",
+        "py": [
+          13,
+          {
+            "tactics": 0,
+            "message_model": 13,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          14,
+          {
+            "tactics": 0,
+            "message_model": 14,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Woohoo smartass! Congrats your gf is officially smarter than you!",
+        "py": [
+          9,
+          {
+            "tactics": 0,
+            "message_model": 9,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          10,
+          {
+            "tactics": 0,
+            "message_model": 10,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Hovis grannery pls x",
+        "py": [
+          61,
+          {
+            "tactics": 0,
+            "message_model": 61,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          62,
+          {
+            "tactics": 0,
+            "message_model": 62,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Tml holiday so I can stay up all night la. If you want we can chillat holland v coffee bean or west coast mac.",
+        "py": [
+          5,
+          {
+            "tactics": 0,
+            "message_model": 5,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          6,
+          {
+            "tactics": 0,
+            "message_model": 6,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "Congrats to all members of ASUU-UNAAB on the success of the election.Gains of our previous struggles will be consolidate",
+        "py": [
+          26,
+          {
+            "tactics": 0,
+            "message_model": 26,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          25,
+          {
+            "tactics": 0,
+            "message_model": 25,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "It says mrt fastest, never show bus route x.x yeaps when are you reaching!",
+        "py": [
+          21,
+          {
+            "tactics": 0,
+            "message_model": 21,
+            "links": 0
+          },
+          []
+        ],
+        "js": [
+          22,
+          {
+            "tactics": 0,
+            "message_model": 22,
+            "links": 0
+          },
+          []
+        ]
+      },
+      {
+        "text": "m at amk. Need to drink tea or coffee",
+        "py": [
+          15,
+          {
+            "tactics": 15,
+            "message_model": 1,
+            "links": 0
+          },
+          [
+            "payment"
+          ]
+        ],
+        "js": [
+          16,
+          {
+            "tactics": 16,
+            "message_model": 1,
+            "links": 0
+          },
+          [
+            "payment"
+          ]
+        ]
+      }
+    ],
+    "conv": [],
+    "url": []
+  }
+}

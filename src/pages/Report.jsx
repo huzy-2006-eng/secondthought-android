@@ -28,7 +28,7 @@ export default function Report({ go }) {
   const generate = async () => {
     setErr(null);
     s.setRegion(region);
-    try { setRep(await api.report(s.sessionId, { region, money_lost: lost || null, share_with_network: share })); } catch (e) { setErr(e.message); }
+    try { setRep(await api.report(await s.ensureServer(), { region, money_lost: lost || null, share_with_network: share })); } catch (e) { setErr(`Preparing the complaint needs the internet (${e.message}).`); }
   };
   const copy = async () => {
     try { await navigator.clipboard.writeText(rep.text); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { setErr("Copy failed; select the text and copy it manually."); }

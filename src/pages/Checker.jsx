@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import jsQR from "jsqr";
-import { api } from "../api.js";
+import { getEngine } from "../engine/browser.js";
+import { lookupIdentifiers } from "../localchecks.js";
 import Icon from "../components/Icon.jsx";
 
 const EXAMPLES = [
@@ -27,7 +28,16 @@ export default function Checker({ initialText }) {
     const v = value.trim();
     if (!v) return;
     setBusy(true); setErr(null);
-    try { setRes(await api.check(v)); } catch (e) { setErr(e.message); } finally { setBusy(false); }
+    try {
+      // Checked inside the app by the same rules and trained models as the server: the text never leaves the phone.
+      const engine = await getEngine();
+      const t0 = performance.now();
+      const r = engine.check(v);
+      r.ms = Math.max(1, Math.round(performance.now() - t0));
+      setRes(r);
+      // Only identifiers (UPI IDs, numbers, links) are looked up in the scam-report network, when online.
+      lookupIdentifiers(r.entities).then(({ online, matches }) => setRes((cur) => (cur === r ? { ...r, intel: matches, online } : cur)));
+    } catch (e) { setErr(e.message); } finally { setBusy(false); }
   };
 
   // Text shared from another app ("Share → SecondThought") is checked straight away.
@@ -75,6 +85,10 @@ export default function Checker({ initialText }) {
       {res && v ? (
         <div className="card stack" aria-live="polite">
           <div className={`banner ${v.cls}`} style={{ fontSize: "1.1rem" }}><Icon name={v.icon} /><div><strong>{v.title}</strong> · risk {res.score}/100{res.scam_type ? ` · ${res.scam_type}` : ""}</div></div>
+          <div className="tiny"><Icon name="shield" style={{ width: 14, height: 14, verticalAlign: "-2px" }} /> Checked on this phone in {res.ms} ms. The message was not uploaded.{res.online === false ? " (Offline: scam-report lookup skipped.)" : ""}</div>
+          {res.intel?.length ? (
+            <div className="banner bad"><Icon name="alert" /><div>{res.intel.map((h) => <div key={h.kind + h.value}><strong>{h.value}</strong> appears in {h.reports} scam report(s) from {h.reporters} people{h.includes_demo_data ? " (includes demo data)" : ""}.</div>)}</div></div>
+          ) : null}
           {res.reasons.length ? (
             <ul style={{ margin: 0, paddingLeft: 18 }}>{res.reasons.map((r, i) => <li key={i} style={{ marginBottom: 6 }}>{r.text}{r.advice ? <div className="tiny">{r.advice}</div> : null}</li>)}</ul>
           ) : <p className="muted">No warning signs found. Still, never share codes or PINs with anyone.</p>}
