@@ -18,6 +18,7 @@ import Report from "./pages/Report.jsx";
 import Setup from "./pages/Setup.jsx";
 import Welcome from "./pages/Welcome.jsx";
 import Profile from "./pages/Profile.jsx";
+import Caregiver from "./pages/Caregiver.jsx";
 import Splash from "./components/Splash.jsx";
 import LockScreen from "./components/LockScreen.jsx";
 import { getProfile, lockEnabled } from "./profile.js";
@@ -107,7 +108,8 @@ function Shell({ lang, setLang, large, setLarge }) {
     case "family": page = <Family go={go} />; break;
     case "more": page = <More go={go} />; break;
     case "welcome": page = <Welcome go={go} />; break;
-    case "profile": page = <Profile go={go} editing={Boolean(getProfile()) && store.get("setupDone")} next={getProfile() && store.get("setupDone") ? "/setup" : "/setup"} />; break;
+    case "profile": page = <Profile go={go} editing={Boolean(getProfile() && store.get("setupDone"))} next="/setup" setLarge={setLarge} />; break;
+    case "caregiver": page = <Caregiver go={go} />; break;
     case "setup": page = <Setup go={go} lang={lang} setLang={setLang} large={large} setLarge={setLarge} />; break;
     case "incoming": page = <Incoming key={qs} query={query} go={go} />; break;
     case "protect": page = <Shield go={go} query={query} />; break;
@@ -125,7 +127,7 @@ function Shell({ lang, setLang, large, setLarge }) {
       {splash === "off" && locked && base !== "incoming" ? <LockScreen name={getProfile()?.name} onUnlock={() => setLocked(false)} /> : null}
     </>
   );
-  if (base === "welcome" || base === "profile") return <div className="app"><main>{page}</main>{overlay}</div>;
+  if (base === "welcome" || base === "profile" || base === "caregiver") return <div className="app"><main className="bare">{page}</main>{overlay}</div>;
 
   return (
     <div className="app">

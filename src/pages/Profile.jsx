@@ -6,7 +6,7 @@ import { isNative, ST } from "../native.js";
 import { getProfile, setProfile } from "../profile.js";
 
 // "Create your profile": a name, who the app protects, and the optional fingerprint / face / PIN lock.
-export default function Profile({ go, next = "/setup", editing = false }) {
+export default function Profile({ go, next = "/setup", editing = false, setLarge }) {
   const t = useT();
   const saved = getProfile() || {};
   const [name, setName] = useState(saved.name || "");
@@ -28,7 +28,9 @@ export default function Profile({ go, next = "/setup", editing = false }) {
       catch (e) { setErr(e.message); return; }
     }
     setProfile({ name: name.trim().slice(0, 40), role, lock: useLock });
-    go(next);
+    if (role === "family" && saved.role !== "family") setLarge?.(true);   // simple mode for older users: large text
+    if (role === "self" && saved.role === "family") setLarge?.(false);
+    go(role === "family" && !editing ? "/caregiver" : next);
   };
 
   return (

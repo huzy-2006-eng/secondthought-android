@@ -22,6 +22,7 @@ export default function Home({ go, online }) {
   const trap = trapSummary();
   const cs = getCheckStats();
   const profile = getProfile();
+  const simple = profile?.role === "family";   // set up for a parent: simple mode
   const total = cs.scam + cs.suspicious + cs.safe;
   useEffect(() => { api.health().then((h) => setNetwork(h.intel_reports)).catch(() => {}); }, []);
 
@@ -72,6 +73,17 @@ export default function Home({ go, online }) {
       {isNative && st && !st.screeningSupported ? <div className="banner info"><Icon name="info" />{t("status_old_android")}</div> : null}
       {online === false ? <div className="banner info"><span className="pulse" />{t("server_waking")}</div> : null}
 
+      {simple ? (
+        <>
+          <div className="tiny">{t("simple_note")}</div>
+          {contact ? <button className="callbig" onClick={callFamily}><span className="ico"><Icon name="phone" /></span><span><strong>{t("call_name", { name: contact.name })}</strong><small>{contact.phone}</small></span></button> : null}
+          <button className="bigaction danger" onClick={help} disabled={busy}>
+            <span className="ico"><Icon name="users" /></span>
+            <span><strong>{t("home_help")}</strong><small>{helper ? t("home_help_sub", { name: helper }) : t("home_help_none")}</small></span>
+          </button>
+        </>
+      ) : (
+        <>
       <div className="summary">
         <h2>{t("sum_title")} <button className="iconbtn" style={{ width: 38, height: 38 }} onClick={() => go("/check")} aria-label={t("home_check")}><Icon name="search" /></button></h2>
         <VerdictGauge scam={cs.scam} suspicious={cs.suspicious} safe={cs.safe} label={`${total} ${t("sum_checked")}`} />
@@ -83,6 +95,9 @@ export default function Home({ go, online }) {
         <div className="statchip"><span className="tag sus">{t("chip_sus")}</span><span className="n">{cs.suspicious}</span><span className="l">{t("chip_note")}</span></div>
         <div className="statchip"><span className="tag safe">{t("chip_safe")}</span><span className="n">{cs.safe}</span><span className="l">{t("chip_note")}</span></div>
       </div>
+
+        </>
+      )}
 
       <div className="sectiontitle">{t("what_to_do")}</div>
       <div className="quickgrid">
@@ -96,6 +111,8 @@ export default function Home({ go, online }) {
         </button>
       </div>
 
+      {!simple ? (
+        <>
       <div className="card trap">
         <div className="row" style={{ alignItems: "flex-start", gap: 14 }}>
           <span className="trapico"><Icon name="bot" /></span>
@@ -115,6 +132,8 @@ export default function Home({ go, online }) {
         <span className="ico"><Icon name="users" /></span>
         <span><strong>{t("home_help")}</strong><small>{helper ? t("home_help_sub", { name: helper }) : t("home_help_none")}</small></span>
       </button>
+        </>
+      ) : null}
 
       {msg ? <div className={`banner ${msg.ok ? "good" : "bad"}`} role="status"><Icon name={msg.ok ? "check" : "alert"} />{msg.text}</div> : null}
       {contact && (msg?.call || msg?.ok === false) ? (

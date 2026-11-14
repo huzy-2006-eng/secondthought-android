@@ -33,7 +33,7 @@ export default function FamilyContact({ onSaved }) {
       <h2><Icon name="phone" style={{ width: 20, height: 20, verticalAlign: "-4px" }} /> {t("contact_title")}</h2>
       <p className="muted">{t("contact_sub")}</p>
       <div><label className="field" htmlFor="fc-name">{t("contact_name")}</label>
-        <input id="fc-name" className="input" value={name} maxLength={40} onChange={(e) => setName(e.target.value)} placeholder="Hari" /></div>
+        <input id="fc-name" className="input" value={name} maxLength={40} onChange={(e) => setName(e.target.value)} placeholder="e.g. Huzaifa (son)" /></div>
       <div><label className="field" htmlFor="fc-phone">{t("contact_phone")}</label>
         <input id="fc-phone" className="input" type="tel" inputMode="tel" value={phone} maxLength={20} onChange={(e) => setPhone(e.target.value)} placeholder="+91 98765 43210" /></div>
       <button className="btn primary big block" disabled={!valid} onClick={save}><Icon name="check" />{t("contact_save")}</button>

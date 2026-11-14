@@ -533,3 +533,12 @@ a { color: #ff7fb2; }
 .toggle i::after { content: ""; position: absolute; top: 4px; left: 4px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform .2s; }
 .toggle input:checked + i { background: var(--grad); }
 .toggle input:checked + i::after { transform: translateX(22px); }
+main.bare { padding-top: max(46px, calc(env(safe-area-inset-top) + 16px)); }
+.callbig { display: flex; width: 100%; gap: 16px; align-items: center; text-align: left; padding: 20px 18px; min-height: 96px; border-radius: var(--radius); border: 0; cursor: pointer; font: inherit; color: #fff;
+  background: linear-gradient(135deg, #1fa863, #2fd27a); box-shadow: 0 12px 28px rgba(47, 210, 122, 0.3); }
+.callbig .ico { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; background: rgba(255, 255, 255, 0.22); flex: none; }
+.callbig .ico svg { width: 30px; height: 30px; }
+.callbig strong { display: block; font-size: 1.35rem; }
+.callbig small { display: block; opacity: .9; font-size: 1rem; }
+.btn.signout { margin-top: 6px; color: #ff8a95; border-color: rgba(255, 77, 94, 0.35); background: rgba(255, 77, 94, 0.08); }
+.signout-card { border-color: rgba(255, 77, 94, 0.45); }

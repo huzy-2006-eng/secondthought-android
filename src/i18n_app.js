@@ -1,6 +1,11 @@
 // Text for the Android app's own screens (easy home, unknown caller, setup, more).
 export const APP = {
   en: {
+    care_title: "Who should {name} call for help?", care_sub: "When something looks like a scam, {name} can call or message this person with one tap. Usually that's you.",
+    care_simple: "Simple mode is on for older users: large text and a simpler home screen. You can change it in More → Settings.",
+    care_later: "I'll do this later", simple_note: "Simple mode · set up by family",
+    signout: "Sign out", signout_q: "Sign out of SecondThought?", signout_sub: "This removes your profile and everything SecondThought saved on this phone: family contact, family code and counters. You can set it up again any time.",
+    signout_yes: "Sign out and remove", signout_no: "Cancel",
     splash_tag: "Think twice. Stay safe.", lock_title: "SecondThought is locked", lock_hello: "Welcome back, {name}",
     lock_sub: "Unlock with your fingerprint, face or phone PIN.", lock_unlock: "Unlock", lock_prompt_title: "Unlock SecondThought",
     lock_prompt_sub: "Use your fingerprint, face or phone PIN", lock_confirm_sub: "Confirm it's you to turn on the app lock",
@@ -70,6 +75,11 @@ export const APP = {
     family_title: "Family", family_watch: "I want alerts about someone else", family_watch_sub: "Enter the code from their phone.",
   },
   hi: {
+    care_title: "{name} मदद के लिए किसे फोन करें?", care_sub: "जब कुछ स्कैम जैसा लगे, {name} एक टैप में इस व्यक्ति को फोन या मैसेज कर सकते हैं। आमतौर पर वह आप हैं।",
+    care_simple: "बुज़ुर्गों के लिए आसान मोड चालू है: बड़े अक्षर और आसान होम स्क्रीन। इसे और → सेटिंग में बदल सकते हैं।",
+    care_later: "बाद में करूँगा", simple_note: "आसान मोड · परिवार ने सेट किया",
+    signout: "साइन आउट", signout_q: "SecondThought से साइन आउट करें?", signout_sub: "इससे आपकी प्रोफ़ाइल और इस फोन में सेव सब कुछ हट जाएगा: परिवार संपर्क, परिवार कोड और गिनती। आप कभी भी फिर से सेट कर सकते हैं।",
+    signout_yes: "साइन आउट करें और हटाएँ", signout_no: "रद्द करें",
     splash_tag: "दो बार सोचें। सुरक्षित रहें।", lock_title: "SecondThought लॉक है", lock_hello: "फिर से स्वागत है, {name}",
     lock_sub: "फिंगरप्रिंट, चेहरे या फोन पिन से खोलें।", lock_unlock: "खोलें", lock_prompt_title: "SecondThought खोलें",
     lock_prompt_sub: "फिंगरप्रिंट, चेहरा या फोन पिन इस्तेमाल करें", lock_confirm_sub: "ऐप लॉक चालू करने के लिए पुष्टि करें",
@@ -138,6 +148,11 @@ export const APP = {
     family_title: "परिवार", family_watch: "मुझे किसी और के अलर्ट चाहिए", family_watch_sub: "उनके फोन पर दिखा कोड डालें।",
   },
   es: {
+    care_title: "¿A quién debe llamar {name} si necesita ayuda?", care_sub: "Cuando algo parezca una estafa, {name} podrá llamar o escribir a esta persona con un toque. Normalmente eres tú.",
+    care_simple: "Modo sencillo activado para personas mayores: letra grande y una pantalla de inicio más simple. Puedes cambiarlo en Más → Ajustes.",
+    care_later: "Lo haré más tarde", simple_note: "Modo sencillo · configurado por la familia",
+    signout: "Cerrar sesión", signout_q: "¿Cerrar sesión en SecondThought?", signout_sub: "Se borrará tu perfil y todo lo que SecondThought guardó en este teléfono: contacto familiar, código familiar y contadores. Puedes volver a configurarlo cuando quieras.",
+    signout_yes: "Cerrar sesión y borrar", signout_no: "Cancelar",
     splash_tag: "Piénsalo dos veces. Mantente a salvo.", lock_title: "SecondThought está bloqueado", lock_hello: "Bienvenido de nuevo, {name}",
     lock_sub: "Desbloquea con tu huella, cara o PIN del teléfono.", lock_unlock: "Desbloquear", lock_prompt_title: "Desbloquear SecondThought",
     lock_prompt_sub: "Usa tu huella, cara o PIN del teléfono", lock_confirm_sub: "Confirma que eres tú para activar el bloqueo",
