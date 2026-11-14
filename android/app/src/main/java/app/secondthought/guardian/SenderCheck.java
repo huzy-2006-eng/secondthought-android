@@ -77,7 +77,8 @@ public final class SenderCheck {
             return new String[] {"shortcode", s, null, null, null};
         }
         Matcher m = HEADER.matcher(s.toUpperCase(Locale.ROOT));
-        if (m.matches() && m.group(2).matches(".*[A-Z].*") && (s.equals(s.toUpperCase(Locale.ROOT)) || PREFIXED.matcher(s).matches())) {
+        boolean numericPromo = m.matches() && m.group(2).matches("^\\d{6}$") && (m.group(1) != null || m.group(3) != null);
+        if (m.matches() && (m.group(2).matches(".*[A-Z].*") || numericPromo) && (s.equals(s.toUpperCase(Locale.ROOT)) || PREFIXED.matcher(s).matches())) {
             return new String[] {"header", s.toUpperCase(Locale.ROOT), m.group(1), m.group(2), m.group(3)};
         }
         return new String[] {"name", s, null, null, null};
@@ -122,6 +123,7 @@ public final class SenderCheck {
     }
 
     private Entity lookalike(String header) {
+        if (header.matches("^\\d+$")) return null;
         String plain = unleet(header);
         boolean hasDigit = header.matches(".*\\d.*");
         for (Entity e : entities) {
@@ -167,12 +169,18 @@ public final class SenderCheck {
             return new Result("good", "known", 0, own.name, s[1], header);
         }
         if ("G".equals(category) && c != null && "government".equals(c.kind)) return new Result("good", "gov_category", 0, cn, s[1], header);
+        boolean isUrgent = urgent.matcher(body).find();
+        if (header.matches("^\\d{6}$")) {
+            if (isUrgent && c != null && in(c.kind, "bank", "payment", "government")) return new Result("warn", "promo_category", 45, cn, s[1], header);
+            if (isUrgent) return new Result("warn", "promo_urgent", 40, null, s[1], header);
+            return new Result("info", "promo_numeric", 0, cn, s[1], header);
+        }
         if (c != null) {
             for (String tk : c.tokens) if (header.contains(tk)) return new Result("info", "unlisted", 0, cn, s[1], header);
             if (in(c.kind, "bank", "payment")) return new Result("warn", "unrelated_header", 50, cn, s[1], header);
             return new Result("info", "unlisted", 0, cn, s[1], header);
         }
-        if ("P".equals(category) && urgent.matcher(body).find()) return new Result("warn", "promo_urgent", 40, null, s[1], header);
-        return null;
+        if ("P".equals(category) && isUrgent) return new Result("warn", "promo_urgent", 40, null, s[1], header);
+        return new Result("info", "registered", 0, null, s[1], header);
     }
 }

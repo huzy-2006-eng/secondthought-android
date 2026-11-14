@@ -35,6 +35,9 @@ export default function Checker({ initialText, initialImage, initialSender, go }
   const [text, setText] = useState(initialText || "");
   const [sender, setSender] = useState(initialSender || "");
   const [inbox, setInbox] = useState(null);
+  // The message box grows with the text (up to ~8 lines) so the start of a long SMS isn't hidden.
+  const box = useRef(null);
+  useEffect(() => { const el = box.current; if (!el) return; el.style.height = "auto"; el.style.height = Math.min(el.scrollHeight, 230) + "px"; }, [text]);
   const [res, setRes] = useState(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState(null);
@@ -137,7 +140,7 @@ export default function Checker({ initialText, initialImage, initialSender, go }
         <DotScanner busy={busy || reading}><Icon name="shield" /></DotScanner>
         <div><div style={{ fontWeight: 700, fontSize: "1.1rem" }}>{t("check_label")}</div><div className="tiny">{t("check_sub")}</div></div>
         <div className="pillinput"><Icon name="search" />
-          <textarea value={text} maxLength={5000} onChange={(e) => setText(e.target.value)} placeholder="www.example.com, or paste the message…" aria-label="Message to check" /></div>
+          <textarea ref={box} value={text} maxLength={5000} onChange={(e) => setText(e.target.value)} placeholder="www.example.com, or paste the message…" aria-label="Message to check" /></div>
         <div className="pillinput sender"><Icon name="user" />
           <input value={sender} maxLength={40} onChange={(e) => setSender(e.target.value)} placeholder={t("sender_ph")} aria-label={t("sender_label")} autoCapitalize="characters" spellCheck={false} /></div>
         <div className="tiny" style={{ marginTop: -6 }}>{t("sender_label")} · {t("sender_hint")}</div>
@@ -217,7 +220,7 @@ export function SenderCard({ sc, t }) {
         </div>
       ) : <div className="sc-parts"><span className="hdr"><small>{t("sender_from")}</small><b>{s.value}</b></span></div>}
       <p className="tiny" style={{ margin: 0 }}>{sc.detail}</p>
-      {sc.cleared ? <p className="tiny" style={{ margin: 0 }}>{t("sender_cleared", { n: sc.cleared })}</p> : null}
+      {sc.cleared ? <p className="tiny" style={{ margin: 0 }}>{t(sc.code === "known" ? "sender_cleared" : "sender_cleared_reg", { n: sc.cleared })}</p> : null}
       {s.type === "header" && sc.level !== "good" ? <button className="btn" onClick={() => openExternal(TRAI_HEADER_URL)}><Icon name="external" />{t("sender_trai")}</button> : null}
     </div>
   );

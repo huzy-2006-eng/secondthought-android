@@ -9,7 +9,7 @@ SecondThought server (main project repository) run inside the app, so checks are
 the message never leaves the phone. The server is used only for live family alerts, ScammerTrap, complaint reports and
 the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 
-**Install:** `release/SecondThought-1.0-debug.apk` (version 1.7; Android 7+; unknown-caller protection needs Android 10+).
+**Install:** `release/SecondThought-1.0-debug.apk` (version 1.7.1; Android 7+; unknown-caller protection needs Android 10+).
 
 > **On-device = server, proven:** 100% same verdict on 7,339 messages (incl. 7,275 real Kaggle ScamShield messages never
 > used in training), 39/39 conversations turn by turn, 6,005 links. About 2 ms per check. `npm run parity` re-runs it.

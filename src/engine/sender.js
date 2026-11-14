@@ -36,7 +36,9 @@ export function parseSender(raw) {
   }
   // XY-HEADER-S, XY-HEADER, HEADER-S, HEADER  (header letters/digits, 3..11 so lookalikes like SBIINB1 parse)
   const m = s.toUpperCase().match(/^(?:([A-Z]{2})[-\s])?([A-Z0-9]{3,11})(?:[-\s]([PSTG]))?$/);
-  if (m && /[A-Z]/.test(m[2]) && (s === s.toUpperCase() || /^[A-Za-z]{2}-/.test(s))) {
+  // Promotional headers can be 6 digits (AD-650022-P); they always come with the operator prefix or a suffix.
+  const numericPromo = m && /^\d{6}$/.test(m[2]) && (m[1] || m[3]);
+  if (m && (/[A-Z]/.test(m[2]) || numericPromo) && (s === s.toUpperCase() || /^[A-Za-z]{2}-/.test(s))) {
     return { type: "header", prefix: m[1] || null, header: m[2], category: m[3] || null, value: s.toUpperCase() };
   }
   return { type: "name", value: s };  // a saved contact name, an email, etc.
@@ -73,6 +75,7 @@ function headerOwner(header) {
 }
 function lookalike(header) {
   const plain = unleet(header);
+  if (/^\d+$/.test(header)) return null;  // 6-digit promotional IDs are a normal format, not a disguise
   const hasDigit = /\d/.test(header);
   for (const e of D.entities) {
     if (e.headers.includes(header)) continue;
@@ -96,7 +99,8 @@ export function checkSender(raw, text) {
   const sender = parseSender(raw);
   if (sender.type === "none") return null;
   const claimed = claimedEntity(text);
-  const out = (level, code, title, detail, floor = 0, owner = null) => ({ level, code, title, detail, floor, sender, claimed: claimed ? { id: claimed.id, name: claimed.name, kind: claimed.kind } : null, owner: owner ? { id: owner.id, name: owner.name } : null });
+  const urgent = URGENT.test(text || "");
+  const out = (level, code, title, detail, floor = 0, owner = null) => ({ level, code, title, detail, floor, sender, urgent, claimed: claimed ? { id: claimed.id, name: claimed.name, kind: claimed.kind } : null, owner: owner ? { id: owner.id, name: owner.name } : null });
   const who = claimed ? claimed.name : "";
   const kindWord = { bank: "Banks", payment: "Payment apps", government: "Government departments", telecom: "Phone companies", utility: "Electricity companies", courier: "Courier companies" };
 
@@ -135,6 +139,15 @@ export function checkSender(raw, text) {
   if (category === "G" && claimed?.kind === "government") {
     return out("good", "gov_category", `Sent in the Government category (-G)`, `Only TRAI-approved government senders get the -G suffix.`);
   }
+  if (/^\d{6}$/.test(header)) {
+    if (urgent && claimed && ["bank", "payment", "government"].includes(claimed.kind)) {
+      return out("warn", "promo_category", `Account message from ${who} sent as an advert`,
+        `"${header}" is a 6-digit promotional (advert) sender ID. ${who} sends OTP, KYC and account messages as Service or Transactional, from its own sender ID.`, 45);
+    }
+    if (urgent) return out("warn", "promo_urgent", "Urgent account request sent as an advert (-P)", "This came from a 6-digit promotional (advert) sender ID. Real OTP, KYC and account messages never come as adverts.", 40);
+    return out("info", "promo_numeric", `Advert from a registered sender${claimed ? ` (says it's ${who})` : ""}`,
+      `"${header}" is a 6-digit promotional sender ID registered with TRAI, the normal way businesses send adverts. Adverts never need your OTP, PIN or KYC: ignore any that ask.`);
+  }
   if (claimed) {
     const carries = claimed.tokens.some((tk) => header.includes(tk));
     if (carries) return out("info", "unlisted", `"${header}" is not in our list of ${who} sender IDs`,
@@ -145,10 +158,11 @@ export function checkSender(raw, text) {
     }
     return out("info", "unlisted", `"${header}" is not a sender ID we know for ${who}`, `Confirm it on the TRAI sender ID portal before acting on it.`);
   }
-  if (category === "P" && URGENT.test(text || "")) {
+  if (category === "P" && urgent) {
     return out("warn", "promo_urgent", "Urgent account request sent as an advert (-P)", "Banks and services send OTP, KYC and account messages as Service or Transactional, not Promotional.", 40);
   }
-  return null;
+  return out("info", "registered", `Registered business sender${cat}`,
+    `"${header}" is a TRAI-registered sender ID, not a personal number. Still, never share codes or PINs.`);
 }
 
 /** Combine the sender check into an engine result (score floor + a reason first in the list). */
@@ -162,6 +176,11 @@ export function withSender(result, sc, thresholds = { scam: 60, suspicious: 35 }
     if (score >= thresholds.suspicious) sc = { ...sc, cleared: result.score };
     score = Math.min(score, 20);
     reasons0 = result.reasons.filter((r) => r.kind === "link");
+  } else if (["promo_numeric", "registered", "unlisted"].includes(sc.code) && !sc.urgent && result.score < thresholds.scam && (result.parts?.links || 0) < thresholds.suspicious) {
+    // A registered business sender (not a personal number), no urgent account request, links look fine:
+    // mild "sounds like an advert/notice" wording alone is not treated as suspicious.
+    if (score >= thresholds.suspicious) sc = { ...sc, cleared: result.score };
+    score = Math.min(score, 30);
   } else if (sc.code === "known") {
     sc = { ...sc, level: "warn", title: sc.title + ", but a link in it looks unsafe", detail: `The sender ID is real, but the link does not look like ${sc.owner.name}'s. Open the official app or website yourself instead.` };
   }

@@ -26,6 +26,9 @@ numbers, foreign numbers, or lookalike headers. SecondThought compares **the sen
 | Header without the bank's name, text claims a bank | yes | Warning (≥ 50) |
 | Header with the bank's name, but not in our list | yes | Info only + "Verify on TRAI's sender ID portal" |
 | **Known header** of the bank it claims | yes / no | **Known sender**: bank-style wording no longer counts against it (score capped at 20) unless a link looks unsafe |
+| 6-digit promotional ID (`AD-650022-P`) | any, no urgent request | Info: "Advert from a registered sender"; wording-only suspicion is cleared if links look safe |
+| 6-digit promotional ID | asks for OTP/KYC/account action | Warning (≥ 40, ≥ 45 if it claims a bank/agency) |
+| Any other registered header, no claim | no | Info: "Registered business sender"; same wording-only clearing |
 | Mobile number, no claim | no | Info only (friends and delivery agents text from numbers) |
 | Saved contact name, short code | | nothing |
 
@@ -55,7 +58,7 @@ Screenshot scans also pick up the sender line (`14:02 • VM-SBIINB`).
   Headers come from the banks' own pages where available (HDFC: HDFCBK/HDFCBN; SBI: SBIINB/SBIPSG/SBICRD; Axis:
   AXSBKS/AXSBKT) or are widely reported. A missing header means *unknown*, never *fake*.
 - `src/engine/sender.js` (app) and `SenderCheck.java` (live check) implement the same rules on the same file.
-- `node tools/sender/test.mjs`: 31 cases (real, mobile, foreign, lookalike, mismatch, promotional, contacts, screenshot).
+- `node tools/sender/test.mjs`: 36 cases (real, 6-digit promotional, mobile, foreign, lookalike, mismatch, promotional, contacts, screenshot).
 - `sh tools/sender/run_java.sh`: Java vs JS agreement on those cases and on 4,284 real messages × 7 kinds of sender (100%).
 
 ## Limits

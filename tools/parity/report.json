@@ -33,7 +33,7 @@
     "final_probability": "100.00%",
     "verdict": "100.00%"
   },
-  "engine_load_ms": 568,
+  "engine_load_ms": 539,
   "mismatches": {
     "verdict": [],
     "score": [
