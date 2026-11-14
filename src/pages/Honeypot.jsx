@@ -10,6 +10,9 @@ import { trapCaptured, trapEnded, trapMessage, trapStarted } from "../trapstats.
 // ScammerTrap: a decoy persona that answers the scammer, wastes their time and draws out their payment
 // details. It runs ON THIS PHONE: it reads each message with the detection engine and replies in kind.
 // The scammer's messages are not uploaded; only payment details they gave are looked up in the scam network.
+// One trap per protected conversation, kept while you visit other screens and come back.
+const TRAPS = new Map();
+
 export default function Honeypot({ go }) {
   const s = useSession();
   const [turns, setTurns] = useState([]);
@@ -27,14 +30,26 @@ export default function Honeypot({ go }) {
   useEffect(() => {
     if (!s.sessionId) return;
     let cancelled = false;
+    const saved = TRAPS.get(s.sessionId);
+    if (saved) {   // back on this screen: continue the same trap
+      decoy.current = saved.decoy; clock.current = saved.clock;
+      setTurns(saved.turns); setIds(saved.decoy.caught()); setIntel(saved.intel); setEnded(saved.ended); setErr(null);
+      return;
+    }
     setTurns([]); setIds([]); setIntel([]); setEnded(false); setErr(null);
     getEngine().then((engine) => {
       if (cancelled) return;
       decoy.current = new Decoy(engine);
+      for (const old of TRAPS.values()) {   // a new trap: count the time the previous one wasted, even if Stop wasn't pressed
+        if (old.clock.start && !old.clock.done && old.clock.last) { old.clock.done = true; trapEnded(old.clock.start, old.clock.last); }
+      }
+      TRAPS.clear();
+      TRAPS.set(s.sessionId, { decoy: decoy.current, clock: clock.current, turns: [], intel: [], ended: false });
       // Handed over from a protected call/chat: the decoy already knows what the scam is about.
       const before = (s.turns || []).filter((t) => t.speaker !== "user").map((t) => t.text);
       if (before.length) { decoy.current.prime(before); setIds(decoy.current.caught()); }
       clock.current = { start: Date.now(), last: 0, done: false };
+      TRAPS.get(s.sessionId).clock = clock.current;
       trapStarted();
       let first = null;
       try { first = sessionStorage.getItem("st:trapFirst"); sessionStorage.removeItem("st:trapFirst"); } catch { /* ignore */ }
@@ -45,7 +60,10 @@ export default function Honeypot({ go }) {
   }, [s.sessionId]);
 
   useEffect(() => { endRef.current?.scrollIntoView({ block: "nearest" }); }, [turns]);
-  useEffect(() => () => { if (clock.current.start && !clock.current.done && clock.current.last) trapEnded(clock.current.start, clock.current.last); }, []);
+  // Save to the trap store as things happen (not in an effect, so a remount can't overwrite it).
+  const save = (patch) => { const t = TRAPS.get(s.sessionId); if (t && t.decoy === decoy.current) Object.assign(t, patch); };
+  const addTurn = (turn) => setTurns((cur) => { const next = [...cur, turn]; save({ turns: next }); return next; });
+
 
   async function sendText(raw) {
     const msg = (raw || "").trim().slice(0, 2000);
@@ -54,22 +72,22 @@ export default function Honeypot({ go }) {
     s.send(msg, "other", { quiet: true });             // kept for the complaint report (on the phone until you prepare it)
     const r = decoy.current.reply(msg);
     // a short, human-looking pause before the decoy "types"
-    setTurns((t) => [...t, { speaker: "other", text: msg }]);
+    addTurn({ speaker: "other", text: msg });
     await new Promise((res) => setTimeout(res, 400));
-    setTurns((t) => [...t, { speaker: "persona", text: r.text, why: r.intent }]);
+    addTurn({ speaker: "persona", text: r.text, why: r.intent });
     clock.current.last = Date.now();
     trapMessage(clock.current.start);
     const caught = decoy.current.caught();
     setIds(caught);
     if (r.caught.length) {
       trapCaptured(r.caught);
-      lookupIdentifiers(r.caught).then(({ matches }) => matches.length && setIntel((x) => [...x, ...matches]));
+      lookupIdentifiers(r.caught).then(({ matches }) => matches.length && setIntel((x) => { const next = [...x, ...matches]; save({ intel: next }); return next; }));
     }
     setBusy(false);
   }
 
   const stop = () => {
-    setEnded(true);
+    setEnded(true); save({ ended: true });
     if (clock.current.start && !clock.current.done) { clock.current.done = true; trapEnded(clock.current.start, clock.current.last); }
   };
   const hit = new Map(intel.map((i) => [`${i.kind}:${i.value}`, i]));

@@ -28,7 +28,7 @@ export class Decoy {
     this.ids = new Map();     // kind:value -> entity
     this.used = new Set();
     this.topic = null;
-    this.topicAnswered = false;
+    this.answered = new Set();  // scam topics already answered in kind (each new one gets its own reply)
     this.asked = new Set();   // which follow-ups we've already asked for
     this.paidChecks = 0;
   }
@@ -88,7 +88,7 @@ export class Decoy {
     this.scammer.push(msg);
     if (!this.lang || this.scammer.length <= 3) this.lang = this.guessLang();
     const { tactics, topic, fresh } = this.read(msg);
-    if (topic && !this.topic) this.topic = topic;
+    if (topic) this.topic = topic;            // follow the scammer if they switch story
     const k = this.kinds();
     const havePayment = [...k].some((x) => PAYMENT.has(x));
     const freshPayment = fresh.some((e) => PAYMENT.has(e.kind));
@@ -103,7 +103,8 @@ export class Decoy {
     else if (fresh.some((e) => e.kind === "url") && !havePayment) intent = "got_link";
     else if (RX.paidCheck.test(msg)) intent = this.paidChecks++ < 2 ? "paid_check" : "stall";
     else if (RX.personal.test(msg)) intent = "personal";
-    else if (this.topic && !this.topicAnswered) { intent = this.topic; this.topicAnswered = true; }
+    else if (topic && !this.answered.has(topic)) { intent = topic; this.answered.add(topic); }
+    else if (this.topic && !this.answered.has(this.topic)) { intent = this.topic; this.answered.add(this.topic); }
     else if (this.scammer.length === 1 && tactics.has("authority") && !tactics.has("payment")) intent = "official";
     else if (this.scammer.length === 1 && (RX.greeting.test(msg) || !tactics.size)) intent = "open";
     else if (!havePayment && tactics.has("threat") && !tactics.has("payment") && !this.asked.has("scared")) { this.asked.add("scared"); intent = "scared"; }
@@ -132,7 +133,7 @@ export class Decoy {
       const { topic } = this.read(t);
       if (topic && !this.topic) this.topic = topic;
     }
-    if (this.scammer.length) { this.lang = this.guessLang(); this.topicAnswered = true; this.asked.add("payment"); }
+    if (this.scammer.length) { this.lang = this.guessLang(); if (this.topic) this.answered.add(this.topic); }
   }
 
   /** Everything caught so far (for the complaint report and the scam network). */
