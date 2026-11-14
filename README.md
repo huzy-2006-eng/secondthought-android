@@ -9,7 +9,7 @@ SecondThought server (main project repository) run inside the app, so checks are
 the message never leaves the phone. The server is used only for live family alerts, ScammerTrap, complaint reports and
 the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 
-**Install:** `release/SecondThought-1.0-debug.apk` (version 1.3.2; Android 7+; unknown-caller protection needs Android 10+).
+**Install:** `release/SecondThought-1.0-debug.apk` (version 1.4; Android 7+; unknown-caller protection needs Android 10+).
 
 > **On-device = server, proven:** 100% same verdict on 7,339 messages (incl. 7,275 real Kaggle ScamShield messages never
 > used in training), 39/39 conversations turn by turn, 6,005 links. About 2 ms per check. `npm run parity` re-runs it.
@@ -92,9 +92,9 @@ The free server sleeps when idle, so the first request can take up to a minute. 
 
 `screenshots/preview/` was rendered from this app's UI in a phone-sized browser, with a stand-in for the Android bridge (`src/native_mock.js`, never included in the APK). Real-device screenshots go in `screenshots/device/` (see `docs/DEMO_VIDEO.md`).
 
-| Setup | Home | Unknown caller | Protected | Stop screen |
+| Welcome | Home | Unknown caller | Protected | Stop screen |
 |---|---|---|---|---|
-| ![](screenshots/preview/01-setup.png) | ![](screenshots/preview/03-home.png) | ![](screenshots/preview/04-unknown-call-question.png) | ![](screenshots/preview/05-unknown-call-protected.png) | ![](screenshots/preview/06-stop-screen.png) |
+| ![](screenshots/preview/00-welcome.png) | ![](screenshots/preview/03-home.png) | ![](screenshots/preview/04-unknown-call-question.png) | ![](screenshots/preview/05-unknown-call-protected.png) | ![](screenshots/preview/06-stop-screen.png) |
 | **Help → text ready** | **Check a message** | **Type what the caller says** | **Live family alert** | **Hindi** |
 | ![](screenshots/preview/05b-help-texted.png) | ![](screenshots/preview/08-check-message.png) | ![](screenshots/preview/09-type-call.png) | ![](screenshots/preview/10-family-alert.png) | ![](screenshots/preview/15-home-hindi.png) |
 | **Offline check (airplane mode)** | **ScammerTrap** | **Screenshot scan** | **Reply / Chakshu** | |

@@ -2,5 +2,9 @@
   "appId": "app.secondthought.guardian",
   "appName": "SecondThought",
   "webDir": "dist",
-  "android": { "allowMixedContent": false }
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0c0a12"
+  },
+  "backgroundColor": "#0c0a12"
 }

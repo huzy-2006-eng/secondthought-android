@@ -16,6 +16,7 @@ import More from "./pages/More.jsx";
 import Pay from "./pages/Pay.jsx";
 import Report from "./pages/Report.jsx";
 import Setup from "./pages/Setup.jsx";
+import Welcome from "./pages/Welcome.jsx";
 import Shield from "./pages/Shield.jsx";
 
 function useHashRoute() {
@@ -58,7 +59,7 @@ function Shell({ lang, setLang, large, setLarge }) {
 
   // First run → setup. Notification taps and "Share to SecondThought" → the right screen.
   useEffect(() => {
-    if (!store.get("setupDone") && !location.hash.startsWith("#/incoming")) go("/setup");
+    if (!store.get("setupDone") && !location.hash.startsWith("#/incoming")) go("/welcome");
     if (!isNative) return;
     const open = (l) => {
       if (!l || !l.route) return;
@@ -82,6 +83,7 @@ function Shell({ lang, setLang, large, setLarge }) {
     case "check": page = <Checker key={shared?.at || 0} initialText={shared?.text} initialImage={shared?.image} go={go} />; break;
     case "family": page = <Family go={go} />; break;
     case "more": page = <More go={go} />; break;
+    case "welcome": page = <Welcome go={go} />; break;
     case "setup": page = <Setup go={go} lang={lang} setLang={setLang} large={large} setLarge={setLarge} />; break;
     case "incoming": page = <Incoming key={qs} query={query} go={go} />; break;
     case "protect": page = <Shield go={go} query={query} />; break;
@@ -92,6 +94,8 @@ function Shell({ lang, setLang, large, setLarge }) {
     case "report": page = <Report go={go} />; break;
     default: page = <Home go={go} online={online} />;
   }
+
+  if (base === "welcome") return <div className="app"><main>{page}</main></div>;
 
   return (
     <div className="app">

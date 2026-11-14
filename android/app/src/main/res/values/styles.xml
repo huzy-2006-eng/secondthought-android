@@ -13,6 +13,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- dark app theme: status bar, navigation bar and the window behind the web view -->
+        <item name="android:windowBackground">@color/st_bg</item>
+        <item name="android:statusBarColor">@color/st_bg</item>
+        <item name="android:navigationBarColor">@color/st_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
 

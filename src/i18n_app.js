@@ -1,6 +1,12 @@
 // Text for the Android app's own screens (easy home, unknown caller, setup, more).
 export const APP = {
   en: {
+    welcome_title: "Stop scams before money moves", welcome_sub: "SecondThought spots scam tricks in messages and calls, warns you in plain words and alerts your family.",
+    welcome_start: "Get started", home_welcome: "Welcome", prot_active: "Protection is active", prot_off: "Call protection is off",
+    sum_title: "Your safety", sum_checked: "messages checked", sum_on_phone: "Checked on this phone. Nothing is uploaded.",
+    chip_scam: "Scam", chip_sus: "Suspicious", chip_safe: "Safe", chip_note: "checked", what_to_do: "What do you want to do?",
+    check_title: "Check links, avoid risks!", check_label: "Paste a message or link", check_sub: "SMS, WhatsApp, email, a link or a QR code. Checked on this phone.",
+    res_warning: "Warning", res_scam: "This is a scam", res_safe: "Looks safe",
     family_scan: "Scan their QR code", family_bad_qr: "That QR code is not a SecondThought family code.",
     scan_screenshot: "Scan a screenshot", scan_reading: "Reading the screenshot…", scan_no_text: "No text found in that image.",
     scan_note: "Text read from the screenshot on this phone. The image was not uploaded.",
@@ -55,6 +61,12 @@ export const APP = {
     family_title: "Family", family_watch: "I want alerts about someone else", family_watch_sub: "Enter the code from their phone.",
   },
   hi: {
+    welcome_title: "पैसे जाने से पहले स्कैम रोकें", welcome_sub: "SecondThought मैसेज और कॉल में धोखे की चालें पहचानता है, आसान शब्दों में चेतावनी देता है और परिवार को बताता है।",
+    welcome_start: "शुरू करें", home_welcome: "नमस्ते", prot_active: "सुरक्षा चालू है", prot_off: "कॉल सुरक्षा बंद है",
+    sum_title: "आपकी सुरक्षा", sum_checked: "मैसेज जाँचे", sum_on_phone: "इसी फोन पर जाँचा गया। कुछ अपलोड नहीं होता।",
+    chip_scam: "स्कैम", chip_sus: "संदिग्ध", chip_safe: "सुरक्षित", chip_note: "जाँचे", what_to_do: "आप क्या करना चाहते हैं?",
+    check_title: "लिंक जाँचें, खतरे से बचें!", check_label: "मैसेज या लिंक डालें", check_sub: "SMS, WhatsApp, ईमेल, लिंक या QR कोड। इसी फोन पर जाँचा जाता है।",
+    res_warning: "चेतावनी", res_scam: "यह स्कैम है", res_safe: "सुरक्षित लगता है",
     family_scan: "उनका QR कोड स्कैन करें", family_bad_qr: "यह SecondThought परिवार कोड नहीं है।",
     scan_screenshot: "स्क्रीनशॉट स्कैन करें", scan_reading: "स्क्रीनशॉट पढ़ा जा रहा है…", scan_no_text: "इस तस्वीर में कोई टेक्स्ट नहीं मिला।",
     scan_note: "टेक्स्ट इसी फोन पर स्क्रीनशॉट से पढ़ा गया। तस्वीर कहीं अपलोड नहीं हुई।",
@@ -108,6 +120,12 @@ export const APP = {
     family_title: "परिवार", family_watch: "मुझे किसी और के अलर्ट चाहिए", family_watch_sub: "उनके फोन पर दिखा कोड डालें।",
   },
   es: {
+    welcome_title: "Frena las estafas antes de que se mueva el dinero", welcome_sub: "SecondThought detecta trucos de estafa en mensajes y llamadas, te avisa con palabras claras y alerta a tu familia.",
+    welcome_start: "Empezar", home_welcome: "Bienvenido", prot_active: "La protección está activa", prot_off: "La protección de llamadas está desactivada",
+    sum_title: "Tu seguridad", sum_checked: "mensajes comprobados", sum_on_phone: "Comprobado en este teléfono. No se sube nada.",
+    chip_scam: "Estafa", chip_sus: "Sospechoso", chip_safe: "Seguro", chip_note: "comprobados", what_to_do: "¿Qué quieres hacer?",
+    check_title: "¡Comprueba enlaces, evita riesgos!", check_label: "Pega un mensaje o enlace", check_sub: "SMS, WhatsApp, correo, enlace o código QR. Se comprueba en este teléfono.",
+    res_warning: "Atención", res_scam: "Esto es una estafa", res_safe: "Parece seguro",
     family_scan: "Escanear su código QR", family_bad_qr: "Ese código QR no es un código familiar de SecondThought.",
     scan_screenshot: "Escanear una captura", scan_reading: "Leyendo la captura…", scan_no_text: "No se encontró texto en esa imagen.",
     scan_note: "Texto leído de la captura en este teléfono. La imagen no se subió.",

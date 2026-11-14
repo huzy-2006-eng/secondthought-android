@@ -4,6 +4,8 @@ import { getEngine } from "../engine/browser.js";
 import { lookupIdentifiers } from "../localchecks.js";
 import { useSession } from "../session.jsx";
 import { useT } from "../i18n.js";
+import { DotScanner } from "../components/Brand.jsx";
+import { recordCheck } from "../checkstats.js";
 import { openExternal, CHAKSHU_URL, isNative, ST } from "../native.js";
 import Icon from "../components/Icon.jsx";
 
@@ -73,6 +75,7 @@ export default function Checker({ initialText, initialImage, go }) {
       const t0 = performance.now();
       const r = engine.check(v);
       r.ms = Math.max(1, Math.round(performance.now() - t0));
+      recordCheck(r.verdict);
       setRes(r);
       // Only identifiers (UPI IDs, numbers, links) are looked up in the scam-report network, when online.
       lookupIdentifiers(r.entities).then(({ online, matches }) => setRes((cur) => (cur === r ? { ...r, intel: matches, online } : cur)));
@@ -104,9 +107,11 @@ export default function Checker({ initialText, initialImage, go }) {
   return (
     <>
       <div className="card stack">
-        <h1>Check a message, link or QR code</h1>
-        <p className="muted">Paste anything suspicious: an SMS, a WhatsApp message, an email, a link. Or scan the QR code someone sent you.</p>
-        <textarea className="input" value={text} maxLength={5000} onChange={(e) => setText(e.target.value)} placeholder="Paste the message or link here…" aria-label="Message to check" />
+        <h1 style={{ marginBottom: 0 }}>{t("check_title")}</h1>
+        <DotScanner busy={busy || reading}><Icon name="shield" /></DotScanner>
+        <div><div style={{ fontWeight: 700, fontSize: "1.1rem" }}>{t("check_label")}</div><div className="tiny">{t("check_sub")}</div></div>
+        <div className="pillinput"><Icon name="search" />
+          <textarea value={text} maxLength={5000} onChange={(e) => setText(e.target.value)} placeholder="www.example.com, or paste the message…" aria-label="Message to check" /></div>
         <button className="btn primary big block" disabled={busy || !text.trim()} onClick={() => run()}><Icon name="search" />{busy ? "Checking…" : "Check it"}</button>
         {isNative ? (
           <button className="btn big block" onClick={scanScreenshot} disabled={reading}><Icon name="camera" />{reading ? t("scan_reading") : t("scan_screenshot")}</button>
@@ -127,7 +132,8 @@ export default function Checker({ initialText, initialImage, go }) {
 
       {res && v ? (
         <div className="card stack" aria-live="polite">
-          <div className={`banner ${v.cls}`} style={{ fontSize: "1.1rem" }}><Icon name={v.icon} /><div><strong>{v.title}</strong> · risk {res.score}/100{res.scam_type ? ` · ${res.scam_type}` : ""}</div></div>
+          <div className="resultcard"><h3><Icon name={v.icon} className="warnicon" style={{ color: v.cls === "bad" ? "var(--critical)" : v.cls === "warn" ? "var(--warning)" : "var(--good)" }} />{res.verdict === "scam" ? t("res_scam") : res.verdict === "suspicious" ? t("res_warning") : t("res_safe")}</h3>
+            <div className="tiny" style={{ marginTop: 4 }}>{v.title} · risk {res.score}/100{res.scam_type ? ` · ${res.scam_type}` : ""}</div></div>
           <div className="tiny"><Icon name="shield" style={{ width: 14, height: 14, verticalAlign: "-2px" }} /> Checked on this phone in {res.ms} ms. The message was not uploaded.{res.online === false ? " (Offline: scam-report lookup skipped.)" : ""}</div>
           {res.intel?.length ? (
             <div className="banner bad"><Icon name="alert" /><div>{res.intel.map((h) => <div key={h.kind + h.value}><strong>{h.value}</strong> appears in {h.reports} scam report(s) from {h.reporters} people{h.includes_demo_data ? " (includes demo data)" : ""}.</div>)}</div></div>

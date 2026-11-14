@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { getContact } from "../components/FamilyContact.jsx";
 import { callFamily, sendHelp } from "../help.js";
 import Icon from "../components/Icon.jsx";
+import { GlowShield, VerdictGauge } from "../components/Brand.jsx";
+import { getCheckStats } from "../checkstats.js";
 import { useT } from "../i18n.js";
 import { isNative, nativeStatus, ST } from "../native.js";
 import { useSession } from "../session.jsx";
@@ -17,6 +19,8 @@ export default function Home({ go, online }) {
   const [busy, setBusy] = useState(false);
   const [network, setNetwork] = useState(null);
   const trap = trapSummary();
+  const cs = getCheckStats();
+  const total = cs.scam + cs.suspicious + cs.safe;
   useEffect(() => { api.health().then((h) => setNetwork(h.intel_reports)).catch(() => {}); }, []);
 
   const refresh = () => nativeStatus().then(setSt);
@@ -51,26 +55,34 @@ export default function Home({ go, online }) {
 
   return (
     <div className="stack">
-      <div className="hello">
-        <Icon name="shield" />
-        <div><h1>{t("home_hello")}</h1><p className="muted">{t("home_sub")}</p></div>
+      <div className="homehead">
+        <GlowShield className="logo" size={48} />
+        <div><small>{t("home_welcome")}</small><strong>{t("home_hello")}</strong></div>
+        <button className="iconbtn" onClick={() => go("/family")} aria-label={t("nav_family")}><Icon name="bell" /></button>
       </div>
 
+      {isNative && st && st.screeningSupported && !(st.screeningEnabled && st.notifications) ? (
+        <div className="statuspill off"><Icon name="alert" /><span>{!st.screeningEnabled ? t("prot_off") : t("status_notif_off")}</span>
+          <button className="btn primary" onClick={turnOn}>{t("status_turn_on")}</button></div>
+      ) : (
+        <div className="statuspill ok"><Icon name="shield" /><span>{t("prot_active")}</span></div>
+      )}
+      {isNative && st && !st.screeningSupported ? <div className="banner info"><Icon name="info" />{t("status_old_android")}</div> : null}
       {online === false ? <div className="banner info"><span className="pulse" />{t("server_waking")}</div> : null}
 
-      {isNative && st ? (
-        !st.screeningSupported ? <div className="banner info"><Icon name="info" />{t("status_old_android")}</div>
-        : st.screeningEnabled && st.notifications ? (
-          <div className="banner good"><Icon name="check" />{t("status_calls_on")}</div>
-        ) : (
-          <div className="banner warn" style={{ alignItems: "center" }}>
-            <Icon name="alert" />
-            <span style={{ flex: 1 }}>{!st.screeningEnabled ? t("status_calls_off") : t("status_notif_off")}</span>
-            <button className="btn primary" onClick={turnOn}>{t("status_turn_on")}</button>
-          </div>
-        )
-      ) : null}
+      <div className="summary">
+        <h2>{t("sum_title")} <button className="iconbtn" style={{ width: 38, height: 38 }} onClick={() => go("/check")} aria-label={t("home_check")}><Icon name="search" /></button></h2>
+        <VerdictGauge scam={cs.scam} suspicious={cs.suspicious} safe={cs.safe} label={`${total} ${t("sum_checked")}`} />
+        <div className="big" style={{ marginTop: -54 }}>{total}<br /><small>{t("sum_checked")}</small></div>
+        <div className="sub tiny">{t("sum_on_phone")}</div>
+      </div>
+      <div className="statchips">
+        <div className="statchip"><span className="tag scam">{t("chip_scam")}</span><span className="n">{cs.scam}</span><span className="l">{t("chip_note")}</span></div>
+        <div className="statchip"><span className="tag sus">{t("chip_sus")}</span><span className="n">{cs.suspicious}</span><span className="l">{t("chip_note")}</span></div>
+        <div className="statchip"><span className="tag safe">{t("chip_safe")}</span><span className="n">{cs.safe}</span><span className="l">{t("chip_note")}</span></div>
+      </div>
 
+      <div className="sectiontitle">{t("what_to_do")}</div>
       <button className="bigaction" onClick={() => go("/check")}>
         <span className="ico"><Icon name="search" /></span>
         <span><strong>{t("home_check")}</strong><small>{t("home_check_sub")}</small></span>
