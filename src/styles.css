@@ -542,3 +542,8 @@ main.bare { padding-top: max(46px, calc(env(safe-area-inset-top) + 16px)); }
 .callbig small { display: block; opacity: .9; font-size: 1rem; }
 .btn.signout { margin-top: 6px; color: #ff8a95; border-color: rgba(255, 77, 94, 0.35); background: rgba(255, 77, 94, 0.08); }
 .signout-card { border-color: rgba(255, 77, 94, 0.45); }
+/* the Android app now keeps its screen inside the safe area (MainActivity), so only a small top gap is needed */
+main.bare { padding-top: 22px; }
+.nav { background: #100d17; }
+.topbar { background: #0c0a12; }
+main { padding-bottom: 110px; }
