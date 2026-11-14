@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { api, store } from "./api.js";
 import Icon from "./components/Icon.jsx";
 import { LANGS, LangContext, translate } from "./i18n.js";
@@ -24,11 +25,39 @@ import LockScreen from "./components/LockScreen.jsx";
 import { getProfile, lockEnabled } from "./profile.js";
 import Shield from "./pages/Shield.jsx";
 
+const TAB_BASES = new Set(["", "check", "family", "more"]);
+const baseOf = (p) => (p.split("?")[0].match(/^\/([^/]*)/) || [, ""])[1];
+const calmMotion = () => { try { return Boolean(window.__noMotion) || window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } };   // __noMotion: automated tests only
+
+// Hash router with smooth screen transitions: forward slides in from the right, back from the left,
+// switching bottom tabs cross-fades. Uses the View Transitions API when the WebView has it.
 function useHashRoute() {
   const read = () => (location.hash.replace(/^#/, "") || "/");
   const [path, setPath] = useState(read);
+  const stack = useRef([read()]);
+  const running = useRef(false);
   useEffect(() => {
-    const on = () => { setPath(read()); window.scrollTo(0, 0); };
+    const on = () => {
+      const next = read();
+      const st = stack.current;
+      const prev = st[st.length - 1];
+      let dir = "forward";
+      if (st.length > 1 && st[st.length - 2] === next) { dir = "back"; st.pop(); }
+      else { st.push(next); if (st.length > 40) st.shift(); }
+      if (dir !== "back" && TAB_BASES.has(baseOf(prev)) && TAB_BASES.has(baseOf(next)) && baseOf(prev) !== baseOf(next)) dir = "tab";
+      document.documentElement.dataset.nav = dir;
+      const apply = () => { setPath(next); window.scrollTo(0, 0); };
+      // One transition at a time: if one is still running (fast taps), switch straight away.
+      if (document.startViewTransition && !calmMotion() && !running.current && document.visibilityState === "visible") {
+        running.current = true;
+        document.documentElement.dataset.vt = "1";
+        const vt = document.startViewTransition(() => flushSync(apply));
+        const done = () => { running.current = false; delete document.documentElement.dataset.vt; };
+        vt.finished.then(done, done);
+        vt.ready.catch(() => {});
+        vt.updateCallbackDone.catch(() => {});
+      } else apply();
+    };
     window.addEventListener("hashchange", on);
     return () => window.removeEventListener("hashchange", on);
   }, []);
@@ -147,14 +176,14 @@ function Shell({ lang, setLang, large, setLarge }) {
           <Icon name="shield" />Protected call in progress · risk {s.snap?.score ?? 0}/100. Tap to return.
         </a>
       ) : null}
-      <main className={wide ? "wide" : ""}>{page}</main>
+      <main className={`${wide ? "wide " : ""}page-anim`} key={rawPath}>{page}</main>
       {overlay}
       <nav className="nav big" aria-label="Main">
         {NAV.map((n) => {
           const active = n.match.includes(base || "");
           return (
             <a key={n.path} href={`#${n.path}`} className={active ? "active" : ""} aria-current={active ? "page" : undefined}>
-              <Icon name={n.icon} />{t(n.key)}
+              <Icon name={n.icon} key={active ? "on" : "off"} />{t(n.key)}
             </a>
           );
         })}

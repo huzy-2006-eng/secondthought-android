@@ -547,3 +547,53 @@ main.bare { padding-top: 22px; }
 .nav { background: #100d17; }
 .topbar { background: #0c0a12; }
 main { padding-bottom: 110px; }
+
+/* ================================================================ motion */
+/* screen transitions (View Transitions API): only the page moves; top bar and tab bar stay put */
+/* names only while a transition plays: a permanent name would change stacking and put overlays
+   (the Stop screen) under the tab bar */
+html[data-vt] .topbar { view-transition-name: topbar; }
+html[data-vt] .nav { view-transition-name: tabbar; }
+html[data-vt] main.page-anim { view-transition-name: page; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+::view-transition-group(page) { animation-duration: .26s; }
+html[data-nav="forward"]::view-transition-old(page) { animation: vt-out-left .24s ease both; }
+html[data-nav="forward"]::view-transition-new(page) { animation: vt-in-right .28s cubic-bezier(.2, .8, .2, 1) both; }
+html[data-nav="back"]::view-transition-old(page) { animation: vt-out-right .24s ease both; }
+html[data-nav="back"]::view-transition-new(page) { animation: vt-in-left .28s cubic-bezier(.2, .8, .2, 1) both; }
+html[data-nav="tab"]::view-transition-old(page) { animation: vt-fade-out .16s ease both; }
+html[data-nav="tab"]::view-transition-new(page) { animation: vt-zoom-in .26s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes vt-in-right { from { transform: translateX(28%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes vt-in-left { from { transform: translateX(-28%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes vt-out-left { to { transform: translateX(-12%); opacity: 0; } }
+@keyframes vt-out-right { to { transform: translateX(12%); opacity: 0; } }
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-zoom-in { from { transform: scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+/* fallback for WebViews without View Transitions: the new screen eases in */
+@supports not (view-transition-name: none) {
+  main.page-anim { animation: vt-in-right .28s cubic-bezier(.2, .8, .2, 1) both; }
+  html[data-nav="back"] main.page-anim { animation-name: vt-in-left; }
+  html[data-nav="tab"] main.page-anim { animation-name: vt-zoom-in; }
+}
+
+/* active tab icon: small bounce */
+.nav a.active svg { animation: tab-pop .35s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes tab-pop { 0% { transform: scale(.7); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+
+/* press feedback on everything tappable */
+.btn, .quick, .bigaction, .callbig, .listitem, .choice, .statchip, .iconbtn, .card.campaign, .camplist summary, .nav a { transition: transform .12s ease, filter .12s ease, background-color .2s ease; }
+.btn:active:not(:disabled), .quick:active, .bigaction:active, .callbig:active, .listitem:active, .choice:active, .iconbtn:active, .card.campaign:active, .camplist summary:active { transform: scale(.97); filter: brightness(1.08); }
+.nav a:active { transform: scale(.92); }
+
+/* things that appear: rise and fade in */
+@keyframes rise-in { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+.resultcard, .bubble, .banner, .scorebars, .camprow, .signout-card, .statuspill, .summary, .statchips, .quickgrid, .card.trap { animation: rise-in .32s cubic-bezier(.2, .8, .2, 1) both; }
+.statchips { animation-delay: .05s; } .quickgrid { animation-delay: .1s; } .card.trap { animation-delay: .15s; }
+.bubble.persona { animation-delay: .05s; }
+.overlay { animation: overlay-in .3s ease both; }
+.overlay .inner { animation: rise-in .4s .05s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after, ::view-transition-old(page), ::view-transition-new(page) { animation: none !important; transition: none !important; }
+}
