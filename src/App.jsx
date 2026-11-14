@@ -17,6 +17,10 @@ import Pay from "./pages/Pay.jsx";
 import Report from "./pages/Report.jsx";
 import Setup from "./pages/Setup.jsx";
 import Welcome from "./pages/Welcome.jsx";
+import Profile from "./pages/Profile.jsx";
+import Splash from "./components/Splash.jsx";
+import LockScreen from "./components/LockScreen.jsx";
+import { getProfile, lockEnabled } from "./profile.js";
 import Shield from "./pages/Shield.jsx";
 
 function useHashRoute() {
@@ -42,6 +46,25 @@ function Shell({ lang, setLang, large, setLarge }) {
   const [path, go] = useHashRoute();
   const [online, setOnline] = useState(null);
   const [shared, setShared] = useState(null);
+  // Opening splash on every fresh launch (skipped when an unknown call opened the app: that screen is urgent).
+  const urgentStart = location.hash.startsWith("#/incoming");
+  const [splash, setSplash] = useState(urgentStart || window.__noSplash ? "off" : "on");   // __noSplash: automated tests only
+  useEffect(() => {
+    if (splash !== "on") return undefined;
+    const a = setTimeout(() => setSplash("leaving"), 1500), b = setTimeout(() => setSplash("off"), 1850);
+    return () => { clearTimeout(a); clearTimeout(b); };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // App lock: asked after the splash, and again if the app was in the background for more than 2 minutes.
+  const [locked, setLocked] = useState(() => lockEnabled());
+  useEffect(() => {
+    let hiddenAt = 0;
+    const on = () => {
+      if (document.visibilityState === "hidden") hiddenAt = Date.now();
+      else if (hiddenAt && lockEnabled() && Date.now() - hiddenAt > 120000) setLocked(true);
+    };
+    document.addEventListener("visibilitychange", on);
+    return () => document.removeEventListener("visibilitychange", on);
+  }, []);
   const s = useSession();
   const t = (k, v) => translate(lang, k, v);
 
@@ -84,6 +107,7 @@ function Shell({ lang, setLang, large, setLarge }) {
     case "family": page = <Family go={go} />; break;
     case "more": page = <More go={go} />; break;
     case "welcome": page = <Welcome go={go} />; break;
+    case "profile": page = <Profile go={go} editing={Boolean(getProfile()) && store.get("setupDone")} next={getProfile() && store.get("setupDone") ? "/setup" : "/setup"} />; break;
     case "setup": page = <Setup go={go} lang={lang} setLang={setLang} large={large} setLarge={setLarge} />; break;
     case "incoming": page = <Incoming key={qs} query={query} go={go} />; break;
     case "protect": page = <Shield go={go} query={query} />; break;
@@ -95,7 +119,13 @@ function Shell({ lang, setLang, large, setLarge }) {
     default: page = <Home go={go} online={online} />;
   }
 
-  if (base === "welcome") return <div className="app"><main>{page}</main></div>;
+  const overlay = (
+    <>
+      {splash !== "off" ? <Splash leaving={splash === "leaving"} /> : null}
+      {splash === "off" && locked && base !== "incoming" ? <LockScreen name={getProfile()?.name} onUnlock={() => setLocked(false)} /> : null}
+    </>
+  );
+  if (base === "welcome" || base === "profile") return <div className="app"><main>{page}</main>{overlay}</div>;
 
   return (
     <div className="app">
@@ -116,6 +146,7 @@ function Shell({ lang, setLang, large, setLarge }) {
         </a>
       ) : null}
       <main className={wide ? "wide" : ""}>{page}</main>
+      {overlay}
       <nav className="nav big" aria-label="Main">
         {NAV.map((n) => {
           const active = n.match.includes(base || "");

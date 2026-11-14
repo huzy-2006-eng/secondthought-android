@@ -10,7 +10,7 @@ export default function Welcome({ go }) {
       <h1>{t("welcome_title")}</h1>
       <p>{t("welcome_sub")}</p>
       <div className="dots" aria-hidden="true"><i className="on" /><i /><i /></div>
-      <button className="btn primary big block" style={{ minHeight: 58, fontSize: "1.15rem" }} onClick={() => go("/setup")}>{t("welcome_start")}</button>
+      <button className="btn primary big block" style={{ minHeight: 58, fontSize: "1.15rem" }} onClick={() => go("/profile")}>{t("welcome_start")}</button>
     </div>
   );
 }

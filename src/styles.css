@@ -495,3 +495,41 @@ a { color: #ff7fb2; }
 .sb-track i.hi { background: linear-gradient(90deg, #ff8a3d, #ff4d5e); }
 .sb-track i.mid { background: linear-gradient(90deg, #ffc531, #ff8a3d); }
 .sb-track i.lo { background: linear-gradient(90deg, #2fd27a, #1fa863); }
+
+/* ---------------------------------------------------------------- opening splash */
+.splash { position: fixed; inset: 0; z-index: 200; background: #0c0a12; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; transition: opacity .35s ease; }
+.splash.leaving { opacity: 0; pointer-events: none; }
+.splash-glow { position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(155, 60, 240, 0.45), rgba(224, 48, 122, 0.15) 45%, transparent 70%); animation: sp-glow 1.6s ease-out both; }
+.splash-shield { position: relative; animation: sp-shield 0.9s cubic-bezier(.2, 1.4, .4, 1) both; filter: drop-shadow(0 0 30px rgba(224, 48, 122, 0.55)); }
+.splash-name { position: relative; font-size: 2.1rem; font-weight: 800; letter-spacing: .01em; margin-top: 8px; animation: sp-up .6s .45s ease-out both; }
+.splash-name span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.splash-tag { position: relative; color: var(--text-2); font-size: 1.02rem; animation: sp-up .6s .7s ease-out both; }
+.splash-bar { position: absolute; bottom: 64px; width: 120px; height: 4px; border-radius: 99px; background: #2e2939; overflow: hidden; animation: sp-up .4s .8s both; }
+.splash-bar i { display: block; height: 100%; width: 40%; border-radius: 99px; background: var(--grad); animation: sp-bar 1s .9s ease-in-out infinite; }
+@keyframes sp-shield { 0% { transform: scale(.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes sp-glow { 0% { transform: scale(.3); opacity: 0; } 60% { opacity: 1; } 100% { transform: scale(1); opacity: .85; } }
+@keyframes sp-up { 0% { transform: translateY(14px); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes sp-bar { 0% { transform: translateX(-110%); } 100% { transform: translateX(260%); } }
+@media (prefers-reduced-motion: reduce) { .splash *, .splash-glow { animation: none !important; } }
+
+/* ---------------------------------------------------------------- lock screen + profile */
+.lockscreen { position: fixed; inset: 0; z-index: 150; background: radial-gradient(80% 60% at 50% 30%, rgba(155, 60, 240, 0.22), transparent 70%), #0c0a12;
+  display: flex; flex-direction: column; justify-content: center; padding: 24px; text-align: center; }
+.lockscreen .lock-shield { display: grid; place-items: center; margin-bottom: 18px; filter: drop-shadow(0 0 28px rgba(224, 48, 122, 0.5)); }
+.lockscreen h1 { font-size: 1.8rem; margin: 0 0 6px; }
+.profile-hero { display: grid; place-items: center; padding-top: 6px; filter: drop-shadow(0 0 24px rgba(224, 48, 122, 0.45)); }
+.input.big { font-size: 1.15rem; padding: 14px 16px; }
+.choice2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.choice { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; padding: 14px; border-radius: 18px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font: inherit; font-weight: 600; cursor: pointer; min-height: 110px; }
+.choice.on { border-color: rgba(224, 48, 122, 0.8); background: radial-gradient(120% 120% at 100% 0%, rgba(224, 48, 122, 0.25), var(--surface-2) 70%); box-shadow: 0 0 0 1px rgba(224, 48, 122, 0.5) inset; }
+.cico { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: rgba(255, 255, 255, 0.07); color: var(--accent); flex: none; }
+.choice.on .cico, .cico.big { background: var(--grad); color: #fff; }
+.cico.big { width: 48px; height: 48px; border-radius: 14px; }
+.cico svg { width: 22px; height: 22px; }
+.lockcard.disabled { opacity: .6; }
+.toggle { position: relative; width: 54px; height: 32px; flex: none; }
+.toggle input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 1; }
+.toggle i { position: absolute; inset: 0; border-radius: 99px; background: #3a3446; transition: background .2s; }
+.toggle i::after { content: ""; position: absolute; top: 4px; left: 4px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.toggle input:checked + i { background: var(--grad); }
+.toggle input:checked + i::after { transform: translateX(22px); }

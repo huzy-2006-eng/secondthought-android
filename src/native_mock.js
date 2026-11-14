@@ -14,6 +14,8 @@ export function mockPlugin() {
     simulateIncomingCall: async () => { setTimeout(() => { location.hash = "/incoming?n=%2B910000000102&sim=1"; }, 300); },
     consumeLaunch: async () => window.__launch || ({}),
     share: async () => {},
+    lockAvailable: async () => ({ available: true, biometric: true }),
+    unlock: async () => { (window.__unlocks = (window.__unlocks || 0) + 1); return { ok: true }; },
     scanImage: async () => ({ text: "14:02 \u2022 VM-SBIINB\nDear Customer, your SBI YONO account will be suspended today. Update your PAN immediately at sbi-yono-kyc.example.com", script: "latin" }),
     readSharedImage: async () => ({ text: "Hi Mum, I dropped my phone, this is my new number. Can you help me pay a bill today?", script: "latin" }),
     openUrl: async (o) => { (window.__opened = window.__opened || []).push(o.url); },

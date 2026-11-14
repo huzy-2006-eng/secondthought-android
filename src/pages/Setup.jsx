@@ -4,6 +4,7 @@ import Icon from "../components/Icon.jsx";
 import { LANGS, useT } from "../i18n.js";
 import { isNative, nativeStatus, ST } from "../native.js";
 import FamilyContact, { getContact } from "../components/FamilyContact.jsx";
+import { getProfile } from "../profile.js";
 
 // One-time setup (also reachable later from More → Settings).
 export default function Setup({ go, lang, setLang, large, setLarge }) {
@@ -30,6 +31,12 @@ export default function Setup({ go, lang, setLang, large, setLarge }) {
         <p className="muted">{t("setup_sub")}</p>
       </div>
 
+      {getProfile() ? (
+        <button className="bigaction" onClick={() => go("/profile")}>
+          <span className="ico"><Icon name="shield" /></span>
+          <span><strong>{getProfile().name}</strong><small>{t("profile_edit")} · {getProfile().lock ? t("lock_option") + " ✓" : t("lock_option")}</small></span>
+        </button>
+      ) : null}
       <div className="card stack">
         <h2>{t("setup_lang")}</h2>
         <div className="grid3">

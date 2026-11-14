@@ -4,6 +4,7 @@ import { callFamily, sendHelp } from "../help.js";
 import Icon from "../components/Icon.jsx";
 import { GlowShield, VerdictGauge } from "../components/Brand.jsx";
 import { getCheckStats } from "../checkstats.js";
+import { getProfile } from "../profile.js";
 import { useT } from "../i18n.js";
 import { isNative, nativeStatus, ST } from "../native.js";
 import { useSession } from "../session.jsx";
@@ -20,6 +21,7 @@ export default function Home({ go, online }) {
   const [network, setNetwork] = useState(null);
   const trap = trapSummary();
   const cs = getCheckStats();
+  const profile = getProfile();
   const total = cs.scam + cs.suspicious + cs.safe;
   useEffect(() => { api.health().then((h) => setNetwork(h.intel_reports)).catch(() => {}); }, []);
 
@@ -57,7 +59,7 @@ export default function Home({ go, online }) {
     <div className="stack">
       <div className="homehead">
         <GlowShield className="logo" size={48} />
-        <div><small>{t("home_welcome")}</small><strong>{t("home_hello")}</strong></div>
+        <div><small>{profile?.name ? t("home_welcome_name", { name: profile.name }) : t("home_welcome")}</small><strong>{t("home_hello")}</strong></div>
         <button className="iconbtn" onClick={() => go("/family")} aria-label={t("nav_family")}><Icon name="bell" /></button>
       </div>
 

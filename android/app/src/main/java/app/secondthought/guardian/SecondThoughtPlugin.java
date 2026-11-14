@@ -213,6 +213,53 @@ public class SecondThoughtPlugin extends Plugin {
         });
     }
 
+    // ------------------------------------------------------------------ app lock (fingerprint / face / PIN)
+    private static final int LOCK_AUTHENTICATORS = androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+        | androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+
+    /** Can this phone lock the app? (needs a fingerprint, face or screen lock set up) */
+    @PluginMethod
+    public void lockAvailable(PluginCall call) {
+        androidx.biometric.BiometricManager bm = androidx.biometric.BiometricManager.from(getContext());
+        int r = Build.VERSION.SDK_INT >= 30 ? bm.canAuthenticate(LOCK_AUTHENTICATORS)
+            : bm.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK);
+        android.app.KeyguardManager km = (android.app.KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE);
+        boolean screenLock = km != null && km.isDeviceSecure();
+        JSObject o = new JSObject();
+        o.put("available", r == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS || screenLock);
+        o.put("biometric", r == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS);
+        call.resolve(o);
+    }
+
+    /** Shows the system unlock prompt (fingerprint / face, or the phone's PIN / pattern). */
+    @PluginMethod
+    public void unlock(PluginCall call) {
+        final String title = call.getString("title", "Unlock SecondThought");
+        final String subtitle = call.getString("subtitle", "Use your fingerprint, face or phone PIN");
+        getActivity().runOnUiThread(() -> {
+            try {
+                androidx.biometric.BiometricPrompt.PromptInfo.Builder b = new androidx.biometric.BiometricPrompt.PromptInfo.Builder()
+                    .setTitle(title).setSubtitle(subtitle);
+                if (Build.VERSION.SDK_INT >= 30) b.setAllowedAuthenticators(LOCK_AUTHENTICATORS);
+                else b.setDeviceCredentialAllowed(true);
+                androidx.biometric.BiometricPrompt prompt = new androidx.biometric.BiometricPrompt(
+                    (androidx.fragment.app.FragmentActivity) getActivity(),
+                    androidx.core.content.ContextCompat.getMainExecutor(getContext()),
+                    new androidx.biometric.BiometricPrompt.AuthenticationCallback() {
+                        @Override public void onAuthenticationSucceeded(androidx.biometric.BiometricPrompt.AuthenticationResult result) {
+                            JSObject o = new JSObject(); o.put("ok", true); call.resolve(o);
+                        }
+                        @Override public void onAuthenticationError(int code, CharSequence msg) {
+                            call.reject(msg == null ? "Not unlocked." : msg.toString(), String.valueOf(code));
+                        }
+                    });
+                prompt.authenticate(b.build());
+            } catch (Exception e) {
+                call.reject("This phone has no fingerprint, face or screen lock set up.");
+            }
+        });
+    }
+
     /** Opens a website (e.g. Sanchar Saathi / Chakshu, cybercrime.gov.in) in the phone's browser. */
     @PluginMethod
     public void openUrl(PluginCall call) {

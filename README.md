@@ -20,6 +20,7 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 |---|---|
 | **Unknown caller? It asks first.** | When a number that is **not in your contacts** calls, a notification asks: *"Unknown number calling. Protect this call?"* It already shows whether the number appears in scam reports. Nothing happens unless you say yes. |
 | **Saved contacts are never touched** | Android only gives a call-screening app calls from numbers that are not in the contacts (`CallScreeningService`, Android 10+). Calls from family and friends never reach SecondThought's code. |
+| **Profile and app lock, no account** | A Norton-style animated logo on launch, then a simple profile (name, "protecting myself" or "setting up for a parent"). Optional lock with **fingerprint, face or the phone PIN** (Android BiometricPrompt). The unknown-caller safety screen is never blocked by the lock. Nothing is uploaded: no account, no password to forget. |
 | **Easy for every age** | Three big buttons: *Check a message*, *Protect a call*, *Help! Alert my family*. Four tabs, large text option, and English, हिन्दी and Español. |
 | **Works offline, on the phone** | Message check, screenshot scan, typed call, simulated call, Stop screen, payment pause and Help all work in airplane mode. Nothing you check is uploaded. |
 | **During a call** | After "Yes, protect this call": safety tips, **Help**, **Type what the caller says**, **Make a payment** (payment pause), **Hand over to ScammerTrap**, **I know this person**, **End & report**. |
@@ -115,6 +116,7 @@ The organisers confirmed that work prepared before the event may be used. To be 
 - **Before the event (up to 13 Nov):** the server (rules, trained models, honeypot, reports), and the first Android
   app (unknown-caller prompt, Help by text/call, typed calls, simulated calls).
 - **During the event (from 14 Nov):** on-device detection with the parity test (`src/engine`, `tools/`),
+  a new dark design with animated splash, profile and fingerprint/face/PIN app lock,
   ScammerTrap rebuilt to run on the phone with a trained scammer-intent model (`tools/trap/`, `src/trap/`), on the home screen with real counters, Chakshu reporting, screenshot scan (on-device text recognition)
   and share-a-screenshot. See the git history for exact times.
 
