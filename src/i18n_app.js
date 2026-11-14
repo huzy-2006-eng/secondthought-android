@@ -1,6 +1,7 @@
 // Text for the Android app's own screens (easy home, unknown caller, setup, more).
 export const APP = {
   en: {
+    quick_check_sub: "SMS, WhatsApp, links, screenshots", quick_protect_sub: "Warns you about scam tricks",
     welcome_title: "Stop scams before money moves", welcome_sub: "SecondThought spots scam tricks in messages and calls, warns you in plain words and alerts your family.",
     welcome_start: "Get started", home_welcome: "Welcome", prot_active: "Protection is active", prot_off: "Call protection is off",
     sum_title: "Your safety", sum_checked: "messages checked", sum_on_phone: "Checked on this phone. Nothing is uploaded.",
@@ -61,6 +62,7 @@ export const APP = {
     family_title: "Family", family_watch: "I want alerts about someone else", family_watch_sub: "Enter the code from their phone.",
   },
   hi: {
+    quick_check_sub: "SMS, WhatsApp, लिंक, स्क्रीनशॉट", quick_protect_sub: "धोखे की चालों पर चेतावनी",
     welcome_title: "पैसे जाने से पहले स्कैम रोकें", welcome_sub: "SecondThought मैसेज और कॉल में धोखे की चालें पहचानता है, आसान शब्दों में चेतावनी देता है और परिवार को बताता है।",
     welcome_start: "शुरू करें", home_welcome: "नमस्ते", prot_active: "सुरक्षा चालू है", prot_off: "कॉल सुरक्षा बंद है",
     sum_title: "आपकी सुरक्षा", sum_checked: "मैसेज जाँचे", sum_on_phone: "इसी फोन पर जाँचा गया। कुछ अपलोड नहीं होता।",
@@ -120,6 +122,7 @@ export const APP = {
     family_title: "परिवार", family_watch: "मुझे किसी और के अलर्ट चाहिए", family_watch_sub: "उनके फोन पर दिखा कोड डालें।",
   },
   es: {
+    quick_check_sub: "SMS, WhatsApp, enlaces, capturas", quick_protect_sub: "Te avisa de trucos de estafa",
     welcome_title: "Frena las estafas antes de que se mueva el dinero", welcome_sub: "SecondThought detecta trucos de estafa en mensajes y llamadas, te avisa con palabras claras y alerta a tu familia.",
     welcome_start: "Empezar", home_welcome: "Bienvenido", prot_active: "La protección está activa", prot_off: "La protección de llamadas está desactivada",
     sum_title: "Tu seguridad", sum_checked: "mensajes comprobados", sum_on_phone: "Comprobado en este teléfono. No se sube nada.",

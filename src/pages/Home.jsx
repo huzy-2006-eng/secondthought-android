@@ -83,14 +83,17 @@ export default function Home({ go, online }) {
       </div>
 
       <div className="sectiontitle">{t("what_to_do")}</div>
-      <button className="bigaction" onClick={() => go("/check")}>
-        <span className="ico"><Icon name="search" /></span>
-        <span><strong>{t("home_check")}</strong><small>{t("home_check_sub")}</small></span>
-      </button>
-      <button className="bigaction" onClick={() => go("/protect")}>
-        <span className="ico"><Icon name="phone" /></span>
-        <span><strong>{t("home_protect")}</strong><small>{t("home_protect_sub")}</small></span>
-      </button>
+      <div className="quickgrid">
+        <button className="quick" onClick={() => go("/check")}>
+          <span className="qicon"><Icon name="search" /></span>
+          <strong>{t("home_check")}</strong><small>{t("quick_check_sub")}</small><span className="go" aria-hidden="true">›</span>
+        </button>
+        <button className="quick alt" onClick={() => go("/protect")}>
+          <span className="qicon"><Icon name="phone" /></span>
+          <strong>{t("home_protect")}</strong><small>{t("quick_protect_sub")}</small><span className="go" aria-hidden="true">›</span>
+        </button>
+      </div>
+
       <div className="card trap">
         <div className="row" style={{ alignItems: "flex-start", gap: 14 }}>
           <span className="trapico"><Icon name="bot" /></span>

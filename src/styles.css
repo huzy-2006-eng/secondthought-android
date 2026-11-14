@@ -416,3 +416,49 @@ a { color: #ff7fb2; }
 .resultcard .warnicon { width: 40px; height: 40px; flex: none; }
 .resultcard ul { margin: 10px 0 0; padding-left: 20px; }
 .resultcard li { margin-bottom: 8px; }
+
+/* ---------------------------------------------------------------- scam network, styled */
+.graph-box { position: relative; height: 480px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+  background: radial-gradient(70% 60% at 50% 40%, rgba(155, 60, 240, 0.16), transparent 70%),
+              radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 0) 0 0 / 18px 18px, #0f0c17; }
+.graph-box svg { width: 100%; height: 100%; display: block; }
+.tooltip { background: rgba(28, 23, 38, 0.92); backdrop-filter: blur(8px); border: 1px solid rgba(255, 77, 154, 0.35); border-radius: 14px; color: var(--text); box-shadow: 0 10px 30px rgba(0,0,0,.5); padding: 8px 12px; font-size: 0.85rem; position: absolute; pointer-events: none; max-width: 240px; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-2); }
+.legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; }
+.legend .lg-report { border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c9c2ff, #5a3fe0); box-shadow: 0 0 8px #8f7bff; }
+.legend .lg-ident { border-radius: 3px; transform: rotate(45deg) scale(.85); background: radial-gradient(circle at 35% 30%, #ffc0dc, #c0186a); box-shadow: 0 0 8px #ff4d9a; }
+.tiles.net { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.tiles.net .tile { background: var(--grad-card); border: 1px solid rgba(224, 48, 122, 0.25); border-radius: 18px; padding: 14px; }
+.tiles.net .tile .value { background: linear-gradient(135deg, #fff, #ffb3d4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.card.campaign { position: relative; padding-left: 20px; cursor: pointer; overflow: hidden; }
+.card.campaign::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--grad); }
+.card.campaign::after { content: attr(data-n); position: absolute; right: 14px; top: 14px; min-width: 30px; padding: 2px 8px; border-radius: 999px; text-align: center; background: rgba(224, 48, 122, 0.18); color: #ff9cc6; font-weight: 700; font-size: 0.85rem; }
+.card.campaign.selected { border-color: rgba(255, 77, 154, 0.6); background: radial-gradient(120% 140% at 0% 0%, rgba(224, 48, 122, 0.16), var(--surface) 60%); }
+
+/* ---------------------------------------------------------------- modern action tiles */
+.bigaction { position: relative; background: linear-gradient(150deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)); border: 1px solid rgba(255, 255, 255, 0.08); padding: 18px 54px 18px 16px; min-height: 88px; }
+.bigaction::after { content: "›"; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.07); color: var(--text-2); font-size: 1.5rem; line-height: 1; }
+.bigaction .ico { width: 54px; height: 54px; border-radius: 16px; background: var(--grad); color: #fff; box-shadow: 0 8px 20px rgba(224, 48, 122, 0.35); }
+.bigaction strong { font-size: 1.15rem; }
+.bigaction small { font-size: 0.92rem; }
+.bigaction:active { transform: scale(0.985); }
+.bigaction.danger { background: linear-gradient(135deg, #ff4d5e 0%, #e0307a 100%); border: 0; color: #fff; box-shadow: 0 12px 28px rgba(255, 77, 94, 0.35); }
+.bigaction.danger small { color: rgba(255, 255, 255, 0.85); }
+.bigaction.danger .ico { background: rgba(255, 255, 255, 0.2); box-shadow: none; }
+.bigaction.danger::after { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.quickgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.quick { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; padding: 16px; min-height: 160px; border-radius: 24px; cursor: pointer; font: inherit; color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08); background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015)); overflow: hidden; }
+.quick::before { content: ""; position: absolute; width: 140px; height: 140px; right: -50px; top: -50px; border-radius: 50%; background: radial-gradient(circle, rgba(224, 48, 122, 0.35), transparent 70%); }
+.quick.alt::before { background: radial-gradient(circle, rgba(139, 61, 255, 0.4), transparent 70%); }
+.quick .qicon { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--grad); color: #fff; box-shadow: 0 8px 20px rgba(224, 48, 122, 0.35); }
+.quick.alt .qicon { background: linear-gradient(135deg, #8b3dff, #5b8cff); box-shadow: 0 8px 20px rgba(139, 61, 255, 0.35); }
+.quick .qicon svg { width: 26px; height: 26px; }
+.quick strong { font-size: 1.12rem; line-height: 1.25; }
+.quick small { color: var(--text-2); font-size: 0.88rem; line-height: 1.3; }
+.quick .go { position: absolute; right: 12px; bottom: 12px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.08); color: var(--text); font-size: 1.3rem; }
+.quick:active { transform: scale(0.98); }
+.card.campaign { padding-right: 60px; }
+.quick { padding-bottom: 16px; }
+.quick .go { top: 14px; bottom: auto; right: 14px; }
+.quick strong { padding-right: 4px; }

@@ -35,7 +35,7 @@ export default function Graph() {
         <button className="btn" onClick={load}>Refresh</button>
       </div>
       {data.stats.demo_data ? <div className="banner warn"><Icon name="info" /><div>Includes <strong>synthetic demo data</strong> so the network isn't empty before real reports exist. Demo identifiers are fictional (demo- prefixes, example.com sites, impossible numbers).</div></div> : null}
-      <div className="tiles">
+      <div className="tiles net">
         <div className="tile"><div className="value">{data.stats.reports}</div><div className="label">Reports</div></div>
         <div className="tile"><div className="value">{data.stats.identifiers}</div><div className="label">Scammer identifiers</div></div>
         <div className="tile"><div className="value">{data.stats.campaigns}</div><div className="label">Linked campaigns</div></div>
@@ -44,8 +44,8 @@ export default function Graph() {
         <div>
           <div className="row" style={{ justifyContent: "space-between", marginBottom: 8 }}>
             <div className="legend">
-              <span><i style={{ background: "var(--series-1)", borderRadius: "50%" }} />Report</span>
-              <span><i style={{ background: "var(--series-2)", borderRadius: 3 }} />Identifier (UPI, account, phone, link)</span>
+              <span><i className="lg-report" />Report</span>
+              <span><i className="lg-ident" />Scammer detail (UPI, account, phone, link)</span>
             </div>
             <input className="input" style={{ maxWidth: 240 }} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Find a UPI ID, number, link…" aria-label="Search identifiers" />
           </div>
@@ -55,7 +55,7 @@ export default function Graph() {
         <div>
           <h2>Campaigns</h2>
           {multi.map((c) => (
-            <div key={c.id} className={`card campaign ${active === c.id ? "selected" : ""}`} role="button" tabIndex={0}
+            <div key={c.id} className={`card campaign ${active === c.id ? "selected" : ""}`} data-n={c.reports} role="button" tabIndex={0}
               onClick={() => { setQuery(""); setSelected(active === c.id ? null : c.id); }}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelected(active === c.id ? null : c.id); } }}>
               <strong>{c.scam_types[0] || "Unclassified"}</strong>
@@ -118,28 +118,60 @@ function ForceGraph({ data, active, onSelect }) {
   }, [links]);
   const inActive = (n) => !active || (n.type === "report" ? n.campaign === active : camOfIdent.get(n.id) === active);
 
+  // campaign halos: a soft glow around every operation with more than one report
+  const halos = useMemo(() => {
+    const by = new Map();
+    nodes.forEach((n) => {
+      const c = n.type === "report" ? n.campaign : camOfIdent.get(n.id);
+      if (!c) return;
+      if (!by.has(c)) by.set(c, []);
+      by.get(c).push(n);
+    });
+    return Array.from(by.entries()).filter(([, ns]) => ns.filter((n) => n.type === "report").length > 1).map(([id, ns]) => {
+      const cx = ns.reduce((a, n) => a + n.x, 0) / ns.length, cy = ns.reduce((a, n) => a + n.y, 0) / ns.length;
+      const r = Math.max(...ns.map((n) => Math.hypot(n.x - cx, n.y - cy))) + 22;
+      return { id, cx, cy, r };
+    });
+  }, [nodes, camOfIdent]);
+  const curve = (l) => {
+    const mx = (l.source.x + l.target.x) / 2, my = (l.source.y + l.target.y) / 2;
+    const dx = l.target.x - l.source.x, dy = l.target.y - l.source.y;
+    return `M${l.source.x},${l.source.y} Q${mx - dy * 0.18},${my + dx * 0.18} ${l.target.x},${l.target.y}`;
+  };
+
   return (
     <div className="graph-box" ref={box}>
       <svg role="img" aria-label={`Network of ${data.stats.reports} reports and ${data.stats.identifiers} identifiers in ${data.stats.campaigns} linked campaigns`}>
-        <g>
+        <defs>
+          <radialGradient id="g-report" cx="35%" cy="30%" r="75%"><stop offset="0" stopColor="#c9c2ff" /><stop offset="0.45" stopColor="#8f7bff" /><stop offset="1" stopColor="#5a3fe0" /></radialGradient>
+          <radialGradient id="g-ident" cx="35%" cy="30%" r="75%"><stop offset="0" stopColor="#ffc0dc" /><stop offset="0.45" stopColor="#ff4d9a" /><stop offset="1" stopColor="#c0186a" /></radialGradient>
+          <radialGradient id="g-halo"><stop offset="0" stopColor="#9b3cf0" stopOpacity="0.22" /><stop offset="0.7" stopColor="#e0307a" stopOpacity="0.08" /><stop offset="1" stopColor="#e0307a" stopOpacity="0" /></radialGradient>
+          <radialGradient id="g-halo-on"><stop offset="0" stopColor="#ff4d9a" stopOpacity="0.38" /><stop offset="0.7" stopColor="#9b3cf0" stopOpacity="0.16" /><stop offset="1" stopColor="#9b3cf0" stopOpacity="0" /></radialGradient>
+          <linearGradient id="g-link" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={size.w} y2={size.h}><stop offset="0" stopColor="#8f7bff" /><stop offset="1" stopColor="#ff4d9a" /></linearGradient>
+          <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3.5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+        </defs>
+        <g>{halos.map((h) => (
+          <circle key={h.id} cx={h.cx} cy={h.cy} r={h.r} fill={active === h.id ? "url(#g-halo-on)" : "url(#g-halo)"}
+            stroke={active === h.id ? "#ff4d9a" : "#ffffff"} strokeOpacity={active === h.id ? 0.5 : 0.06} strokeDasharray="3 6"
+            style={{ cursor: "pointer" }} onClick={() => onSelect(h.id)} />
+        ))}</g>
+        <g fill="none">
           {links.map((l, i) => (
-            <line key={i} x1={l.source.x} y1={l.source.y} x2={l.target.x} y2={l.target.y}
-              stroke="var(--text-3)" strokeOpacity={inActive(l.source) ? 0.45 : 0.08} strokeWidth="1.5" />
+            <path key={i} d={curve(l)} stroke="url(#g-link)" strokeOpacity={inActive(l.source) ? (active ? 0.9 : 0.5) : 0.06} strokeWidth={active && inActive(l.source) ? 2.2 : 1.4} strokeLinecap="round" />
           ))}
         </g>
         <g>
           {nodes.map((n) => {
             const on = inActive(n);
-            const fill = on ? (n.type === "report" ? "var(--series-1)" : "var(--series-2)") : "var(--muted-node)";
             const common = {
-              fill, stroke: "var(--surface)", strokeWidth: 2, style: { cursor: "pointer" },
+              opacity: on ? 1 : 0.18, filter: on ? "url(#glow)" : undefined, style: { cursor: "pointer" },
               onMouseEnter: () => setTip(n), onMouseLeave: () => setTip(null),
-              onClick: () => onSelect(n.type === "report" ? n.campaign : camOfIdent.get(n.id)),
+              onClick: () => { setTip(n); onSelect(n.type === "report" ? n.campaign : camOfIdent.get(n.id)); },
             };
-            const r = n.type === "report" ? 6 : 5 + Math.min(4, n.reporters || 1);
-            return n.type === "report"
-              ? <circle key={n.id} {...common} cx={n.x} cy={n.y} r={r} />
-              : <rect key={n.id} {...common} x={n.x - r} y={n.y - r} width={r * 2} height={r * 2} rx={3} />;
+            if (n.type === "report") return <circle key={n.id} {...common} cx={n.x} cy={n.y} r={6.5} fill="url(#g-report)" stroke="#0c0a12" strokeWidth="1.5" />;
+            const r = 6 + Math.min(5, n.reporters || 1);
+            return <rect key={n.id} {...common} x={n.x - r} y={n.y - r} width={r * 2} height={r * 2} rx={r * 0.45} fill="url(#g-ident)" stroke="#0c0a12" strokeWidth="1.5"
+              transform={`rotate(45 ${n.x} ${n.y})`} />;
           })}
         </g>
       </svg>
