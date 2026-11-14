@@ -106,7 +106,7 @@ export function SessionProvider({ children }) {
     return id;
   }, [closeSocket]);
 
-  const send = useCallback(async (text, speaker = "other") => {
+  const send = useCallback(async (text, speaker = "other", opts = {}) => {
     const id = idRef.current, conv = convRef.current;
     const clean = (text || "").trim().slice(0, 2000);
     if (!id || !conv || !clean) return;
@@ -118,7 +118,7 @@ export function SessionProvider({ children }) {
 
     const sv = serverRef.current;
     if (sv.id) api.utterance(sv.id, clean, speaker).catch(() => {});
-    else if (s.intervene && guardian && !sv.pending) ensureServer().catch(() => {}); // alert the family member only once it is a scam
+    else if (s.intervene && guardian && !sv.pending && !opts.quiet) ensureServer().catch(() => {}); // alert the family member only once it is a scam
 
     // Payment details the other person gave: look them up in the scam-report network (identifiers only).
     const fresh = (s.new_entities || []).filter((e) => e.shareable && speaker !== "user" && !intelRef.current.has(e.kind + e.value));
@@ -129,7 +129,7 @@ export function SessionProvider({ children }) {
         if (found.length && idRef.current === id) {
           const after = conv.applyIntel(found);
           publish(after);
-          if (after.intervene && guardian && !serverRef.current.id && !serverRef.current.pending) ensureServer().catch(() => {});
+          if (after.intervene && guardian && !opts.quiet && !serverRef.current.id && !serverRef.current.pending) ensureServer().catch(() => {});
         }
       });
     }

@@ -28,7 +28,7 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 | **Live family alerts (optional)** | If the family member also has SecondThought, they get a live alert the moment a call turns dangerous: the warning only, never the conversation. |
 | **Check anything** | Paste text, **scan a screenshot**, or use **Share → SecondThought** from WhatsApp, SMS, email or the gallery (text or screenshots). QR codes too. The answer is *Scam*, *Suspicious* or *Looks safe*, with the reasons. Screenshot text is read on the phone (English and Hindi script). |
 | **Payment pause** | A cooling-off check before paying someone mentioned in a risky conversation. |
-| **ScammerTrap (fights back)** | On the home screen. A decoy persona replies to the scammer, wastes their time and catches their payment details; copy or share each reply back to the scammer. Live counters: time wasted, messages answered, payment details caught, complaints prepared (real numbers from your own use). |
+| **ScammerTrap (fights back)** | On the home screen. A decoy runs **on the phone**, reads each scammer message with the detection engine and answers in kind (lottery: *"How do I claim it?"*, police: *"Please don't arrest me"*, OTP request: refuses without a number), in English, Hinglish, Hindi or Spanish, to waste their time and catch their payment details. Copy or share each reply back to the scammer. Works offline. Live counters: time wasted, messages answered, payment details caught, complaints prepared (real numbers from your own use). Samples: [docs/SCAMMERTRAP.md](docs/SCAMMERTRAP.md). |
 | **Scam network and report** | Scammer identifiers (UPI IDs, accounts, numbers, links) link reports into campaigns. A ready complaint report for cybercrime.gov.in / 1930, and one-tap **Report on Chakshu (Sanchar Saathi)** with the details copied for the form. |
 | **All web features** | Practice scam calls, intel graph and accuracy results are under **More**. |
 
@@ -37,7 +37,7 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 1. **It asks first, every time.** For each unknown call the notification asks whether to protect it, and the app asks again before doing anything.
 2. **Calls are never listened to or recorded.** The app has no microphone permission at all. During a call you can type what the caller says, and only that text is checked.
 3. **Checks run on the phone.** Messages, screenshots and typed calls are analysed inside the app. Only identifiers a scammer gave (UPI IDs, numbers, links) are looked up in the scam-report network, when online.
-4. **The server sees a conversation only when you need it:** to alert a linked family member (only after the phone has found a scam), for ScammerTrap, or for a complaint report. Codes, card, Aadhaar and PAN numbers and your own details are masked on arrival, and nothing is saved.
+4. **The server sees a conversation only when you need it:** to alert a linked family member (only after the phone has found a scam), or for a complaint report. ScammerTrap runs on the phone. Codes, card, Aadhaar and PAN numbers and your own details are masked on arrival, and nothing is saved.
 5. The caller check sends the number once and **stores nothing**. The lock-screen notification shows only the last 4 digits.
 
 ## How the native parts work
@@ -115,7 +115,7 @@ The organisers confirmed that work prepared before the event may be used. To be 
 - **Before the event (up to 13 Nov):** the server (rules, trained models, honeypot, reports), and the first Android
   app (unknown-caller prompt, Help by text/call, typed calls, simulated calls).
 - **During the event (from 14 Nov):** on-device detection with the parity test (`src/engine`, `tools/`),
-  ScammerTrap on the home screen with real counters, Chakshu reporting, screenshot scan (on-device text recognition)
+  ScammerTrap rebuilt to run on the phone and answer each scam in kind (`src/trap/`), on the home screen with real counters, Chakshu reporting, screenshot scan (on-device text recognition)
   and share-a-screenshot. See the git history for exact times.
 
 ## Credits

@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { api } from "../api.js";
 import Icon from "../components/Icon.jsx";
 import { useSession } from "../session.jsx";
 import { shareText, isNative } from "../native.js";
+import { getEngine } from "../engine/browser.js";
+import { Decoy } from "../trap/persona.js";
+import { lookupIdentifiers } from "../localchecks.js";
 import { trapCaptured, trapEnded, trapMessage, trapStarted } from "../trapstats.js";
 
-// After the user hangs up, a fictional persona keeps the scammer busy and collects
-// their payment details. In the demo a teammate types the scammer's messages.
+// ScammerTrap: a decoy persona that answers the scammer, wastes their time and draws out their payment
+// details. It runs ON THIS PHONE: it reads each message with the detection engine and replies in kind.
+// The scammer's messages are not uploaded; only payment details they gave are looked up in the scam network.
 export default function Honeypot({ go }) {
   const s = useSession();
   const [turns, setTurns] = useState([]);
@@ -15,32 +18,61 @@ export default function Honeypot({ go }) {
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [ended, setEnded] = useState(false);
-  const [summary, setSummary] = useState(null);
-  const [share, setShare] = useState(true);
   const [err, setErr] = useState(null);
-  const started = useRef(null);
-  const clock = useRef({ start: 0, last: 0 });
   const [copied, setCopied] = useState(null);
+  const decoy = useRef(null);
+  const clock = useRef({ start: 0, last: 0, done: false });
   const endRef = useRef(null);
 
   useEffect(() => {
-    if (!s.sessionId || started.current === s.sessionId) return;
-    started.current = s.sessionId;
-    setTurns([]); setIds([]); setIntel([]); setEnded(false); setSummary(null);
-    // The honeypot persona runs on the server: this is when the conversation is shared with it.
-    s.ensureServer()
-      .then((sid) => api.honeypotStart(sid))
-      .then((r) => {
-        clock.current = { start: Date.now(), last: 0 }; trapStarted(); setTurns([{ speaker: "persona", text: r.reply }]);
-        let first = null;
-        try { first = sessionStorage.getItem("st:trapFirst"); sessionStorage.removeItem("st:trapFirst"); } catch { /* ignore */ }
-        if (first) setTimeout(() => sendText(first), 50);
-      })
-      .catch((e) => { started.current = null; setErr(`The honeypot needs the internet (${e.message}).`); });
+    if (!s.sessionId) return;
+    let cancelled = false;
+    setTurns([]); setIds([]); setIntel([]); setEnded(false); setErr(null);
+    getEngine().then((engine) => {
+      if (cancelled) return;
+      decoy.current = new Decoy(engine);
+      // Handed over from a protected call/chat: the decoy already knows what the scam is about.
+      const before = (s.turns || []).filter((t) => t.speaker !== "user").map((t) => t.text);
+      if (before.length) { decoy.current.prime(before); setIds(decoy.current.caught()); }
+      clock.current = { start: Date.now(), last: 0, done: false };
+      trapStarted();
+      let first = null;
+      try { first = sessionStorage.getItem("st:trapFirst"); sessionStorage.removeItem("st:trapFirst"); } catch { /* ignore */ }
+      if (first) sendText(first);
+    }).catch((e) => setErr(e.message));
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [s.sessionId]);
 
   useEffect(() => { endRef.current?.scrollIntoView({ block: "nearest" }); }, [turns]);
-  useEffect(() => () => { if (clock.current.start && !clock.current.done) trapEnded(clock.current.start, clock.current.last); }, []);
+  useEffect(() => () => { if (clock.current.start && !clock.current.done && clock.current.last) trapEnded(clock.current.start, clock.current.last); }, []);
+
+  async function sendText(raw) {
+    const msg = (raw || "").trim().slice(0, 2000);
+    if (!msg || !decoy.current || ended) return;
+    setBusy(true); setText("");
+    s.send(msg, "other", { quiet: true });             // kept for the complaint report (on the phone until you prepare it)
+    const r = decoy.current.reply(msg);
+    // a short, human-looking pause before the decoy "types"
+    setTurns((t) => [...t, { speaker: "other", text: msg }]);
+    await new Promise((res) => setTimeout(res, 400));
+    setTurns((t) => [...t, { speaker: "persona", text: r.text, why: r.intent }]);
+    clock.current.last = Date.now();
+    trapMessage(clock.current.start);
+    const caught = decoy.current.caught();
+    setIds(caught);
+    if (r.caught.length) {
+      trapCaptured(r.caught);
+      lookupIdentifiers(r.caught).then(({ matches }) => matches.length && setIntel((x) => [...x, ...matches]));
+    }
+    setBusy(false);
+  }
+
+  const stop = () => {
+    setEnded(true);
+    if (clock.current.start && !clock.current.done) { clock.current.done = true; trapEnded(clock.current.start, clock.current.last); }
+  };
+  const hit = new Map(intel.map((i) => [`${i.kind}:${i.value}`, i]));
 
   if (!s.sessionId) {
     return (
@@ -52,37 +84,11 @@ export default function Honeypot({ go }) {
     );
   }
 
-  const send = async (e) => { e.preventDefault(); await sendText(text); };
-  async function sendText(raw) {
-    const msg = (raw || "").trim();
-    if (!msg || busy || ended) return;
-    setBusy(true); setErr(null); setText("");
-    setTurns((t) => [...t, { speaker: "other", text: msg }]);
-    try {
-      const r = await api.honeypotTurn(await s.ensureServer(), msg);
-      if (r.reply) setTurns((t) => [...t, { speaker: "persona", text: r.reply, engine: r.engine }]);
-      setIds(r.identifiers || []);
-      clock.current.last = Date.now();
-      trapMessage(clock.current.start);
-      trapCaptured(r.identifiers || []);
-      if (r.intel_matches?.length) setIntel((x) => [...x, ...r.intel_matches]);
-      if (r.ended) setEnded(true);
-    } catch (e2) { setErr(e2.message); } finally { setBusy(false); }
-  }
-
-  const stop = async () => {
-    try {
-      setSummary(await api.honeypotStop(await s.ensureServer(), share)); setEnded(true);
-      if (clock.current.start && !clock.current.done) { clock.current.done = true; trapEnded(clock.current.start, clock.current.last); }
-    } catch (e) { setErr(e.message); }
-  };
-  const hit = new Map(intel.map((i) => [`${i.kind}:${i.value}`, i]));
-
   return (
     <>
-      <div className="banner good"><Icon name="bot" /><div><strong>ScammerTrap is on.</strong> Paste each scammer message below. A fictional persona answers to keep them busy and get their payment details. Send its replies back with <strong>Copy</strong> or <strong>Share</strong>. It never uses your real details.</div></div>
+      <div className="banner good"><Icon name="bot" /><div><strong>ScammerTrap is on.</strong> Paste each message the scammer sends. The decoy answers on this phone. Send its reply back with <strong>Copy</strong> or <strong>Share</strong>. It never uses your real details or any numbers.</div></div>
       <div className="card">
-        <h2>Captured details ({ids.length})</h2>
+        <h2>Caught details ({ids.length})</h2>
         {ids.length ? (
           <div className="row">
             {ids.map((i) => {
@@ -90,14 +96,15 @@ export default function Honeypot({ go }) {
               return <span key={`${i.kind}:${i.value}`} className={`chip ${h ? "warn" : ""}`}><strong>{i.kind.toUpperCase()}</strong> {i.value}{h ? ` · in ${h.reports} earlier reports${h.includes_demo_data ? " (demo)" : ""}` : ""}</span>;
             })}
           </div>
-        ) : <div className="tiny">Nothing yet. The persona will try to get their UPI ID, account, phone number and links.</div>}
+        ) : <div className="tiny">Nothing yet. The decoy will try to get their UPI ID, account and IFSC, phone number and links.</div>}
       </div>
       <div className="card">
         <h2>Conversation</h2>
         <div className="transcript" aria-live="polite">
+          {!turns.length ? <div className="tiny">Paste the scammer's first message below.</div> : null}
           {turns.map((t, i) => (
             <div key={i} className={`bubble ${t.speaker === "persona" ? "persona" : "other"}`}>
-              <span className="who">{t.speaker === "persona" ? `Persona${t.engine ? ` (${t.engine === "llm" ? "AI" : "scripted"})` : ""}` : "Scammer"}</span>{t.text}
+              <span className="who">{t.speaker === "persona" ? "Decoy (on this phone)" : "Scammer"}</span>{t.text}
               {t.speaker === "persona" ? (
                 <span className="row" style={{ marginTop: 6, gap: 6 }}>
                   <button type="button" className="btn" style={{ minHeight: 34, padding: "4px 10px" }} onClick={async () => { try { await navigator.clipboard.writeText(t.text); setCopied(i); setTimeout(() => setCopied(null), 1500); } catch { /* ignore */ } }}>
@@ -110,24 +117,22 @@ export default function Honeypot({ go }) {
           <div ref={endRef} />
         </div>
         {!ended ? (
-          <form className="row" style={{ marginTop: 10 }} onSubmit={send}>
+          <form className="row" style={{ marginTop: 10 }} onSubmit={(e) => { e.preventDefault(); sendText(text); }}>
             <input className="input" style={{ flex: 1 }} value={text} onChange={(e) => setText(e.target.value)} maxLength={2000}
-              placeholder="Type what the scammer says…" aria-label="Scammer's message" />
+              placeholder="Paste what the scammer says…" aria-label="Scammer's message" />
             <button className="btn primary" disabled={busy || !text.trim()}>Send</button>
           </form>
         ) : null}
       </div>
-      {!summary ? (
+      {!ended ? (
         <div className="card stack">
-          <label className="row"><input type="checkbox" checked={share} onChange={(e) => setShare(e.target.checked)} style={{ width: 20, height: 20 }} />
-            Share the scammer's details (not yours) with the network so others are warned</label>
           <button className="btn block" onClick={stop}><Icon name="x" />Stop ScammerTrap</button>
         </div>
       ) : (
         <div className="card stack">
-          <div className="banner good"><Icon name="check" />Stopped after {summary.scammer_messages} scammer messages. {summary.report ? `${summary.report.identifiers} detail(s) added to the intel network.` : "Nothing shared."}</div>
-          <button className="btn primary block" onClick={() => go("/report")}><Icon name="file" />Create the complaint report</button>
-          <button className="btn block" onClick={() => go("/intel")}><Icon name="graph" />See it in the intel graph</button>
+          <div className="banner good"><Icon name="check" />Stopped after {turns.filter((t) => t.speaker === "other").length} scammer messages, with {ids.length} payment detail(s) caught.</div>
+          <button className="btn primary block" onClick={() => go("/report")}><Icon name="file" />Create the complaint report (and warn others)</button>
+          <button className="btn block" onClick={() => go("/intel")}><Icon name="graph" />See the scam network</button>
         </div>
       )}
       {err ? <div className="banner bad"><Icon name="alert" />{err}</div> : null}

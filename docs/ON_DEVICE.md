@@ -14,7 +14,7 @@ the phishing-link model are the same ones the server uses, exported by `tools/ex
 
 The server is still used, only when a feature needs it:
 - **Family live alert:** the conversation is shared only once the phone itself has found a scam, and only if a family member is linked.
-- **Honeypot** and **complaint report:** when you choose them.
+- **Complaint report:** when you choose it. (ScammerTrap, the honeypot, now runs on the phone too.)
 - **Scam-report network:** identifier lookups (never message text).
 
 ## Parity with the server (the proof)

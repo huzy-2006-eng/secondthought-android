@@ -1,12 +1,26 @@
 // SecondThought on-device engine: the same rules and trained models as the server, running in the app.
 // Nothing you check here leaves the phone.
-import { initRules } from "./rules.js";
+import { initRules, matchRules } from "./rules.js";
 import { initTaxonomy, ConversationRisk, INTERVENE_AT } from "./fusion.js";
 import { initUrls, setBlocklist, checkUrl } from "./urls.js";
 import { TextModel } from "./textmodel.js";
 import { normalize } from "./normalize.js";
 import { checkText } from "./checker.js";
 import { extract, redact } from "./extract.js";
+import { pyRe } from "./pyre.js";
+
+// Port of backend/app/lang.py: en | hi-Latn (Hinglish) | hi (Devanagari) | es
+const HINGLISH = pyRe(String.raw`\b(hai|hain|hoon|karo|kariye|kijiye|aap|aapka|aapke|mein|nahi|paise|bhej|batao|jaldi|abhi|kya|ji|bhai|bhaiya|mat|wala|rupaye)\b`);
+const SPANISH = pyRe(String.raw`[ñ¿¡]|\b(usted|dinero|cuenta|banco|gracias|por favor|hola|qué|pero|tiene|necesito|ahora|señor|señora|mamá|papá)\b`);
+export function detectLang(texts) {
+  const t = Array.isArray(texts) ? texts.join(" ") : texts;
+  if (/[\u0900-\u097f]/u.test(t)) return "hi";
+  const low = t.toLowerCase();
+  const es = (low.match(SPANISH) || []).length, hi = (low.match(HINGLISH) || []).length;
+  if (es >= 2 && es > hi) return "es";
+  if (hi >= 2) return "hi-Latn";
+  return "en";
+}
 
 const prep = (text) => normalize(text).deleet;  // identical preprocessing to training (ml.prep)
 
@@ -35,6 +49,8 @@ export async function loadEngine(loader, { blocklist = true } = {}) {
     checkUrl,
     extract,
     redact,
+    matchRules,
+    detectLang,
     INTERVENE_AT,
     tacticScores: (text, domain = "call") => {
       const m = domain === "message" ? tacticMsg : tacticCall;
