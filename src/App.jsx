@@ -79,7 +79,7 @@ function Shell({ lang, setLang, large, setLarge }) {
 
   let page;
   switch (base) {
-    case "check": page = <Checker key={shared?.at || 0} initialText={shared?.text} />; break;
+    case "check": page = <Checker key={shared?.at || 0} initialText={shared?.text} go={go} />; break;
     case "family": page = <Family go={go} />; break;
     case "more": page = <More go={go} />; break;
     case "setup": page = <Setup go={go} lang={lang} setLang={setLang} large={large} setLarge={setLarge} />; break;
@@ -107,7 +107,7 @@ function Shell({ lang, setLang, large, setLarge }) {
           {LANGS.map((l) => <option key={l.id} value={l.id}>{l.label}</option>)}
         </select>
       </header>
-      {s.sessionId && base !== "protect" && !["pay", "honeypot", "report"].includes(base) ? (
+      {s.sessionId && ["call", "simulated"].includes(s.channel) && base !== "protect" && !["pay", "honeypot", "report"].includes(base) ? (
         <a href="#/protect" className="banner info" style={{ margin: "10px 16px 0", textDecoration: "none", color: "inherit" }}>
           <Icon name="shield" />Protected call in progress · risk {s.snap?.score ?? 0}/100. Tap to return.
         </a>

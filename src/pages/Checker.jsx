@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import jsQR from "jsqr";
 import { getEngine } from "../engine/browser.js";
 import { lookupIdentifiers } from "../localchecks.js";
+import { useSession } from "../session.jsx";
+import { useT } from "../i18n.js";
+import { openExternal, CHAKSHU_URL } from "../native.js";
 import Icon from "../components/Icon.jsx";
 
 const EXAMPLES = [
@@ -17,12 +20,28 @@ const VERDICT = {
   "looks safe": { cls: "good", icon: "check", title: "Looks safe" },
 };
 
-export default function Checker({ initialText }) {
+export default function Checker({ initialText, go }) {
   const [text, setText] = useState(initialText || "");
   const [res, setRes] = useState(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState(null);
   const [scanning, setScanning] = useState(false);
+  const [note, setNote] = useState(null);
+  const s = useSession();
+  const t = useT();
+
+  const trapIt = async () => {
+    try { sessionStorage.setItem("st:trapFirst", text.trim()); } catch { /* ignore */ }
+    await s.reset(); await s.start("chat"); go("/honeypot");
+  };
+  const chakshu = async () => {
+    const ids = (res?.entities || []).filter((e) => e.shareable).map((e) => `${e.kind.toUpperCase()}: ${e.value}`);
+    const details = ["Suspected fraud message (checked with SecondThought: " + res.verdict + ", risk " + res.score + "/100)",
+      "Received: " + new Date().toLocaleString(), ids.length ? "Details in the message: " + ids.join(", ") : "", "Message:", text.trim()].filter(Boolean).join("\n");
+    try { await navigator.clipboard.writeText(details); } catch { /* ignore */ }
+    setNote(t("chakshu_copied"));
+    openExternal(CHAKSHU_URL);
+  };
 
   const run = async (value = text) => {
     const v = value.trim();
@@ -92,6 +111,13 @@ export default function Checker({ initialText }) {
           {res.reasons.length ? (
             <ul style={{ margin: 0, paddingLeft: 18 }}>{res.reasons.map((r, i) => <li key={i} style={{ marginBottom: 6 }}>{r.text}{r.advice ? <div className="tiny">{r.advice}</div> : null}</li>)}</ul>
           ) : <p className="muted">No warning signs found. Still, never share codes or PINs with anyone.</p>}
+          {res.verdict !== "looks safe" ? (
+            <div className="grid2">
+              <button className="btn primary" onClick={trapIt}><Icon name="bot" />{t("trap_reply")}</button>
+              <button className="btn" onClick={chakshu}><Icon name="file" />{t("report_chakshu")}</button>
+            </div>
+          ) : null}
+          {note ? <div className="banner info"><Icon name="info" />{note}</div> : null}
           <table>
             <caption className="visually-hidden">How each check scored</caption>
             <thead><tr><th>Check</th><th className="num">Risk</th></tr></thead>

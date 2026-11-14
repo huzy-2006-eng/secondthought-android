@@ -5,6 +5,8 @@ import Icon from "../components/Icon.jsx";
 import { useT } from "../i18n.js";
 import { isNative, nativeStatus, ST } from "../native.js";
 import { useSession } from "../session.jsx";
+import { api } from "../api.js";
+import { summary as trapSummary } from "../trapstats.js";
 
 // The first screen: three big buttons, readable at arm's length.
 export default function Home({ go, online }) {
@@ -13,6 +15,9 @@ export default function Home({ go, online }) {
   const [st, setSt] = useState(null);
   const [msg, setMsg] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [network, setNetwork] = useState(null);
+  const trap = trapSummary();
+  useEffect(() => { api.health().then((h) => setNetwork(h.intel_reports)).catch(() => {}); }, []);
 
   const refresh = () => nativeStatus().then(setSt);
   useEffect(() => {
@@ -74,6 +79,21 @@ export default function Home({ go, online }) {
         <span className="ico"><Icon name="phone" /></span>
         <span><strong>{t("home_protect")}</strong><small>{t("home_protect_sub")}</small></span>
       </button>
+      <div className="card trap">
+        <div className="row" style={{ alignItems: "flex-start", gap: 14 }}>
+          <span className="trapico"><Icon name="bot" /></span>
+          <div style={{ flex: 1 }}><h2 style={{ margin: 0 }}>{t("trap_title")}</h2><p className="muted" style={{ margin: "4px 0 0" }}>{t("trap_sub")}</p></div>
+        </div>
+        <div className="trapstats">
+          <div><strong>{trap.wasted}</strong><span>{t("trap_minutes")}</span></div>
+          <div><strong>{trap.messages}</strong><span>{t("trap_messages")}</span></div>
+          <div><strong>{trap.captured}</strong><span>{t("trap_captured")}</span></div>
+          <div><strong>{trap.reports}</strong><span>{t("trap_reports")}</span></div>
+        </div>
+        <div className="tiny">{t("trap_this_phone")}{network != null ? " · " + t("trap_network", { n: network }) : ""}</div>
+        <button className="btn primary big block" style={{ marginTop: 10 }} onClick={async () => { await s.reset(); await s.start("chat"); go("/honeypot"); }}><Icon name="bot" />{t("trap_start")}</button>
+      </div>
+
       <button className="bigaction danger" onClick={help} disabled={busy}>
         <span className="ico"><Icon name="users" /></span>
         <span><strong>{t("home_help")}</strong><small>{helper ? t("home_help_sub", { name: helper }) : t("home_help_none")}</small></span>

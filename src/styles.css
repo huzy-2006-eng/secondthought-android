@@ -288,3 +288,10 @@ html.large body { zoom: 1.18; }
 .listitem svg { width: 24px; height: 24px; color: var(--accent); flex: none; }
 .listitem span:nth-child(2) { flex: 1; }
 .listitem .chev { font-size: 1.6rem; color: var(--text-3); }
+.card.trap { border: 2px solid var(--accent); }
+.trapico { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: var(--accent); color: var(--accent-ink); flex: none; }
+.trapico svg { width: 28px; height: 28px; }
+.trapstats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 12px 0 6px; }
+.trapstats > div { background: var(--surface-2); border-radius: 12px; padding: 10px; }
+.trapstats strong { display: block; font-size: 1.6rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.trapstats span { font-size: 0.85rem; color: var(--text-2); }

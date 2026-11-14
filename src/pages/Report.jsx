@@ -3,6 +3,8 @@ import { api } from "../api.js";
 import Icon from "../components/Icon.jsx";
 import { isNative, shareText } from "../native.js";
 import { useSession } from "../session.jsx";
+import { reportFiled } from "../trapstats.js";
+import { openExternal, CHAKSHU_URL } from "../native.js";
 
 const REGIONS = [["IN", "India"], ["US", "United States"], ["UK", "United Kingdom"], ["ES", "España"], ["OTHER", "Other country"]];
 
@@ -28,7 +30,7 @@ export default function Report({ go }) {
   const generate = async () => {
     setErr(null);
     s.setRegion(region);
-    try { setRep(await api.report(await s.ensureServer(), { region, money_lost: lost || null, share_with_network: share })); } catch (e) { setErr(`Preparing the complaint needs the internet (${e.message}).`); }
+    try { const r = await api.report(await s.ensureServer(), { region, money_lost: lost || null, share_with_network: share }); setRep(r); reportFiled(Boolean(r.shared)); } catch (e) { setErr(`Preparing the complaint needs the internet (${e.message}).`); }
   };
   const copy = async () => {
     try { await navigator.clipboard.writeText(rep.text); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { setErr("Copy failed; select the text and copy it manually."); }
@@ -65,6 +67,7 @@ export default function Report({ go }) {
           <h2>File it here</h2>
           <ul style={{ margin: 0, paddingLeft: 18 }}>
             <li>{linkify(rep.file_with.where)}</li><li>{rep.file_with.phone}</li><li>{rep.file_with.bank}</li>
+            {region === "IN" ? <li>No money lost? Report the number or message on <strong>Sanchar Saathi → Chakshu</strong> so it can be blocked: <a href={CHAKSHU_URL} onClick={(e) => { e.preventDefault(); openExternal(CHAKSHU_URL); }}>sancharsaathi.gov.in/sfc</a></li> : null}
           </ul>
           <div className="row">
             <button className="btn" onClick={copy}><Icon name="copy" />{copied ? "Copied" : "Copy text"}</button>

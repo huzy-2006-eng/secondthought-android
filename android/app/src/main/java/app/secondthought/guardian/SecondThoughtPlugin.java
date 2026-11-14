@@ -167,6 +167,16 @@ public class SecondThoughtPlugin extends Plugin {
         call.resolve();
     }
 
+    /** Opens a website (e.g. Sanchar Saathi / Chakshu, cybercrime.gov.in) in the phone's browser. */
+    @PluginMethod
+    public void openUrl(PluginCall call) {
+        String url = call.getString("url", "");
+        if (!url.startsWith("https://")) { call.reject("Only https links can be opened."); return; }
+        Intent i = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url));
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try { getContext().startActivity(i); call.resolve(); } catch (Exception e) { call.reject("No browser found."); }
+    }
+
     /** Opens the messages app with the help text ready; the person taps Send (no SMS permission needed). */
     @PluginMethod
     public void sms(PluginCall call) {

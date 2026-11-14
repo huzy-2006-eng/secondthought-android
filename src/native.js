@@ -22,3 +22,11 @@ export async function shareText(text, title = "Share") {
   if (navigator.share) { await navigator.share({ text, title }); return true; }
   return false;
 }
+
+export const CHAKSHU_URL = "https://sancharsaathi.gov.in/sfc/";
+
+/** Open a website in the phone's browser (not inside the app). */
+export async function openExternal(url) {
+  if (isNative) { try { await ST.openUrl({ url }); return; } catch { /* fall back */ } }
+  window.open(url, "_blank", "noopener");
+}
