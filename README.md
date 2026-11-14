@@ -25,12 +25,12 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 | **During a call** | After "Yes, protect this call": safety tips, **Help**, **Type what the caller says**, **Make a payment** (payment pause), **Hand over to ScammerTrap**, **I know this person**, **End & report**. |
 | **Stop screen** | When a conversation crosses the risk line, a full-screen warning lists the tricks it noticed in plain words: *Hang up now*, *Hand over to ScammerTrap*, or a 10-second wait before continuing. |
 | **Help! Alert my family** | One tap prepares a text to your family member ("I'm getting a suspicious call from a number ending 4612… please call me now") and shows a big **Call** button. Their number is saved only on your phone, and it works without internet. |
-| **Live family alerts (optional)** | If the family member also has SecondThought, they get a live alert the moment a call turns dangerous: the warning only, never the conversation. |
+| **Live family alerts (optional)** | The family member installs SecondThought and scans your family QR code (or types the code) in **Family**. They get a live alert the moment a call turns dangerous: the warning only, never the conversation. |
 | **Check anything** | Paste text, **scan a screenshot**, or use **Share → SecondThought** from WhatsApp, SMS, email or the gallery (text or screenshots). QR codes too. The answer is *Scam*, *Suspicious* or *Looks safe*, with the reasons. Screenshot text is read on the phone (English and Hindi script). |
 | **Payment pause** | A cooling-off check before paying someone mentioned in a risky conversation. |
 | **ScammerTrap (fights back)** | On the home screen. A decoy runs **on the phone**: a **trained model** recognises what the scammer is doing in each message (26 situations, e.g. loan offer, "call this number", OTP request, "did you pay?"), and the decoy answers in kind (lottery: *"How do I claim it?"*, police: *"Please don't arrest me"*, OTP request: refuses without a number), in English, Hinglish, Hindi or Spanish, to waste their time and catch their payment details. Copy or share each reply back to the scammer. Works offline. Live counters: time wasted, messages answered, payment details caught, complaints prepared (real numbers from your own use). Samples: [docs/SCAMMERTRAP.md](docs/SCAMMERTRAP.md). |
 | **Scam network and report** | Scammer identifiers (UPI IDs, accounts, numbers, links) link reports into campaigns. A ready complaint report for cybercrime.gov.in / 1930, and one-tap **Report on Chakshu (Sanchar Saathi)** with the details copied for the form. |
-| **All web features** | Practice scam calls, intel graph and accuracy results are under **More**. |
+| **More** | Practice scam calls, alerts for someone you protect, and the scam network. (Accuracy numbers are for judges and developers: see the Results section and `docs/ON_DEVICE.md`, not shown to app users.) |
 
 ## Privacy, by design
 

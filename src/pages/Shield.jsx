@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
-import { api, API_BASE } from "../api.js";
-import { isNative } from "../native.js";
+import { api } from "../api.js";
+import { isNative, shareText } from "../native.js";
 import { getScenarios } from "../engine/browser.js";
 import Icon from "../components/Icon.jsx";
 import Intervention from "../components/Intervention.jsx";
@@ -243,12 +243,18 @@ export function GuardianSetup({ t, s }) {
   const [guardianName, setGuardianName] = useState("Riya");
   const [qr, setQr] = useState(null);
   const [err, setErr] = useState(null);
-  const link = s.guardian ? `${API_BASE || location.origin}/#/guardian/${s.guardian.code}` : null;
+  // The QR holds an app link with the code (secondthought://open/guardian/CODE). The family member scans it
+  // inside SecondThought (Family tab), so they get the app's simple alert screen, never the website.
+  const appLink = s.guardian ? `secondthought://open/guardian/${s.guardian.code}` : null;
 
   useEffect(() => {
-    if (!link) { setQr(null); return; }
-    QRCode.toDataURL(link, { margin: 1, width: 300 }).then(setQr).catch(() => setQr(null));
-  }, [link]);
+    if (!appLink) { setQr(null); return; }
+    QRCode.toDataURL(appLink, { margin: 1, width: 300 }).then(setQr).catch(() => setQr(null));
+  }, [appLink]);
+
+  const invite = () => shareText(
+    `I've added you as my family contact in SecondThought, the scam-protection app. Install SecondThought, open Family → "I want alerts about someone else" and enter this code: ${s.guardian.code}`,
+    "SecondThought family code").catch(() => {});
 
   const pair = async () => {
     setErr(null);
@@ -264,10 +270,11 @@ export function GuardianSetup({ t, s }) {
         <h2><Icon name="users" style={{ width: 20, height: 20, verticalAlign: "-4px" }} /> {t("guardian_linked_to", { name: s.guardian.guardian_name })}</h2>
         <p className="muted">{s.guardian.guardian_name} gets an alert on their phone when a call protecting {s.guardian.protected_name} looks like a scam. They see the warning, never the conversation.</p>
         <div className="row" style={{ alignItems: "flex-start" }}>
-          {qr ? <img className="qr" src={qr} alt={`QR code that opens the guardian screen for code ${s.guardian.code}`} /> : null}
+          {qr ? <img className="qr" src={qr} alt={`QR code with family code ${s.guardian.code}`} /> : null}
           <div className="stack">
-            <div><div className="tiny">Pairing code</div><div className="code-big">{s.guardian.code}</div></div>
-            <div className="tiny">Scan with the family member's phone, or open <a href={link}>{link}</a></div>
+            <div><div className="tiny">Family code</div><div className="code-big">{s.guardian.code}</div></div>
+            <div className="tiny">On {s.guardian.guardian_name}'s phone: install SecondThought, open <strong>Family → I want alerts about someone else</strong>, then scan this QR or type the code.</div>
+            <button className="btn" onClick={invite}><Icon name="file" />Send the code</button>
             <button className="btn ghost" onClick={() => s.setGuardian(null)}>Unlink</button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 // Text for the Android app's own screens (easy home, unknown caller, setup, more).
 export const APP = {
   en: {
+    family_scan: "Scan their QR code", family_bad_qr: "That QR code is not a SecondThought family code.",
     scan_screenshot: "Scan a screenshot", scan_reading: "Reading the screenshot…", scan_no_text: "No text found in that image.",
     scan_note: "Text read from the screenshot on this phone. The image was not uploaded.",
     trap_title: "ScammerTrap", trap_sub: "Got a scam message? Let a decoy reply, waste their time and catch their payment details.",
@@ -54,6 +55,7 @@ export const APP = {
     family_title: "Family", family_watch: "I want alerts about someone else", family_watch_sub: "Enter the code from their phone.",
   },
   hi: {
+    family_scan: "उनका QR कोड स्कैन करें", family_bad_qr: "यह SecondThought परिवार कोड नहीं है।",
     scan_screenshot: "स्क्रीनशॉट स्कैन करें", scan_reading: "स्क्रीनशॉट पढ़ा जा रहा है…", scan_no_text: "इस तस्वीर में कोई टेक्स्ट नहीं मिला।",
     scan_note: "टेक्स्ट इसी फोन पर स्क्रीनशॉट से पढ़ा गया। तस्वीर कहीं अपलोड नहीं हुई।",
     trap_title: "ScammerTrap", trap_sub: "स्कैम मैसेज आया? एक नकली जवाब देने वाला उनका समय बर्बाद करेगा और उनकी पेमेंट जानकारी पकड़ेगा।",
@@ -106,6 +108,7 @@ export const APP = {
     family_title: "परिवार", family_watch: "मुझे किसी और के अलर्ट चाहिए", family_watch_sub: "उनके फोन पर दिखा कोड डालें।",
   },
   es: {
+    family_scan: "Escanear su código QR", family_bad_qr: "Ese código QR no es un código familiar de SecondThought.",
     scan_screenshot: "Escanear una captura", scan_reading: "Leyendo la captura…", scan_no_text: "No se encontró texto en esa imagen.",
     scan_note: "Texto leído de la captura en este teléfono. La imagen no se subió.",
     trap_title: "ScammerTrap", trap_sub: "¿Te llegó un mensaje de estafa? Un señuelo responde, les hace perder el tiempo y captura sus datos de pago.",

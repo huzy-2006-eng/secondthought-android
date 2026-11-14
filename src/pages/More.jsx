@@ -5,7 +5,6 @@ const ITEMS = [
   { path: "/protect?mode=demo", icon: "play", key: "more_practice" },
   { path: "/guardian", icon: "bell", key: "more_watch" },
   { path: "/intel", icon: "graph", key: "more_intel" },
-  { path: "/results", icon: "chart", key: "more_results" },
   { path: "/setup", icon: "shield", key: "more_settings" },
 ];
 

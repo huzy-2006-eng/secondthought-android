@@ -163,7 +163,7 @@ export default function Checker({ initialText, initialImage, go }) {
   );
 }
 
-function CameraScan({ onCode, onError }) {
+export function CameraScan({ onCode, onError }) {
   const video = useRef(null);
   const cb = useRef({ onCode, onError });
   cb.current = { onCode, onError };

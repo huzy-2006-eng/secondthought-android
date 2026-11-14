@@ -12,7 +12,6 @@ import Guardian from "./pages/Guardian.jsx";
 import Home from "./pages/Home.jsx";
 import Honeypot from "./pages/Honeypot.jsx";
 import Incoming from "./pages/Incoming.jsx";
-import Metrics from "./pages/Metrics.jsx";
 import More from "./pages/More.jsx";
 import Pay from "./pages/Pay.jsx";
 import Report from "./pages/Report.jsx";
@@ -35,7 +34,7 @@ const NAV = [
   { path: "/", icon: "shield", key: "nav_home", match: ["", "protect", "pay", "honeypot", "report", "incoming"] },
   { path: "/check", icon: "search", key: "nav_check", match: ["check"] },
   { path: "/family", icon: "users", key: "nav_family", match: ["family"] },
-  { path: "/more", icon: "menu", key: "nav_more", match: ["more", "guardian", "intel", "results", "setup"] },
+  { path: "/more", icon: "menu", key: "nav_more", match: ["more", "guardian", "intel", "setup"] },
 ];
 
 function Shell({ lang, setLang, large, setLarge }) {
@@ -76,7 +75,7 @@ function Shell({ lang, setLang, large, setLarge }) {
   const [rawPath, qs = ""] = path.split("?");
   const query = new URLSearchParams(qs);
   const [, base, arg] = rawPath.match(/^\/([^/]*)\/?(.*)$/) || [];
-  const wide = base === "intel" || base === "results";
+  const wide = base === "intel";
 
   let page;
   switch (base) {
@@ -88,7 +87,6 @@ function Shell({ lang, setLang, large, setLarge }) {
     case "protect": page = <Shield go={go} query={query} />; break;
     case "guardian": page = <Guardian code={arg || null} go={go} />; break;
     case "intel": page = <Graph />; break;
-    case "results": page = <Metrics />; break;
     case "pay": page = <Pay go={go} />; break;
     case "honeypot": page = <Honeypot go={go} />; break;
     case "report": page = <Report go={go} />; break;
