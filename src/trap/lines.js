@@ -4,6 +4,7 @@
 
 export const LINES = {
   en: {
+    unclear: ["Sorry dear, I didn't understand that. Can you write it again slowly?", "The letters look all jumbled on my screen. What did you mean?", "I think something went wrong with your message, dear. Please write it in simple words."],
     pay_number: ["Which number should I send it to, dear? Please write it slowly.", "On your number? Please type the number here, my eyes are weak."],
     call_nonum: ["Which number, dear? I don't see one in your message. And I hear badly on calls, can you write here instead?", "You didn't send any number, dear. Can't we just do it here by message?"],
     next: ["All right, dear. What do I do next?", "Okay. Then what should I do?", "Yes, I understand. What's the next step?"],
@@ -54,6 +55,7 @@ export const LINES = {
     stall: ["Hold on, I need to find my glasses.", "Sorry, the doorbell went. One moment please.", "My phone battery is low, let me find the charger.", "I'm writing it on a paper, can you repeat that?", "Sorry dear, I pressed the wrong button. What was the last thing you said?"],
   },
   "hi-Latn": {
+    unclear: ["Maaf karna beta, samajh nahi aaya. Phir se dheere likho?", "Screen pe sab ulta-pulta dikh raha hai. Kya kehna chahte ho?"],
     pay_number: ["Kaunse number pe bhejun beta? Number yahin likh do."],
     call_nonum: ["Kaunsa number beta? Message mein to koi number nahi hai. Aur phone pe sunai kam deta hai, yahin likh do."],
     next: ["Theek hai beta. Ab aage kya karun?", "Achha. Phir kya karna hai?"],
@@ -104,6 +106,7 @@ export const LINES = {
     stall: ["Ruko, chashma dhoond rahi hoon.", "Ek minute, darwaze pe koi aaya hai.", "Phone ki battery kam hai, charger laati hoon.", "Kaagaz pe likh rahi hoon, phir se bolo?"],
   },
   hi: {
+    unclear: ["माफ़ करना बेटा, समझ नहीं आया। फिर से धीरे लिखो?", "स्क्रीन पर सब उलटा-पुलटा दिख रहा है। क्या कहना चाहते हो?"],
     pay_number: ["किस नंबर पर भेजूँ बेटा? नंबर यहीं लिख दो।"],
     call_nonum: ["कौन सा नंबर बेटा? मैसेज में तो कोई नंबर नहीं है। यहीं लिख दो न।"],
     next: ["ठीक है बेटा। अब आगे क्या करूँ?"], isolation: ["चिंता मत करो, किसी को नहीं बताऊँगी। अब क्या करूँ?"],
@@ -144,6 +147,7 @@ export const LINES = {
     stall: ["रुकिए, चश्मा ढूँढ रही हूँ।", "एक मिनट, दरवाज़े पर कोई है।", "फोन की बैटरी कम है, चार्जर लाती हूँ।"],
   },
   es: {
+    unclear: ["Perdone, no le he entendido. ¿Me lo escribe otra vez despacito?", "Las letras me salen todas revueltas. ¿Qué quería decir?"],
     pay_number: ["¿A qué número lo envío? Escríbamelo aquí despacito."],
     call_nonum: ["¿Qué número? No veo ninguno en su mensaje. Y oigo mal por teléfono, ¿me lo escribe aquí?"],
     next: ["Muy bien. ¿Y ahora qué hago?", "Vale. ¿Cuál es el siguiente paso?"], isolation: ["No se preocupe, no se lo diré a nadie. ¿Qué hago ahora?"],

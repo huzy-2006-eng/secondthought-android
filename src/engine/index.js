@@ -56,6 +56,14 @@ export async function loadEngine(loader, { blocklist = true } = {}) {
       const m = domain === "message" ? tacticMsg : tacticCall;
       return text.trim() ? m.predict(prep(text)) : {};
     },
+    /** Share of words in the text that are real words (known to the message model's vocabulary). */
+    knownWordRatio: (text) => {
+      const toks = (prep(text).match(/[\p{L}\p{N}_]+/gu) || []).filter((w) => !/^\d+$/.test(w));
+      if (!toks.length) return 0;
+      const wordIndex = message.index[message.meta.parts.findIndex((p) => p.analyzer !== "char_wb")];
+      const callIndex = tacticCall.index[tacticCall.meta.parts.findIndex((p) => p.analyzer !== "char_wb")];
+      return toks.filter((w) => wordIndex.has(w) || callIndex.has(w)).length / toks.length;
+    },
     /** ScammerTrap: what is the scammer doing in this message? {intent: probability} (model trained by tools/trap/). */
     intentScores: (text) => (trapIntent && text.trim() ? trapIntent.predict(prep(text)) : {}),
     messageProbability: (text) => (text.trim() ? message.predict(prep(text)).scam : null),

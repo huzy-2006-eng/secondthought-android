@@ -48,8 +48,9 @@ export class Decoy {
   }
 
   guessLang() {
-    const all = this.scammer.join(" ");
-    const g = this.engine.detectLang(this.scammer);
+    const recent = this.scammer.slice(-3);
+    const all = recent.join(" ");
+    const g = this.engine.detectLang(recent);
     if (g !== "en") return g;
     if ((all.match(/[ñ¿¡]|\b(buenos|d[ií]as|le llamo|usted|se[nñ]or|se[nñ]ora|su cuenta|ha ganado|pr[eé]stamo)\b/giu) || []).length >= 1) return "es";
     if ((all.match(/\b(hai|hain|hoon|hu|raha|rahi|bol|aapka|aapke|aapki|kijiye|karo|nahi|mujhe|batao|bataiye|ji|beta|paise|bhejo|jaldi)\b/giu) || []).length >= 2) return "hi-Latn";
@@ -99,8 +100,18 @@ export class Decoy {
   reply(text) {
     const msg = (text || "").trim();
     this.scammer.push(msg);
-    if (!this.lang || this.scammer.length <= 3) this.lang = this.guessLang();
-    const { top, topic, action, fresh } = this.read(msg);
+    this.lang = this.guessLang();   // follow the scammer if they switch language
+    const { top, topic, action, fresh, tactics } = this.read(msg);
+
+    // Gibberish or an unclear message: say so, like a confused person would (don't move the story on).
+    const known = this.engine.knownWordRatio ? this.engine.knownWordRatio(msg) : 1;
+    const nothingFound = !fresh.length && !tactics.size && !topic && (!action || ["confirm", "question"].includes(action));
+    if (nothingFound && (known < 0.5 || /^[^\p{L}\p{N}]*$/u.test(msg))) {
+      this.unclearCount = (this.unclearCount || 0) + 1;
+      const intent = this.unclearCount > 3 ? "stall" : "unclear";
+      return { text: this.pick(intent), intent, readings: top, topic: this.topic, lang: this.lang, caught: [] };
+    }
+    this.unclearCount = 0;
     if (topic && topic !== "official") this.topic = topic;
     const parts = [];
     const why = [];
