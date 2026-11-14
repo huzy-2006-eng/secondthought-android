@@ -20,18 +20,20 @@ public class MainActivity extends BridgeActivity {
 
     /**
      * New Android versions draw apps edge to edge, under the status bar and the gesture bar.
-     * Keep the app's screen between them (and above the keyboard), so nothing is hidden or overlapped.
+     * Keep the app's screen between them, so nothing is hidden or overlapped. (The keyboard is handled by Android.)
      */
     private void keepInsideSafeArea() {
         final View web = getBridge().getWebView();
         ViewCompat.setOnApplyWindowInsetsListener(web, (v, insets) -> {
             Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
-            Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
+
             ViewGroup.LayoutParams lp = v.getLayoutParams();
             if (lp instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams m = (ViewGroup.MarginLayoutParams) lp;
                 m.topMargin = bars.top;
-                m.bottomMargin = Math.max(bars.bottom, ime.bottom);
+                // Only the system bars: Android already resizes the window for the keyboard (adjustResize).
+                // Adding the keyboard height here as well shrank the app twice and left a black gap.
+                m.bottomMargin = bars.bottom;
                 m.leftMargin = bars.left;
                 m.rightMargin = bars.right;
                 v.setLayoutParams(m);

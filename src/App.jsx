@@ -84,6 +84,18 @@ function Shell({ lang, setLang, large, setLarge }) {
     const a = setTimeout(() => setSplash("leaving"), 1500), b = setTimeout(() => setSplash("off"), 1850);
     return () => { clearTimeout(a); clearTimeout(b); };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // Keyboard open (the screen got much shorter): hide the bottom tab bar so it doesn't sit on the keyboard.
+  useEffect(() => {
+    let full = window.innerHeight;
+    const on = () => {
+      const h = window.innerHeight;
+      if (h > full) full = h;
+      document.documentElement.classList.toggle("kb-open", h < full * 0.78);
+    };
+    window.addEventListener("resize", on);
+    return () => window.removeEventListener("resize", on);
+  }, []);
+
   // App lock: asked after the splash, and again if the app was in the background for more than 2 minutes.
   const [locked, setLocked] = useState(() => lockEnabled());
   useEffect(() => {

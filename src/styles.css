@@ -597,3 +597,5 @@ html[data-nav="tab"]::view-transition-new(page) { animation: vt-zoom-in .26s cub
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after, ::view-transition-old(page), ::view-transition-new(page) { animation: none !important; transition: none !important; }
 }
+html.kb-open .nav { display: none; }
+html.kb-open main { padding-bottom: 24px; }
