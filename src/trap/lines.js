@@ -4,6 +4,7 @@
 
 export const LINES = {
   en: {
+    pay_number: ["Which number should I send it to, dear? Please write it slowly.", "On your number? Please type the number here, my eyes are weak."],
     call_nonum: ["Which number, dear? I don't see one in your message. And I hear badly on calls, can you write here instead?", "You didn't send any number, dear. Can't we just do it here by message?"],
     next: ["All right, dear. What do I do next?", "Okay. Then what should I do?", "Yes, I understand. What's the next step?"],
     isolation: ["Don't worry, I won't tell anyone. I live alone anyway. What should I do now?", "All right, it stays between us. Please tell me what to do."],
@@ -53,6 +54,7 @@ export const LINES = {
     stall: ["Hold on, I need to find my glasses.", "Sorry, the doorbell went. One moment please.", "My phone battery is low, let me find the charger.", "I'm writing it on a paper, can you repeat that?", "Sorry dear, I pressed the wrong button. What was the last thing you said?"],
   },
   "hi-Latn": {
+    pay_number: ["Kaunse number pe bhejun beta? Number yahin likh do."],
     call_nonum: ["Kaunsa number beta? Message mein to koi number nahi hai. Aur phone pe sunai kam deta hai, yahin likh do."],
     next: ["Theek hai beta. Ab aage kya karun?", "Achha. Phir kya karna hai?"],
     isolation: ["Chinta mat karo, kisi ko nahi bataungi. Waise bhi akeli rehti hoon. Ab kya karun?"],
@@ -102,6 +104,7 @@ export const LINES = {
     stall: ["Ruko, chashma dhoond rahi hoon.", "Ek minute, darwaze pe koi aaya hai.", "Phone ki battery kam hai, charger laati hoon.", "Kaagaz pe likh rahi hoon, phir se bolo?"],
   },
   hi: {
+    pay_number: ["किस नंबर पर भेजूँ बेटा? नंबर यहीं लिख दो।"],
     call_nonum: ["कौन सा नंबर बेटा? मैसेज में तो कोई नंबर नहीं है। यहीं लिख दो न।"],
     next: ["ठीक है बेटा। अब आगे क्या करूँ?"], isolation: ["चिंता मत करो, किसी को नहीं बताऊँगी। अब क्या करूँ?"],
     loan: ["लोन? अरे बहुत अच्छा, पेंशन से दवाइयाँ नहीं हो पातीं।"],
@@ -141,6 +144,7 @@ export const LINES = {
     stall: ["रुकिए, चश्मा ढूँढ रही हूँ।", "एक मिनट, दरवाज़े पर कोई है।", "फोन की बैटरी कम है, चार्जर लाती हूँ।"],
   },
   es: {
+    pay_number: ["¿A qué número lo envío? Escríbamelo aquí despacito."],
     call_nonum: ["¿Qué número? No veo ninguno en su mensaje. Y oigo mal por teléfono, ¿me lo escribe aquí?"],
     next: ["Muy bien. ¿Y ahora qué hago?", "Vale. ¿Cuál es el siguiente paso?"], isolation: ["No se preocupe, no se lo diré a nadie. ¿Qué hago ahora?"],
     loan: ["¿Un préstamo? Ay, me vendría muy bien, la pensión no me llega para las medicinas.", "¿De verdad, sin papeles? Al banco nunca le gustan los mayores."],
@@ -180,3 +184,18 @@ export const LINES = {
     stall: ["Espere, que busco las gafas.", "Perdone, han llamado a la puerta. Un momento.", "Me queda poca batería, voy a por el cargador."],
   },
 };
+
+// The decoy can be a grandmother (default) or a grandfather. Lines are written for the grandmother;
+// these rules turn them into the grandfather's words (Hindi verb endings and Spanish adjectives are gendered).
+const MALE = {
+  en: [[/\bold lady\b/g, "old man"], [/\bold woman\b/g, "old man"], [/\bmy late husband\b/g, "my late wife"]],
+  "hi-Latn": [[/\bbudhi aurat\b/gi, "budha aadmi"], [/\bbudhiya\b/gi, "budhe aadmi"], [/\bakeli\b/gi, "akela"], [/\brahi hoon\b/gi, "raha hoon"],
+    [/\b(\w+)ungi\b/gi, "$1unga"], [/\b(\w+)ti hoon\b/gi, "$1ta hoon"], [/\bkar rahi\b/gi, "kar raha"]],
+  hi: [[/बूढ़ी औरत/g, "बूढ़ा आदमी"], [/रही हूँ/g, "रहा हूँ"], [/ूँगी/g, "ूँगा"], [/ऊँगी/g, "ऊँगा"], [/ती हूँ/g, "ता हूँ"], [/सकती/g, "सकता"]],
+  es: [[/\blista\b/g, "listo"], [/\bnerviosa\b/g, "nervioso"], [/\blenta\b/g, "lento"], [/\buna señora mayor\b/g, "un señor mayor"],
+    [/\buna maestra jubilada\b/g, "un maestro jubilado"]],
+};
+export function forPersona(line, lang, persona) {
+  if (persona !== "grandfather") return line;
+  return (MALE[lang] || MALE.en).reduce((s, [re, to]) => s.replace(re, to), line);
+}

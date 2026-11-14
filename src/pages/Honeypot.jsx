@@ -6,6 +6,7 @@ import { getEngine } from "../engine/browser.js";
 import { Decoy } from "../trap/persona.js";
 import { lookupIdentifiers } from "../localchecks.js";
 import { trapCaptured, trapEnded, trapMessage, trapStarted } from "../trapstats.js";
+import { store } from "../api.js";
 
 // ScammerTrap: a decoy persona that answers the scammer, wastes their time and draws out their payment
 // details. It runs ON THIS PHONE: it reads each message with the detection engine and replies in kind.
@@ -23,6 +24,8 @@ export default function Honeypot({ go }) {
   const [ended, setEnded] = useState(false);
   const [err, setErr] = useState(null);
   const [copied, setCopied] = useState(null);
+  const [persona, setPersonaState] = useState(() => store.get("trapPersona", "grandmother"));
+  const setPersona = (p) => { setPersonaState(p); store.set("trapPersona", p); if (decoy.current) decoy.current.persona = p; };
   const decoy = useRef(null);
   const clock = useRef({ start: 0, last: 0, done: false });
   const endRef = useRef(null);
@@ -39,7 +42,7 @@ export default function Honeypot({ go }) {
     setTurns([]); setIds([]); setIntel([]); setEnded(false); setErr(null);
     getEngine().then((engine) => {
       if (cancelled) return;
-      decoy.current = new Decoy(engine);
+      decoy.current = new Decoy(engine, store.get("trapPersona", "grandmother"));
       for (const old of TRAPS.values()) {   // a new trap: count the time the previous one wasted, even if Stop wasn't pressed
         if (old.clock.start && !old.clock.done && old.clock.last) { old.clock.done = true; trapEnded(old.clock.start, old.clock.last); }
       }
@@ -105,6 +108,14 @@ export default function Honeypot({ go }) {
   return (
     <>
       <div className="banner good"><Icon name="bot" /><div><strong>ScammerTrap is on.</strong> Paste each message the scammer sends. The decoy answers on this phone. Send its reply back with <strong>Copy</strong> or <strong>Share</strong>. It never uses your real details or any numbers.</div></div>
+      <div className="card stack">
+        <div className="row" role="radiogroup" aria-label="Who the decoy pretends to be">
+          <span className="tiny" style={{ flex: "1 0 100%" }}>The decoy is a made-up character, never you. It pretends to be:</span>
+          {[["grandmother", "Grandmother"], ["grandfather", "Grandfather"]].map(([id, label]) => (
+            <button key={id} type="button" className={`btn ${persona === id ? "primary" : ""}`} aria-pressed={persona === id} onClick={() => setPersona(id)}>{label}</button>
+          ))}
+        </div>
+      </div>
       <div className="card">
         <h2>Caught details ({ids.length})</h2>
         {ids.length ? (
@@ -122,7 +133,7 @@ export default function Honeypot({ go }) {
           {!turns.length ? <div className="tiny">Paste the scammer's first message below.</div> : null}
           {turns.map((t, i) => (
             <div key={i} className={`bubble ${t.speaker === "persona" ? "persona" : "other"}`}>
-              <span className="who">{t.speaker === "persona" ? "Decoy (on this phone)" : "Scammer"}</span>{t.text}
+              <span className="who">{t.speaker === "persona" ? `Decoy · ${persona === "grandfather" ? "Grandfather" : "Grandmother"} (on this phone)` : "Scammer"}</span>{t.text}
               {t.speaker === "persona" ? (
                 <span className="row" style={{ marginTop: 6, gap: 6 }}>
                   <button type="button" className="btn" style={{ minHeight: 34, padding: "4px 10px" }} onClick={async () => { try { await navigator.clipboard.writeText(t.text); setCopied(i); setTimeout(() => setCopied(null), 1500); } catch { /* ignore */ } }}>

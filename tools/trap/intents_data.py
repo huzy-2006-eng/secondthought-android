@@ -223,3 +223,19 @@ MORE = {
 }
 for _k, _v in MORE.items():
     DATA[_k] = DATA[_k] + _v
+
+# Added after phone testing (real messages the decoy got wrong)
+FROM_TESTING = {
+    "confirm": ["very soon", "soon", "within 1 hour", "today itself", "after 10 minutes", "it will come fast", "yes very soon",
+                "jaldi aayega", "thodi der mein", "muy pronto", "don't worry it will come", "sure it will be credited"],
+    "gives_payment": ["yes send the money on my number", "send money to this number", "pay on my phone number", "google pay on this number",
+                      "phonepe to my number", "is number pe paise bhejo", "mere number pe gpay karo", "paytm karo is number pe",
+                      "envíe el dinero a mi número", "send on same number"],
+    "ask_personal": ["give me ur bank details", "send your bank details", "share ur account details", "give me your account and ifsc",
+                     "apne bank ki details do", "bank details bhejo", "deme sus datos bancarios", "what is your bank account number and ifsc"],
+}
+for _k, _v in FROM_TESTING.items():
+    DATA[_k] = DATA[_k] + _v
+DATA["ask_fee"] = DATA["ask_fee"] + ["rápido, pague la comisión", "tiene que pagar una tasa de {amt}", "pague los gastos de gestión", "debe abonar {amt} primero",
+                                      "pague el seguro para liberar el dinero", "haga un ingreso de {amt}"]
+DATA["gives_payment"] = DATA["gives_payment"] + ["{phone}", "this is my number {phone}", "number is {phone}", "send on {phone}", "mera number {phone}"]

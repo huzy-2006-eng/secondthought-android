@@ -110,6 +110,8 @@
  ab
  abh
  abhi
+ abo
+ abon
  abr
  abro
  abu
@@ -185,6 +187,7 @@
  apli
  apn
  apna
+ apne
  app
  app 
  appl
@@ -293,6 +296,7 @@
  bonu
  bot
  bot 
+ bot.
  box
  box 
  br
@@ -411,6 +415,7 @@
  dat
  data
  date
+ dato
  day
  day 
  dayi
@@ -422,12 +427,15 @@
  dead
  dear
  deb
+ debe
  debi
  dek
  dekh
  del
  del 
  deli
+ dem
+ deme
  dep
  depa
  depo
@@ -611,10 +619,13 @@
  gara
  gas
  gas 
+ gast
  gay
  gaya
  gaye
  ge
+ ges
+ gest
  get
  get 
  gett
@@ -637,6 +648,9 @@
  got 
  gov
  govt
+ gp
+ gpa
+ gpay
  gr
  gra
  gran
@@ -709,6 +723,8 @@
  ho, 
  hog
  hoga
+ hoi
+ hoi 
  hol
  hola
  hold
@@ -752,9 +768,8 @@
  icic
  id
  id 
- id.
- id. 
  idi
+ idi 
  idio
  if
  ifs
@@ -776,6 +791,8 @@
  indi
  inf
  infe
+ ing
+ ingr
  inm
  inme
  ins
@@ -807,10 +824,14 @@
  it 
  it'
  it's
+ it.
+ it. 
  ite
  item
  iti
  iti 
+ its
+ itse
  j
  ja
  jaa
@@ -925,6 +946,8 @@
  len
  lena
  li
+ lib
+ libe
  lic
  lice
  lik
@@ -956,6 +979,7 @@
  lond
  lone
  los
+ los 
  lose
  lost
  lot
@@ -973,7 +997,6 @@
  ma'a
  mad
  mad 
- mad.
  mada
  madi
  mai
@@ -1007,6 +1030,7 @@
  ment
  mer
  mera
+ mere
  mes
  mess
  mi
@@ -1135,7 +1159,7 @@
  our 
  out
  out 
- outi
+ out.
  p
  pa
  pac
@@ -1158,6 +1182,7 @@
  paqu
  par
  par 
+ para
  parc
  part
  pat
@@ -1167,12 +1192,17 @@
  pay.
  payi
  paym
+ payt
  pc
  pc 
  pe
  pe 
+ pe.
+ pe. 
  peh
  pehl
+ pei
+ pei 
  pen
  pend
  per
@@ -1223,6 +1253,7 @@
  proc
  prod
  prof
+ pron
  proo
  pré
  prés
@@ -1318,6 +1349,8 @@
  saam
  sal
  sala
+ sam
+ same
  san
  sanc
  sav
@@ -1393,6 +1426,8 @@
  son
  son 
  son,
+ soo
+ soon
  sor
  sort
  soy
@@ -1424,6 +1459,7 @@
  sur
  sure
  sus
+ sus 
  susp
  sw
  swe
@@ -1443,6 +1479,7 @@
  tard
  tarj
  tas
+ tasa
  task
  tax
  tax 
@@ -1463,6 +1500,8 @@
  thi
  thik
  this
+ tho
+ thod
  thr
  thro
  ti
@@ -1511,8 +1550,6 @@
  unde
  up
  up 
- up.
- up. 
  upd
  upda
  upi
@@ -1520,6 +1557,7 @@
  upt
  upto
  ur
+ ur 
  urg
  urge
  us
@@ -1528,7 +1566,6 @@
  usdt
  use
  use 
- use.
  used
  usei
  usel
@@ -1606,6 +1643,7 @@
  won 
  wor
  work
+ worr
  y
  ya
  ya 
@@ -1670,6 +1708,8 @@
  करें
  करो
  करो 
+ करो.
+ करोi
  का
  का 
  काम
@@ -1863,6 +1903,7 @@ $2
 $20
 $200
 $200 
+$200!
 % 
 'a
 'am
@@ -1893,6 +1934,7 @@ $200
 ,500
 ,500 
 ,500,
+,500.
 -f
 -fa
 -fas
@@ -1909,7 +1951,6 @@ $200
 -no
 -now
 -now 
--nowi
 -p
 -po
 -por
@@ -1933,8 +1974,6 @@ $200
 .i
 .in
 .in 
-.ini
-.ini 
 .l
 .ly
 .ly/
@@ -1954,7 +1993,6 @@ $200
 .to
 .top
 .top 
-.top.
 .u
 .up
 .upd
@@ -2037,6 +2075,7 @@ $200
 012
 0123
 0123 
+0123!
 0123.
 01234
 02
@@ -2067,14 +2106,15 @@ $200
 12 
 12,
 12, 
-12.
-12. 
 123
 123 
+123!
+123! 
 123.
 123. 
 1234
 1234 
+1234!
 1234.
 12345
 2 
@@ -2083,26 +2123,29 @@ $200
 2,5
 2,50
 2,500
-2.
-2. 
 20
 200
 200 
+200!
+200! 
 21
 210
 210 
 23
 23 
+23!
+23! 
 23.
 23. 
 234
 234 
+234!
+234! 
 234.
 234. 
 2345
 2345 
 2345,
-2345.
 23456
 24
 24 
@@ -2111,8 +2154,8 @@ $200
 2e
 2ea
 2ea 
-2ea.
-2ea. 
+2eai
+2eai 
 2i
 2io
 2ioo
@@ -2122,6 +2165,8 @@ $200
 2ooo
 2ooos
 3 
+3!
+3! 
 3.
 3. 
 30
@@ -2138,18 +2183,22 @@ $200
 3210 
 34
 34 
+34!
+34! 
 34.
 34. 
 345
 345 
 345,
 345, 
-345.
-345. 
 3456
 3456 
+3456!
+3456.
 34567
 4 
+4!
+4! 
 4.
 4. 
 43
@@ -2162,10 +2211,12 @@ $200
 45 
 45,
 45, 
-45.
-45. 
 456
 456 
+456!
+456! 
+456.
+456. 
 4561
 45612
 4567
@@ -2180,8 +2231,6 @@ $200
 5% 
 5,
 5, 
-5.
-5. 
 50
 50 
 50,
@@ -2191,6 +2240,8 @@ $200
 500 
 500,
 500, 
+500.
+500. 
 5000
 5000 
 5000!
@@ -2204,6 +2255,10 @@ $200
 54321
 56
 56 
+56!
+56! 
+56.
+56. 
 561
 5612
 56123
@@ -2212,6 +2267,8 @@ $200
 56781
 56789
 6 
+6!
+6! 
 6.
 6. 
 61
@@ -2228,6 +2285,8 @@ $200
 67812
 6789
 67890
+6i
+6i 
 6t
 6t 
 7 
@@ -2249,7 +2308,6 @@ $200
 7812
 7812 
 7812,
-7812.
 789
 7890
 78901
@@ -2262,8 +2320,6 @@ $200
 812 
 812,
 812, 
-812.
-812. 
 87
 876
 8765
@@ -2285,8 +2341,8 @@ $200
 8t
 8t6
 8t6 
-8t6.
-8t6. 
+8t6i
+8t6i 
 9 
 9,
 9, 
@@ -2316,7 +2372,7 @@ $200
 98t
 98t6
 98t6 
-98t6.
+98t6i
 99
 99 
 99,
@@ -2355,8 +2411,6 @@ a?
 a? 
 a?.
 a?. 
-a?i
-a?i 
 aa
 aa 
 aad
@@ -2374,7 +2428,6 @@ aakar
 aal
 aalo
 aalo 
-aaloi
 aam
 aam 
 aama
@@ -2402,6 +2455,7 @@ aax
 aaxl
 aaxl 
 aaxl.
+aaxli
 aay
 aaya
 aaya 
@@ -2415,7 +2469,6 @@ abajo
 abh
 abhi
 abhi 
-abhii
 abi
 abil
 abili
@@ -2425,6 +2478,9 @@ able
 able,
 able.
 able?
+abo
+abon
+abona
 abr
 abro
 abroa
@@ -2458,6 +2514,8 @@ ació
 ación
 ack
 ack 
+ack.
+ack. 
 acka
 ackag
 acke
@@ -2534,6 +2592,8 @@ agao
 agao 
 agao,
 agaoi
+agar
+agar 
 age
 age 
 ageg
@@ -2554,8 +2614,12 @@ ahan
 ahan 
 ahe
 ahe 
+ahei
+ahei 
 ahi
 ahi 
+ahi.
+ahi. 
 ahiy
 ahiye
 aho
@@ -2588,7 +2652,6 @@ aili
 aili 
 ails
 ails 
-ails.
 ailsi
 aily
 aily 
@@ -2597,7 +2660,10 @@ aim
 aim-
 aim-n
 aim.
+aim. 
 aim.o
+aimi
+aimi 
 ain
 ain 
 ains
@@ -2642,6 +2708,10 @@ akh
 akh 
 akh,
 akh, 
+akh.
+akh. 
+akhi
+akhi 
 aki
 akin
 aking
@@ -2663,6 +2733,7 @@ ald
 aldi
 aldi 
 aldi.
+aldii
 ale
 ale 
 alf
@@ -2692,8 +2763,6 @@ allot
 allow
 alo
 alo 
-aloi
-aloi 
 alon
 alone
 alr
@@ -2711,7 +2780,6 @@ ama
 ama 
 ama?
 ama? 
-ama?i
 amaa
 amaax
 amai
@@ -2737,6 +2805,7 @@ amen
 ament
 ames
 ames 
+amesi
 amo
 amo 
 amon
@@ -2780,9 +2849,12 @@ anas
 anas 
 anast
 anc
+anca
+ancar
 ance
 ance 
 ance,
+ancei
 anch
 anch 
 anco
@@ -2898,6 +2970,7 @@ ar,
 ar.
 ar. 
 ara
+ara 
 arab
 arab 
 aran
@@ -2940,6 +3013,8 @@ arid
 aridn
 arin
 aring
+ario
+arios
 arj
 arj 
 arje
@@ -2957,8 +3032,6 @@ arn
 arn 
 arna
 arna 
-arna.
-arnai
 arni
 arni 
 arnin
@@ -3005,12 +3078,11 @@ as6
 as6t
 as6t 
 asa
+asa 
 asa,
 asa, 
 ase
 ase 
-ase.
-ase. 
 ased
 ased,
 asei
@@ -3038,7 +3110,10 @@ ast.x
 aste
 aste 
 asti
+asti 
 astin
+asto
+astos
 at
 at 
 ata
@@ -3052,7 +3127,6 @@ atchi
 ate
 ate 
 ate.
-ate. 
 ate.i
 atea
 ateao
@@ -3070,6 +3144,8 @@ atio
 ation
 ato
 ato 
+atos
+atos 
 ats
 atsa
 atsap
@@ -3098,6 +3174,8 @@ avai
 avail
 ave
 ave 
+ave.
+ave. 
 avi
 avin
 aving
@@ -3119,6 +3197,8 @@ axl
 axl 
 axl.
 axl. 
+axli
+axli 
 ay
 ay 
 ay.
@@ -3129,10 +3209,11 @@ aya,
 aya, 
 aya?
 aya? 
-aya?i
+aya?.
 ayb
 aybl
 aybl 
+aybl.
 aye
 aye 
 ayeg
@@ -3174,6 +3255,7 @@ baby
 bac
 back
 back 
+back.
 bad
 badh
 badha
@@ -3196,6 +3278,7 @@ bakw
 bakwa
 ban
 banc
+banca
 banco
 band
 band 
@@ -3227,6 +3310,8 @@ ber
 ber 
 ber.
 ber. 
+bera
+berar
 beri
 beri 
 bet
@@ -3249,8 +3334,6 @@ bheji
 bhejo
 bhi
 bhi 
-bhii
-bhii 
 bi
 bi 
 bi-
@@ -3325,14 +3408,20 @@ bolo
 bolo 
 bolo.
 bon
+bona
+bonar
 boni
 bonit
 bonu
 bonus
 bot
 bot 
+bot.
+bot. 
 bot?
 bot? 
+bot?.
+bot?i
 box
 box 
 br
@@ -3399,6 +3488,8 @@ care
 carei
 carg
 cargu
+cari
+cario
 cas
 casa
 casa,
@@ -3498,14 +3589,8 @@ ci
 ci 
 cia
 cia 
-cia.
-cia. 
 cia?
 cia? 
-cia?.
-cia?i
-ciai
-ciai 
 cib
 cibi
 cibil
@@ -3774,6 +3859,9 @@ date
 date 
 date.
 datea
+datei
+dato
+datos
 day
 day 
 day.
@@ -3802,6 +3890,8 @@ dear
 dear,
 deari
 deb
+debe
+debe 
 debi
 debit
 ded
@@ -3816,6 +3906,9 @@ del
 del 
 deli
 deliv
+dem
+deme
+deme 
 den
 den 
 dena
@@ -3853,6 +3946,7 @@ desde
 desk
 desk 
 deska
+deski
 det
 deta
 detai
@@ -3902,6 +3996,8 @@ digi
 digit
 digo
 digo 
+dii
+dii 
 dim
 dima
 dimaa
@@ -3921,6 +4017,8 @@ disc
 disco
 dit
 dit 
+dite
+dited
 diy
 diya
 diya 
@@ -3985,8 +4083,6 @@ drug
 drugs
 ds
 ds 
-dsi
-dsi 
 dso
 dson
 dson 
@@ -4039,7 +4135,6 @@ e.
 e.i
 e.in
 e.in 
-e.ini
 e2
 e2 
 e?
@@ -4050,8 +4145,6 @@ e?i
 e?i 
 ea
 ea 
-ea.
-ea. 
 eac
 eact
 eacti
@@ -4064,10 +4157,13 @@ eadli
 eady
 eady 
 eai
+eai 
 eaib
 eaibl
 eal
 eal 
+eali
+eali 
 eam
 eam 
 eama
@@ -4093,7 +4189,6 @@ eart
 eas
 ease
 ease 
-ease.
 eased
 easei
 eau
@@ -4101,6 +4196,8 @@ eau
 eaut
 eauti
 eb
+ebe
+ebe 
 ebi
 ebit
 ebit 
@@ -4169,6 +4266,7 @@ edia
 ediat
 edit
 edit 
+edite
 eds
 eds 
 edu
@@ -4184,8 +4282,6 @@ eed,
 eed, 
 eeds
 eeds 
-eei
-eei 
 eek
 eek 
 eek.
@@ -4222,6 +4318,8 @@ efor
 efore
 eft
 eft 
+efti
+efti 
 efu
 efun
 efund
@@ -4240,8 +4338,6 @@ egi
 egi 
 egi.
 egi. 
-egii
-egii 
 egis
 egist
 egr
@@ -4250,6 +4346,7 @@ egram
 egu
 egur
 eguri
+eguro
 eh
 eh 
 eha
@@ -4268,6 +4365,7 @@ ein
 eip
 eipt
 eipt 
+eipt.
 eiv
 eive
 eive 
@@ -4278,15 +4376,9 @@ ej.
 ej. 
 eja
 eja 
-eja.
-eja. 
-ejai
-ejai 
 eje
 eje?
 eje? 
-eje?.
-eje?i
 eji
 eji 
 ejo
@@ -4333,6 +4425,7 @@ elegr
 eles
 eless
 elf
+elf 
 elfi
 elfie
 eli
@@ -4369,8 +4462,6 @@ ely
 ely 
 ely,
 ely, 
-ely.
-ely. 
 em
 em 
 eme
@@ -4390,8 +4481,6 @@ empl
 emple
 empo
 empo 
-empo.
-empoi
 en
 en 
 en,
@@ -4417,7 +4506,6 @@ end.
 ende
 ended
 endi
-endi 
 endin
 endo
 endo 
@@ -4495,6 +4583,8 @@ epe
 epe 
 epe.
 epe. 
+epei
+epei 
 epl
 eply
 eply 
@@ -4527,6 +4617,8 @@ er.
 er. 
 era
 era 
+erar
+erar 
 erd
 erde
 erder
@@ -4567,6 +4659,7 @@ ero.
 ero. 
 ero?
 ero? 
+ero?i
 eroi
 eroi 
 err
@@ -4618,8 +4711,14 @@ esk
 esk 
 eska
 eskay
+eski
+eski 
+eso
+eso 
 ess
 ess 
+ess.
+ess. 
 essa
 essag
 essf
@@ -4638,6 +4737,7 @@ ested
 esti
 estig
 estio
+estió
 estm
 estme
 esto
@@ -4747,6 +4847,7 @@ fas
 fast
 fast 
 fast.
+fasti
 fc
 fc 
 fco
@@ -4827,6 +4928,7 @@ fo
 foo
 fool
 fool 
+fool.
 fooli
 for
 for 
@@ -4847,7 +4949,6 @@ fraud
 fre
 free
 free 
-freei
 freez
 fri
 frie
@@ -4855,7 +4956,6 @@ frien
 fro
 from
 from 
-fromi
 fron
 front
 froz
@@ -4863,6 +4963,8 @@ froze
 fs
 fsc
 fsc 
+fsci
+fsci 
 ft
 ft 
 ft.
@@ -4872,6 +4974,7 @@ ftar
 ftar 
 fte
 fter
+fter 
 ftern
 fti
 fti 
@@ -4889,6 +4992,7 @@ fund
 fund 
 fund-
 fund.
+fundi
 fy
 fy 
 fy.
@@ -4931,10 +5035,13 @@ gao,
 gaoi
 gaoi 
 gar
+gar 
 gara
 garan
 gas
 gas 
+gast
+gasto
 gat
 gati
 gatio
@@ -4953,7 +5060,6 @@ geg
 gegi
 gegi 
 gegi.
-gegii
 gei
 gei 
 gen
@@ -4966,17 +5072,19 @@ ger
 ger 
 ges
 ges 
+gest
+gesti
 get
 get 
 gett
 getti
 gh
 gh 
+gh.
+gh. 
 gha
 ghar
 ghar 
-ghi
-ghi 
 ght
 ght 
 ght.
@@ -4993,8 +5101,6 @@ gift
 gift 
 gift.
 gifti
-gii
-gii 
 gin
 gin 
 gir
@@ -5027,6 +5133,10 @@ got
 gov
 govt
 govt 
+gp
+gpa
+gpay
+gpay 
 gr
 gra
 gram
@@ -5035,6 +5145,9 @@ gran
 grand
 grat
 gratu
+gre
+gres
+greso
 gro
 grou
 group
@@ -5056,9 +5169,13 @@ guide
 gur
 guri
 gurid
+guro
+guro 
 h 
 h,
 h, 
+h.
+h. 
 ha
 ha 
 ha,
@@ -5135,6 +5252,7 @@ hatsa
 hav
 have
 have 
+have.
 hay
 hay 
 hb
@@ -5168,14 +5286,14 @@ hedul
 hee
 heek
 heek 
+hei
+hei 
 hej
 hej 
 hej.
 hej. 
 heja
 heja 
-heja.
-hejai
 heje
 heje?
 heji
@@ -5213,6 +5331,8 @@ hi
 hi 
 hi,
 hi, 
+hi.
+hi. 
 hic
 hich
 hich 
@@ -5227,6 +5347,7 @@ hijo
 hik
 hik 
 hin
+hin 
 hing
 hing 
 hip
@@ -5256,10 +5377,16 @@ ho
 ho 
 ho,
 ho, 
+hod
+hodi
+hodi 
 hog
 hoga
 hoga 
 hoga,
+hoga.
+hoi
+hoi 
 hol
 hola
 hola 
@@ -5294,6 +5421,8 @@ hosp
 hospi
 hot
 hot 
+hot.
+hot. 
 hote
 hotel
 hoto
@@ -5302,6 +5431,7 @@ hoto,
 hoto.
 hou
 hour
+hour 
 hours
 hous
 house
@@ -5353,7 +5483,7 @@ i2
 i2e
 i2ea
 i2ea 
-i2ea.
+i2eai
 i2i
 i2io
 i2ioo
@@ -5363,19 +5493,11 @@ i8as
 i8aso
 ia
 ia 
-ia.
-ia. 
 ia?
 ia? 
-ia?.
-ia?. 
-ia?i
-ia?i 
 iad
 iado
 iado 
-iai
-iai 
 iam
 iamo
 iamon
@@ -5385,6 +5507,9 @@ iatel
 iato
 iato 
 ib
+ibe
+iber
+ibera
 ibi
 ibil
 ibil 
@@ -5410,8 +5535,6 @@ ice.
 ice. 
 icea
 iceai
-icei
-icei 
 icen
 icens
 icer
@@ -5452,8 +5575,6 @@ icía
 icía 
 id
 id 
-id.
-id. 
 ida
 idad
 idad 
@@ -5467,6 +5588,7 @@ ideo
 ideoi
 ideos
 idi
+idi 
 idio
 idiot
 idn
@@ -5478,16 +5600,12 @@ ido,
 ido, 
 ids
 ids 
-idsi
-idsi 
 idy
 idy 
 ie
 ie 
 ied
 ied 
-iedi
-iedi 
 iee
 iee2
 iee2 
@@ -5529,6 +5647,7 @@ ifica
 ifs
 ifsc
 ifsc 
+ifsci
 ift
 ift 
 ift.
@@ -5609,8 +5728,6 @@ ille
 illeg
 ils
 ils 
-ils.
-ils. 
 ilsi
 ilsi 
 ily
@@ -5621,6 +5738,7 @@ im-
 im-n
 im-no
 im.
+im. 
 im.o
 im.of
 ima
@@ -5635,6 +5753,7 @@ ime.
 imer
 imero
 imi
+imi 
 imit
 imit 
 imm
@@ -5664,6 +5783,8 @@ indo
 indow
 ine
 ine 
+inei
+inei 
 iner
 inero
 inf
@@ -5677,18 +5798,17 @@ ing.
 ing. 
 ingi
 ingi 
+ingr
+ingre
 ings
 ings 
 ini
-ini 
 inim
 inimu
 inin
 ining
 ink
 ink 
-ink.
-ink. 
 ink?
 ink? 
 inke
@@ -5746,14 +5866,20 @@ ioni
 ioni 
 ions
 ions 
+ionsi
 ioo
 iooo
 ioooa
+ios
+ios 
+ios.
+ios. 
 iot
 iot 
 iou
 ious
 ious 
+ious.
 ip
 ip 
 iph
@@ -5771,6 +5897,8 @@ ips
 ips 
 ipt
 ipt 
+ipt.
+ipt. 
 ipto
 iptom
 ir
@@ -5815,6 +5943,8 @@ is
 is 
 isa
 isa 
+isai
+isai 
 isc
 isco
 iscon
@@ -5865,8 +5995,8 @@ itco
 itcoi
 ite
 ite 
-ite.
-ite. 
+ited
+ited 
 item
 item 
 ith
@@ -5875,6 +6005,8 @@ ithd
 ithdr
 ithe
 ithe 
+ithi
+ithin
 itho
 ithou
 iti
@@ -5890,6 +6022,9 @@ itni
 itni 
 ito
 ito 
+its
+itse
+itsel
 itu
 itud
 itud 
@@ -5909,6 +6044,7 @@ ive
 ive 
 ive?
 ive? 
+ive?.
 ive?i
 ived
 ived 
@@ -5943,8 +6079,6 @@ ize
 ize 
 ize.
 ize. 
-izei
-izei 
 izu
 izum
 izum,
@@ -5954,13 +6088,13 @@ iói
 iói 
 ión
 ión 
+ióni
+ióni 
 j 
 j.
 j. 
 ja
 ja 
-ja.
-ja. 
 jaa
 jaak
 jaaka
@@ -5970,7 +6104,6 @@ jac
 jack
 jackp
 jai
-jai 
 jail
 jail 
 jail.
@@ -5993,10 +6126,6 @@ jayen
 je
 je?
 je? 
-je?.
-je?. 
-je?i
-je?i 
 jee
 jeet
 jeet 
@@ -6123,12 +6252,16 @@ kh
 kh 
 kh,
 kh, 
+kh.
+kh. 
 kha
 kha,
 kha, 
 khar
 khara
 khari
+khi
+khi 
 kho
 kho 
 ki
@@ -6136,7 +6269,6 @@ ki
 kid
 kids
 kids 
-kidsi
 kij
 kiji
 kijiy
@@ -6238,12 +6370,15 @@ laim
 laim 
 laim-
 laim.
+laimi
 lain
 laint
 lak
 lakh
 lakh 
 lakh,
+lakh.
+lakhi
 lam
 lama
 lama?
@@ -6284,6 +6419,8 @@ ldi
 ldi 
 ldi.
 ldi. 
+ldii
+ldii 
 le
 le 
 le,
@@ -6310,6 +6447,7 @@ ledi
 lef
 left
 left 
+lefti
 leg
 lega
 lega 
@@ -6329,6 +6467,7 @@ leo
 les
 less
 less 
+less.
 lessi
 let
 let 
@@ -6345,13 +6484,15 @@ lfie
 lfie 
 li
 li 
+lib
+libe
+liber
 lic
 lic 
 lica
 licac
 lice
 lice 
-licei
 licen
 lici
 licid
@@ -6376,11 +6517,11 @@ limit
 lin
 line
 line 
+linei
 ling
 ling 
 link
 link 
-link.
 link?
 linke
 lip
@@ -6460,13 +6601,12 @@ locke
 log
 logi
 login
-loi
-loi 
 lon
 lond
 londo
 lone
 lone 
+lonei
 lonel
 loo
 lood
@@ -6475,6 +6615,7 @@ loq
 loqu
 loque
 los
+los 
 lose
 lose 
 lose.
@@ -6494,6 +6635,8 @@ low
 low 
 low,
 low, 
+low.
+low. 
 lowi
 lowi 
 lp
@@ -6515,8 +6658,6 @@ lrig
 lrigh
 ls
 ls 
-ls.
-ls. 
 lsi
 lsi 
 lt
@@ -6549,6 +6690,7 @@ ly/
 ly/c
 ly/cl
 lyi
+lyi 
 lyin
 lying
 m 
@@ -6570,8 +6712,6 @@ ma'a
 ma'am
 ma?
 ma? 
-ma?i
-ma?i 
 maa
 maag
 maag 
@@ -6579,8 +6719,6 @@ maax
 maaxl
 mad
 mad 
-mad.
-mad. 
 mada
 madam
 madi
@@ -6668,12 +6806,16 @@ mer
 mer 
 mera
 mera 
+mere
+mere 
 mero
 mero 
 mero.
 meroi
 mes
 mes 
+mesi
+mesi 
 mess
 messa
 mi
@@ -6761,10 +6903,6 @@ mpleo
 mplet
 mpo
 mpo 
-mpo.
-mpo. 
-mpoi
-mpoi 
 mpr
 mpra
 mprar
@@ -6829,8 +6967,6 @@ n?
 n? 
 na
 na 
-na.
-na. 
 naa
 naam
 naam 
@@ -6847,6 +6983,7 @@ nager
 nah
 nahi
 nahi 
+nahi.
 nai
 nai 
 nal
@@ -6861,6 +6998,7 @@ name
 name.
 namei
 nar
+nar 
 narc
 narco
 nas
@@ -6876,18 +7014,21 @@ naya
 nb
 nb 
 nc
+nca
+ncar
+ncari
 nce
 nce 
 nce,
 nce, 
+ncei
+ncei 
 nch
 nch 
 nci
 ncia
 ncia 
-ncia.
 ncia?
-nciai
 nció
 nción
 nco
@@ -6950,6 +7091,10 @@ ne.
 ne. 
 ne?
 ne? 
+ne?.
+ne?. 
+ne?i
+ne?i 
 nec
 nece
 neces
@@ -6976,6 +7121,7 @@ nep
 nepe
 nepe 
 nepe.
+nepei
 ner
 ner 
 neri
@@ -7021,6 +7167,8 @@ ngi
 ngr
 ngra
 ngrat
+ngre
+ngres
 ngry
 ngry 
 ngs
@@ -7077,8 +7225,8 @@ nloa
 nload
 nly
 nly 
-nly.
-nly. 
+nlyi
+nlyi 
 nm
 nme
 nmed
@@ -7141,6 +7289,8 @@ nsfie
 nsh
 nsho
 nshot
+nsi
+nsi 
 nst
 nst 
 nsta
@@ -7216,6 +7366,7 @@ nvol
 nvolv
 nví
 nvíe
+nvíe 
 nvíem
 nvío
 nvío 
@@ -7249,6 +7400,8 @@ o98t
 o98t6
 o?
 o? 
+o?i
+o?i 
 oa
 oad
 oad 
@@ -7316,6 +7469,8 @@ ode,
 ode, 
 ode.
 ode. 
+odi
+odi 
 odu
 oduc
 oduct
@@ -7350,6 +7505,8 @@ oga
 oga 
 oga,
 oga, 
+oga.
+oga. 
 oge
 oge 
 oge.
@@ -7392,6 +7549,8 @@ oken
 okeni
 ol
 ol 
+ol.
+ol. 
 ola
 ola 
 old
@@ -7427,7 +7586,6 @@ omei
 omer
 omer 
 omi
-omi 
 omin
 oming
 omis
@@ -7463,6 +7621,8 @@ ona
 onal
 onal 
 onali
+onar
+onar 
 ond
 ondo
 ondon
@@ -7476,6 +7636,8 @@ one.
 one. 
 one?
 one? 
+one?.
+one?i
 oned
 oned 
 oneda
@@ -7509,7 +7671,7 @@ onli
 onlin
 only
 only 
-only.
+onlyi
 onn
 onne
 onnec
@@ -7521,11 +7683,15 @@ ons
 ons 
 onse
 onsen
+onsi
+onsi 
 ont
 ont 
 onta
 ontac
 ontai
+onto
+onto 
 ontr
 ontra
 onu
@@ -7558,6 +7724,8 @@ ooi2
 ooi2e
 ool
 ool 
+ool.
+ool. 
 ooli
 ooli 
 oon
@@ -7583,8 +7751,6 @@ oosi
 oosie
 op
 op 
-op.
-op. 
 ope
 open
 open 
@@ -7620,6 +7786,8 @@ ornin
 orr
 orre
 orrec
+orry
+orry 
 ors
 ors 
 ort
@@ -7639,6 +7807,8 @@ os
 os 
 os,
 os, 
+os.
+os. 
 ose
 ose 
 ose.
@@ -7668,6 +7838,10 @@ ot.
 ot. 
 ot?
 ot? 
+ot?.
+ot?. 
+ot?i
+ot?i 
 ota
 otak
 otak 
@@ -7706,7 +7880,7 @@ ouble
 oug
 ough
 ough 
-oughi
+ough.
 oui
 oui 
 oul
@@ -7719,7 +7893,6 @@ ount
 ount 
 ount,
 ount.
-ounti
 oup
 oup 
 oup,
@@ -7736,14 +7909,16 @@ ourt
 ourt 
 ous
 ous 
+ous.
+ous. 
 ouse
 ouse 
 ouse,
 ousew
 out
 out 
-outi
-outi 
+out.
+out. 
 outu
 outub
 ov
@@ -7751,6 +7926,7 @@ ova
 oval
 oval 
 oval.
+ovali
 ove
 ove 
 ove,
@@ -7813,6 +7989,7 @@ packa
 pag
 paga
 pagal
+pagar
 pago
 pago 
 pagu
@@ -7835,6 +8012,8 @@ paqu
 paque
 par
 par 
+para
+para 
 parc
 parce
 part
@@ -7872,6 +8051,8 @@ pees
 peh
 pehl
 pehle
+pei
+pei 
 pen
 pen 
 pend
@@ -7958,8 +8139,6 @@ pls
 pls 
 ply
 ply 
-ply.
-ply. 
 plyi
 plyin
 pm
@@ -7978,10 +8157,7 @@ pne
 pne 
 po
 po 
-po.
-po. 
 poi
-poi 
 poin
 point
 pol
@@ -8017,7 +8193,6 @@ pple
 pple 
 pply
 pply 
-pply.
 ppo
 ppor
 pport
@@ -8051,6 +8226,8 @@ profe
 profi
 prom
 promi
+pron
+pront
 proo
 proof
 prov
@@ -8133,6 +8310,7 @@ raha
 raha 
 rahe
 rahe 
+rahei
 rai
 rai 
 ram
@@ -8214,6 +8392,7 @@ read
 ready
 real
 real 
+reali
 reas
 rease
 reau
@@ -8243,8 +8422,6 @@ redi
 redit
 ree
 ree 
-reei
-reei 
 reen
 reen 
 reen.
@@ -8286,6 +8463,8 @@ res
 res 
 resc
 resch
+reso
+reso 
 ress
 ress 
 ressi
@@ -8333,7 +8512,6 @@ ridna
 rie
 ried
 ried 
-riedi
 rien
 rienc
 riend
@@ -8357,6 +8535,9 @@ rin
 ring
 ring 
 rio
+rios
+rios 
+rios.
 riou
 rious
 rip
@@ -8365,6 +8546,7 @@ ripto
 ris
 risa
 risa 
+risai
 rit
 rita
 ritat
@@ -8374,7 +8556,6 @@ riz
 rize
 rize 
 rize.
-rizei
 rj
 rj 
 rje
@@ -8400,10 +8581,6 @@ rn
 rn 
 rna
 rna 
-rna.
-rna. 
-rnai
-rnai 
 rne
 rned
 rned 
@@ -8422,6 +8599,8 @@ ro.
 ro. 
 ro?
 ro? 
+ro?i
+ro?i 
 roa
 road
 road,
@@ -8450,11 +8629,11 @@ roken
 rom
 rom 
 romi
-romi 
 romis
 ron
 ront
 ront 
+ronto
 roo
 roof
 roof 
@@ -8648,10 +8827,15 @@ sacti
 sag
 sage
 sage 
+sai
+sai 
 sal
 sala
 salaa
 salar
+sam
+same
+same 
 san
 sanc
 sanct
@@ -8684,6 +8868,8 @@ sch
 sche
 sched
 schem
+sci
+sci 
 sco
 scon
 sconn
@@ -8718,17 +8904,17 @@ sele
 selec
 seles
 self
+self 
 selfi
 sen
 send
 send 
-send.
 sendi
 sens
 sense
 sent
 sent 
-senti
+sent.
 ser
 seri
 serio
@@ -8773,6 +8959,7 @@ shkil
 sho
 shot
 shot 
+shot.
 show
 show 
 shu
@@ -8799,24 +8986,26 @@ sing
 sio
 sion
 sion 
+sion.
 sir
 sir 
 sit
 sit 
 site
 site 
-site.
 sito
 sito 
 sió
 sión
 sión 
+sióni
 sk
 sk 
 ska
 skay
 skayb
 ski
+ski 
 skin
 sking
 sks
@@ -8828,6 +9017,7 @@ slo
 slow
 slow 
 slow,
+slow.
 slowi
 sm
 sma
@@ -8858,6 +9048,9 @@ son,
 son, 
 sona
 sonal
+soo
+soon
+soon 
 sor
 sort
 sorte
@@ -8874,6 +9067,8 @@ spit
 spita
 ss
 ss 
+ss.
+ss. 
 ssa
 ssag
 ssage
@@ -8936,6 +9131,8 @@ stin
 sting
 stio
 stion
+stió
+stión
 stm
 stme
 stmen
@@ -8951,6 +9148,8 @@ stop
 stop 
 stor
 store
+stos
+stos 
 stoy
 stoy 
 str
@@ -8990,6 +9189,7 @@ suran
 sure
 sure 
 sus
+sus 
 susp
 suspe
 suspi
@@ -9015,12 +9215,16 @@ t.xy
 t.xyz
 t6
 t6 
-t6.
-t6. 
+t6i
+t6i 
 t:
 t: 
 t?
 t? 
+t?.
+t?. 
+t?i
+t?i 
 ta
 ta 
 ta,
@@ -9079,6 +9283,8 @@ tarje
 tart
 tart 
 tas
+tasa
+tasa 
 task
 tasks
 tat
@@ -9108,7 +9314,6 @@ te
 te,
 te, 
 te.
-te. 
 te.i
 te.in
 tea
@@ -9147,7 +9352,6 @@ tels
 tels 
 tely
 tely 
-tely.
 tem
 tem 
 ten
@@ -9174,6 +9378,8 @@ tery.
 teryi
 tes
 tes 
+tes.
+tes. 
 tex
 text
 text 
@@ -9196,9 +9402,13 @@ thi
 thi 
 thik
 thik 
+thin
+thin 
 this
 this 
 tho
+thod
+thodi
 thou
 thout
 thr
@@ -9255,6 +9465,9 @@ tivit
 tiz
 tiza
 tizad
+tió
+tión
+tión 
 tl
 tly
 tly,
@@ -9297,12 +9510,12 @@ toni
 tonig
 top
 top 
-top.
-top. 
 tor
 tor 
 tore
 tore 
+tos
+tos 
 toy
 toy 
 tp
@@ -9343,6 +9556,9 @@ ts,
 tsa
 tsap
 tsapp
+tse
+tsel
+tself
 tt
 tte
 tter
@@ -9485,8 +9701,8 @@ uevo
 ug
 ugh
 ugh 
-ughi
-ughi 
+ugh.
+ugh. 
 ugs
 ugs 
 ugs,
@@ -9570,6 +9786,8 @@ und.
 und.c
 unde
 under
+undi
+undi 
 ung
 unga
 unga 
@@ -9583,14 +9801,10 @@ unt,
 unt, 
 unt.
 unt. 
-unti
-unti 
 up
 up 
 up,
 up, 
-up.
-up. 
 upd
 upda
 updat
@@ -9637,6 +9851,7 @@ urned
 urns
 urns 
 uro
+uro 
 uros
 uros,
 urr
@@ -9653,6 +9868,8 @@ urt
 urt 
 us
 us 
+us.
+us. 
 usd
 usdt
 usdt 
@@ -9660,8 +9877,6 @@ use
 use 
 use,
 use, 
-use.
-use. 
 used
 used 
 usei
@@ -9692,13 +9907,15 @@ ustod
 ustom
 ut
 ut 
+ut.
+ut. 
 ute
 uter
 uter 
 utes
 utes 
+utes.
 uti
-uti 
 utif
 utifu
 utiv
@@ -9729,6 +9946,7 @@ val.
 vale
 vale 
 vali
+vali 
 valid
 vam
 vamo
@@ -9745,8 +9963,12 @@ ve
 ve 
 ve,
 ve, 
+ve.
+ve. 
 ve?
 ve? 
+ve?.
+ve?. 
 ve?i
 ve?i 
 ved
@@ -9821,6 +10043,7 @@ vv
 vv 
 ví
 víe
+víe 
 víem
 víeme
 vío
@@ -9909,6 +10132,7 @@ wit
 with
 with 
 withd
+withi
 witho
 wiv
 wive
@@ -9926,6 +10150,8 @@ wor
 work
 work 
 worki
+worr
+worry
 ws
 ws 
 x 
@@ -9942,6 +10168,8 @@ xl
 xl 
 xl.
 xl. 
+xli
+xli 
 xp
 xpe
 xper
@@ -9979,8 +10207,8 @@ ya.
 ya. 
 ya?
 ya? 
-ya?i
-ya?i 
+ya?.
+ya?. 
 yaa
 yaar
 yaar 
@@ -9992,6 +10220,8 @@ yber
 yber 
 ybl
 ybl 
+ybl.
+ybl. 
 yc
 yc 
 yc-
@@ -10035,7 +10265,6 @@ yi
 yin
 ying
 ying 
-yingi
 ym
 yme
 ymen
@@ -10100,8 +10329,6 @@ ze
 ze 
 ze.
 ze. 
-zei
-zei 
 zen
 zen 
 zen.
@@ -10153,6 +10380,7 @@ zum,
 ícul
 ículo
 íe
+íe 
 íem
 íeme
 íeme 
@@ -10182,6 +10410,8 @@ zum,
 ónd
 ónde
 ónde 
+óni
+óni 
 óv
 óvi
 óvil
@@ -10194,8 +10424,6 @@ zum,
 úmero
 ँ 
 ं 
-ं.
-ं. 
 ंi
 ंi 
 ंक
@@ -10256,10 +10484,13 @@ zum,
 करे
 करें
 करें 
-करें.
 करेंi
 करो
 करो 
+करो.
+करो. 
+करोi
+करोi 
 कव
 कवा
 कवास
@@ -10515,12 +10746,14 @@ zum,
 रे
 रें
 रें 
-रें.
-रें. 
 रेंi
 रेंi 
 रो
 रो 
+रो.
+रो. 
+रोi
+रोi 
 रोज
 रोज़
 रोज़ 
@@ -10705,8 +10938,6 @@ zum,
 े 
 ें
 ें 
-ें.
-ें. 
 ेंi
 ेंi 
 ेज
@@ -10744,6 +10975,10 @@ zum,
 ॉल
 ॉल 
 ो 
+ो.
+ो. 
+ोi
+ोi 
 ोग
 ोगु
 ोगुन
@@ -10804,15 +11039,18 @@ zum,
 000 tak
 000 क
 000012345678901
-000012345678901 hdfc
-000012345678901 hdfcoooi2ea
-000012345678901 icicooo98t6
+000012345678901 hdfcoooi2eai
+000012345678901 icici
 000012345678901 ifsc
+000012345678901 pls
+000012345678901 sbi
 000012345678901 sbinoooas6t
 000012345678901 sir
 1
 1 000
+1 hour
 1 lakh
+1 lakhi
 10
 10 00
 10 minutes
@@ -10831,18 +11069,20 @@ zum,
 200 commission
 200 customs
 200 de
+200 jama
 200 please
+200 primero
 200 processing
-200 registration
 200 roz
+200 sir
 200 to
 200 कम
-200 श
 23456
-23456 ji
-23456 now
+23456 madam
 23456 ok
-23456 pe
+23456 please
+23456 pls
+23456 sir
 24
 24 hours
 25
@@ -10856,53 +11096,54 @@ zum,
 3000
 3000 al
 3000 and
-3000 as
 3000 bharna
 3000 cashback
 3000 customs
 3000 daily
+3000 de
 3000 jama
-3000 now
 3000 ok
 3000 pending
 3000 per
 3000 please
+3000 pls
+3000 primero
 3000 processing
+3000 registration
 3000 roz
 3000 to
 3000 won
 3000 कम
 3000 श
 3456789012345
-3456789012345 axis
-3456789012345 hdfc
-3456789012345 icici
+3456789012345 hdfcoooi2ea
 3456789012345 ifsc
-3456789012345 madam
-3456789012345 ok
+3456789012345 kotak
+3456789012345 pls
+3456789012345 pnb
 3456789012345 sbi
+3456789012345 sbinoooas6t
 4
 4 digit
 44
 44 7700
 499
 499 al
-499 as
+499 bharna
 499 cashback
 499 claim
 499 commission
-499 de
 499 is
-499 jama
 499 lagaoi
 499 pending
 499 per
 499 pls
+499 primero
 499 processing
+499 registration
 499 reward
 499 to
 499 won
-499 श
 5
 5 daily
 5 lakh
@@ -10926,7 +11167,7 @@ zum,
 500 pending
 500 pendingi
 500 per
-500 please
+500 primero
 500 processing
 500 registration
 500 rozi
@@ -10938,6 +11179,7 @@ zum,
 5000 al
 5000 and
 5000 as
+5000 bharna
 5000 cashback
 5000 claim
 5000 commission
@@ -10957,21 +11199,25 @@ zum,
 5000 to
 5000 won
 5000 कम
+5000 श
 50100234567812
-50100234567812 hdfc
 50100234567812 hdfcoooi2ea
+50100234567812 icici
 50100234567812 ifsc
+50100234567812 kotak
+50100234567812 now
+50100234567812 ok
 50100234567812 please
-50100234567812 sbi
+50100234567812 pnb
 50100234567812 sbinoooas6t
 6
 6 digit
 7
 7 days
 7004561234
+7004561234 ji
 7004561234 now
 7004561234 pe
-7004561234 please
 7004561234 pls
 7004561234 sir
 7700
@@ -10984,28 +11230,31 @@ zum,
 90 000
 900123
 900123 ji
-900123 ok
+900123 now
 900123 pe
+900123 please
+900123 pls
+900123 sir
 91
 91 88001
 9876543210
 9876543210 ji
 9876543210 madam
+9876543210 now
 9876543210 ok
 9876543210 pe
-9876543210 pls
 9876543210 sir
 9999
-9999 bharna
 9999 cashback
 9999 claim
 9999 customs
 9999 daily
-9999 jama
+9999 de
+9999 ji
 9999 lagao
 9999 per
+9999 primero
 9999 processing
-9999 registration
 9999 reward
 9999 roz
 9999 sir
@@ -11027,6 +11276,7 @@ a gift
 a la
 a lottery
 a lotteryi
+a mi
 a missed
 a payment
 a paymenti
@@ -11056,8 +11306,6 @@ aap jeet
 aap kahan
 aap now
 aap par
-aap please
-aap pls
 aapka
 aapka 1
 aapka 2
@@ -11096,18 +11344,23 @@ aaya
 aaya hai
 aaya hoga
 aaya woh
+aayega
 aayegi
 aayegi ji
 aayegi madam
 aayegi ok
 aayegi please
 abhi
-abhi ji
 abhi karo
 abhi ke
-abhi now
-abhi please
-abhii
+abhi ok
+abonar
+abonar 2
+abonar 200
+abonar 3000
+abonar 499
+abonar iok
+abonar rs
 abroad
 abroad clearance
 abuela
@@ -11125,11 +11378,12 @@ account
 account 000012345678901
 account 3456789012345
 account 50100234567812
+account and
 account band
 account details
 account freeze
 account is
-account madam
+account ji
 account now
 account number
 account numberi
@@ -11139,18 +11393,16 @@ account pleasei
 account sir
 account suspend
 account will
-accounti
 acepte
 acepte la
 achha
 act
 act now
+act nowi
 action
 action will
 activate
-activate madam
-activate now
-activate sir
+activate ji
 activatei
 activities
 activities ok
@@ -11185,6 +11437,8 @@ advance bhej
 advance payment
 advance paymenti
 advance send
+after
+after 10
 afternoon
 against
 against you
@@ -11213,9 +11467,10 @@ allotment guaranteed
 allow
 allow screen
 alone
+alone ji
 alone madam
-alone now
-alone sir
+alone pls
+alonei
 alright
 am
 am a
@@ -11238,9 +11493,10 @@ amor
 amor te
 amount
 amount available
+amount now
 amount please
-amount pls
 amount return
+amount sir
 an
 an accident
 an arrest
@@ -11257,6 +11513,8 @@ and earni
 and expiry
 and fill
 and get
+and ifsc
+and ifsci
 and install
 and pay
 and payi
@@ -11264,15 +11522,15 @@ and share
 and students
 angry
 angry now
-angry nowi
 anniversary
 anniversary draw
 anniversary drawi
 anydesk
 anydesk and
+anydesk download
 anydesk from
-anydesk ji
 anydesk ड
+anydeski
 anyone
 anyone with
 anytime
@@ -11281,17 +11539,19 @@ anytime please
 apk
 apk download
 apk from
-apk madam
-apk now
+apk ड
 aplicación
 aplicación anydesk
+aplicación anydeski
 aplicación quicksupport
 aplicación rustdesk
-aplicación teamvieweri
+aplicación teamviewer
 aplicación this
 apna
 apna aadhaar
 apna naam
+apne
+apne bank
 app
 app install
 app se
@@ -11301,18 +11561,19 @@ apple
 apple id
 apply
 apply and
-apply madam
 apply now
 apply nowi
-apply ok
+apply please
+apply pls
 apply sir
 apply to
 approval
 approval ji
 approval madam
 approval now
-approval please
+approval ok
 approval pls
+approvali
 approve
 approve ho
 approved
@@ -11365,12 +11626,12 @@ at
 at 0
 at 9
 at airport
-at bit
 at customs
 at home
 at https
 at loan
 at parcel
+at sbi
 aur
 aur pata
 aur rozana
@@ -11390,11 +11651,9 @@ baat mat
 baby
 baby i
 back
-back ji
-back madam
 back of
-back ok
 back photo
+back sir
 badhai
 badhai ho
 bail
@@ -11409,6 +11668,10 @@ baithe
 baithe kamaiye
 bakwas
 bakwas hai
+bakwas haii
+bancarios
+bancarios madam
+bancarios pls
 banco
 banco madam
 banco now
@@ -11422,10 +11685,11 @@ band madam
 band ok
 bank
 bank account
-bank accounti
 bank customer
+bank details
 bank do
 bank head
+bank ki
 bank madam
 bank manager
 bank name
@@ -11450,6 +11714,7 @@ be
 be arrested
 be blocked
 be blockedi
+be credited
 be cut
 be deactivated
 be delivered
@@ -11468,6 +11733,7 @@ been filed
 been selected
 before
 before deadline
+before deadlinei
 behalf
 behalf of
 beta
@@ -11491,19 +11757,18 @@ bheja
 bheja kya
 bheja kyai
 bheja please
-bhejai
+bheja pls
+bheja sir
 bheje
-bheje i
-bheje now
-bheje ok
-bheje pls
+bheje madam
 bheji
 bhejo
-bhejo help
+bhejo claim
 bhejo ji
 bhejo kyc
 bhejo loan
 bhejo madam
+bhejo now
 bhejo ok
 bhejo please
 bhejo pls
@@ -11571,9 +11836,6 @@ bonus
 bonus of
 bot
 bot ho
-bot ji
-bot madam
-bot now
 box
 box from
 branch
@@ -11664,7 +11926,6 @@ cellapaytm
 cellapaytm madam
 cellapaytm now
 cellapaytm pe
-cellapaytm please
 chahiye
 chahiye 10
 chahiye 25
@@ -11676,17 +11937,21 @@ chahiye join
 chahiye urgent
 chahiye urgenti
 chance
-chance now
+chance madam
+chance please
+chance sir
+chancei
 charge
 charge 1
 charge 2
 charge 200
 charge 3000
+charge 499
 charge 50
+charge 5000
 charge madam
 charge now
-charge please
-charge rs
+charge pls
 chargei
 charges
 charges required
@@ -11696,19 +11961,19 @@ check pls
 cibil
 cibil check
 city
-city madam
 city now
-city ok
+city please
+city pls
 cityi
 claim
-claim ji
 claim now
-claim nowi
 claim officeaibl
+claim ok
+claim please
 claim prize
-claim prizei
 claim today
 claim your
+claimi
 claro
 clear
 clear customs
@@ -11718,6 +11983,7 @@ clic
 clic en
 click
 click karo
+click karoi
 click on
 click this
 close
@@ -11728,7 +11994,6 @@ code
 code aaya
 code batao
 code from
-code madam
 code ok
 code on
 code scan
@@ -11736,13 +12001,18 @@ code sir
 code tell
 code you
 come
+come fast
 come to
 come will
 coming
 coming to
 comisión
+comisión ji
+comisión pls
 comisión primero
 comisión primeroi
+comisión sir
+comisióni
 commission
 commission ji
 commission ok
@@ -11790,6 +12060,7 @@ court
 court summons
 credit
 credit card
+credited
 crime
 crime branch
 crime complaint
@@ -11816,57 +12087,52 @@ custody
 custody pay
 customer
 customer aap
-customer aapka
 customer aapke
 customer aapki
 customer aapko
-customer account
+customer abhi
 customer address
-customer allow
 customer apna
-customer app
 customer are
 customer baby
 customer beta
 customer bhai
-customer bheja
+customer bloody
 customer call
 customer care
 customer carei
 customer claim
-customer click
-customer contact
 customer crypto
 customer customs
 customer dad
+customer debe
+customer deme
 customer deposit
-customer deprisa
-customer descargue
 customer did
+customer dimaag
 customer do
-customer don
 customer download
 customer drugs
 customer dígame
-customer dónde
 customer earn
 customer electricity
 customer empleo
 customer eres
+customer es
+customer estoy
 customer felicidades
 customer file
 customer fir
 customer forward
 customer gana
 customer ghar
+customer give
 customer ha
-customer have
+customer haga
 customer hay
 customer hi
 customer high
 customer hiring
-customer how
-customer hurry
 customer i
 customer install
 customer inversión
@@ -11874,22 +12140,25 @@ customer ipo
 customer is
 customer it
 customer join
-customer kitna
 customer kya
+customer last
 customer le
 customer lea
 customer legal
-customer link
 customer loan
 customer low
 customer main
+customer mera
+customer mere
 customer minimum
 customer mom
+customer my
 customer naukri
 customer need
-customer no
 customer non
 customer nonsense
+customer offer
+customer only
 customer open
 customer otp
 customer our
@@ -11898,34 +12167,38 @@ customer paisa
 customer parcel
 customer pay
 customer payment
+customer paytm
 customer pehle
 customer please
-customer quickly
+customer quick
 customer read
 customer refund
 customer review
-customer rustdesk
 customer scan
+customer screenshot
 customer send
-customer sent
 customer share
 customer shipment
+customer show
+customer shut
 customer sms
 customer stay
-customer stop
 customer su
 customer the
 customer there
 customer this
-customer to
+customer tiene
+customer today
 customer trabajo
 customer trading
+customer transfer
+customer tum
 customer tumse
+customer turant
 customer update
-customer uselessi
+customer useless
 customer we
 customer what
-customer where
 customer which
 customer why
 customer you
@@ -11934,6 +12207,8 @@ customer आपक
 customer आपन
 customer इस
 customer न
+customer बकव
+customer भ
 customer म
 customs
 customs department
@@ -11957,8 +12232,9 @@ código que
 cómo
 cómo se
 daalo
-daalo pls
-daaloi
+daalo madam
+daalo now
+daalo please
 dad
 dad don
 dad i
@@ -11979,10 +12255,14 @@ darj hua
 data
 data entry
 date
+date madam
 date nikal
 date of
+date ok
 date please
-date sir
+datei
+datos
+datos bancarios
 day
 day now
 day please
@@ -11995,17 +12275,25 @@ days pls
 de
 de 1
 de 2
+de 200
 de 25
+de 3000
+de 499
 de 5
 de 50
+de 5000
 de 90
 de acuerdo
 de aduana
 de aduanai
 de comisión
 de detención
+de gestión
+de iok
 de la
 de rahe
+de rahei
+de rs
 de seguridad
 de su
 de tarjeta
@@ -12014,7 +12302,8 @@ deactivated
 deactivated in
 deactivated update
 deadline
-deadline pls
+deadline now
+deadlinei
 dear
 dear customer
 dear customs
@@ -12023,6 +12312,8 @@ dear ji
 dear pls
 dear sir
 deari
+debe
+debe abonar
 debit
 debit card
 dekha
@@ -12036,6 +12327,8 @@ delivered update
 deliveredi
 delivery
 delivery charge
+deme
+deme sus
 departamento
 departamento de
 department
@@ -12053,25 +12346,34 @@ deposit in
 deposit iok
 deposit rs
 deprisa
+deprisa madam
 deprisa ok
+deprisa please
+deprisa pls
+deprisai
 der
 der lagegi
-der lagegii
+der mein
 descargue
 descargue la
 desde
 desde casa
 deskaybl
 deskaybl madam
+deskaybl ok
 deskaybl pe
-deskaybl please
 deskaybl pls
 details
 details bharo
+details bhejo
+details bhejoi
+details do
 details ji
 details madam
 details now
+details ok
 details please
+details pls
 details sir
 detailsi
 detectamos
@@ -12104,10 +12406,13 @@ digital arrest
 dimaag
 dimaag kharab
 dinero
+dinero a
 dinero con
+dinero i
 dinero ji
-dinero now
+dinero madam
 dinero ok
+dinero please
 dinero sir
 disconnect
 disconnect you
@@ -12123,13 +12428,13 @@ dni now
 dni sir
 do
 do it
-do iti
 do ji
 do madam
 do not
 do now
 do please
 do pls
+do sir
 do you
 doctor
 doctor in
@@ -12145,7 +12450,7 @@ dollars pls
 don
 don t
 done
-done ji
+done i
 done please
 done pls
 double
@@ -12159,6 +12464,7 @@ download anydesk
 download karo
 download quicksupport
 download rustdesk
+download teamviewer
 download the
 download this
 draw
@@ -12206,8 +12512,8 @@ el
 el código
 el dinero
 el ganador
+el seguro
 el tiempo
-el tiempoi
 electricity
 electricity bill
 electricity board
@@ -12222,9 +12528,9 @@ en apuros
 en este
 en su
 enlace
+enlace bit
 enlace https
 enlace loan
-enlace parcel
 enlace sbi
 enter
 enter your
@@ -12233,6 +12539,8 @@ entry job
 entry jobi
 enviado
 enviado el
+envíe
+envíe el
 envíeme
 envíeme su
 envío
@@ -12248,9 +12556,8 @@ es el
 es mi
 es usted
 es9i2ioooai8aso2ooosiee2
-es9i2ioooai8aso2ooosiee2 please
-es9i2ioooai8aso2ooosiee2 pls
-es9i2ioooai8aso2ooosiee2 sir
+es9i2ioooai8aso2ooosiee2 madam
+es9i2ioooai8aso2ooosiee2 now
 este
 este enlace
 este es
@@ -12288,6 +12595,7 @@ faltu
 faltu baat
 fast
 fast fast
+fast fasti
 fast idiot
 fast ji
 fast madam
@@ -12295,8 +12603,8 @@ fast now
 fast ok
 fast please
 fast pls
-fast sir
 fast xyz
+fasti
 fedex
 fedex are
 fedex claim
@@ -12337,10 +12645,9 @@ fir has
 first
 first give
 first ji
-first madam
 first now
 first pay
-first please
+first sir
 fix
 fix it
 flipkart
@@ -12352,6 +12659,7 @@ fool
 fool ji
 fool madam
 fool ok
+fool please
 fooli
 for
 for 1
@@ -12396,13 +12704,10 @@ fraud department
 free
 free gift
 free gifti
-free ji
-free madam
 free now
 free ok
+free pls
 free recharge
-free sir
-freei
 freeze
 freeze madam
 freeze now
@@ -12432,20 +12737,16 @@ from home
 from homei
 from icici
 from income
-from ji
 from jio
 from kotak
 from london
 from mumbai
 from narcotics
-from now
 from play
-from pls
 from pnb
 from sbi
 from the
 from this
-fromi
 front
 front and
 frozen
@@ -12456,9 +12757,11 @@ full namei
 fun
 fun of
 games
-games ji
 games now
 games ok
+games pls
+games sir
+gamesi
 gana
 gana dinero
 ganado
@@ -12480,10 +12783,13 @@ garantizada pls
 garantizadai
 gas
 gas connection
+gastos
+gastos de
 gaya
 gaya hai
 gaya haii
-gaya i
+gaya ji
+gaya madam
 gaya now
 gaya yeh
 gaye
@@ -12491,6 +12797,10 @@ gaye now
 gaye ok
 gaye please
 gaye sir
+gestión
+gestión madam
+gestión now
+gestión please
 get
 get 1
 get 10
@@ -12509,6 +12819,7 @@ get loan
 get paid
 get personal
 get refund
+get refundi
 getting
 getting angry
 ghar
@@ -12535,7 +12846,6 @@ gives
 gives 5
 go
 go through
-go throughi
 go to
 good
 good afternoon
@@ -12555,6 +12865,9 @@ got pls
 got sir
 govt
 govt subsidy
+gpay
+gpay karo
+gpay karoi
 grandma
 grandma it
 grandson
@@ -12590,6 +12903,7 @@ had an
 haga
 haga clic
 haga perder
+haga un
 hago
 hago un
 hai
@@ -12626,13 +12940,8 @@ have
 have a
 have access
 have been
-have ji
 have kids
-have kidsi
-have now
-have ok
 have only
-have please
 have sent
 have won
 have you
@@ -12642,12 +12951,13 @@ hay una
 hdfc
 hdfc customer
 hdfc head
-hdfc now
 hdfc se
 hdfc स
 hdfcoooi2ea
 hdfcoooi2ea ji
-hdfcoooi2ea sir
+hdfcoooi2ea now
+hdfcoooi2ea ok
+hdfcoooi2eai
 head
 head office
 hecho
@@ -12656,17 +12966,16 @@ held
 held at
 held update
 hello
-hello 91
 hello a
+hello aap
 hello aapka
 hello aapke
 hello aapne
-hello abhi
 hello address
-hello allow
 hello are
 hello baby
 hello badhai
+hello bank
 hello beta
 hello bijli
 hello call
@@ -12677,8 +12986,11 @@ hello customs
 hello cyber
 hello cómo
 hello dad
-hello date
 hello dear
+hello deme
+hello deposit
+hello deprisa
+hello descargue
 hello detectamos
 hello did
 hello do
@@ -12687,19 +12999,14 @@ hello download
 hello drugs
 hello dígame
 hello electricity
-hello es
-hello estoy
 hello faltu
-hello fast
 hello fill
 hello first
 hello free
 hello gana
 hello ghar
 hello give
-hello ha
 hello hackers
-hello have
 hello hay
 hello hello
 hello hi
@@ -12711,7 +13018,6 @@ hello i
 hello india
 hello invest
 hello is
-hello jaldi
 hello jawab
 hello ji
 hello join
@@ -12719,17 +13025,21 @@ hello kaam
 hello kbc
 hello kitna
 hello kitni
+hello kyc
 hello le
+hello llame
 hello madam
 hello main
 hello mamá
+hello mera
 hello my
 hello naam
-hello offer
+hello no
+hello number
 hello olx
 hello open
 hello pagal
-hello paise
+hello pague
 hello pan
 hello parcel
 hello part
@@ -12739,51 +13049,49 @@ hello pending
 hello please
 hello power
 hello pre
+hello quickly
 hello quiero
-hello reply
 hello right
-hello rs
 hello scan
 hello screen
-hello screenshot
 hello send
 hello share
 hello show
+hello shut
 hello sir
 hello small
 hello soy
 hello stock
+hello stop
 hello su
 hello sweetheart
+hello tap
 hello tell
 hello the
 hello this
 hello time
 hello to
+hello today
 hello trabajo
 hello trading
 hello transfer
+hello tum
 hello tumse
 hello u
 hello upto
 hello usdt
-hello use
 hello we
 hello what
 hello whatsapp
 hello where
-hello which
-hello who
 hello why
 hello windows
-hello ya
 hello you
 hello your
 hello आपक
 hello इस
 hello घर
 hello प
-hello पहल
 hello बकव
 hello म
 help
@@ -12800,6 +13108,7 @@ help to
 help top
 helpi
 helpline
+helpline 44
 helpline 7004561234
 helpline 91
 helpline 9876543210
@@ -12826,18 +13135,19 @@ ho aap
 ho gaya
 ho jayega
 ho jayegi
+ho ji
 ho kya
-ho now
-ho ok
+ho kyai
+ho madam
 ho please
-ho pls
 ho sir
 ho tum
 hoga
 hoga code
-hoga now
+hoga madam
 hoga please
-hoga sir
+hoga pls
+hoi
 hola
 hola señora
 hold
@@ -12851,7 +13161,6 @@ home
 home job
 home madam
 home now
-home nowi
 home pls
 homei
 honge
@@ -12878,6 +13187,7 @@ hospital pls
 hospitali
 hotels
 hotels on
+hour
 hours
 hours ji
 hours madam
@@ -12930,35 +13240,44 @@ i miss
 i need
 i paid
 i sent
-i senti
 i want
 i will
 icici
 icici customer
 icici head
+icici please
 icici स
 icicooo98t6
+icicooo98t6 sir
+icicooo98t6i
 id
 id is
-id madam
+id ji
+id now
 id please
 id proof
 id proofi
-id sir
 id will
+idi
 idiot
-idiot madam
+idiot now
+idiot please
 ifsc
 ifsc hdfcoooi2ea
 ifsc icicooo98t6
+ifsc icicooo98t6i
+ifsc ji
+ifsc madam
+ifsc please
+ifsc pls
 ifsc sbinoooas6t
+ifsci
 illegal
 illegal activities
 illegal kaam
 immediately
-immediately ji
 immediately now
-immediately pls
+immediately ok
 in
 in 2
 in 24
@@ -12976,8 +13295,8 @@ in money
 in our
 in parcel
 in part
+in pls
 in police
-in sir
 in the
 in this
 in to
@@ -13000,7 +13319,8 @@ india post
 india to
 infected
 infected with
-ini
+ingreso
+ingreso de
 inmediato
 inmediato de
 install
@@ -13009,6 +13329,7 @@ install karo
 install quicksupport
 install rustdesk
 install teamviewer
+install teamvieweri
 install this
 instant
 instant cash
@@ -13048,18 +13369,17 @@ iok and
 iok claim
 iok commission
 iok de
-iok jama
-iok ok
+iok ji
+iok madam
 iok pending
 iok per
-iok please
+iok primero
 iok processing
 iok registration
 iok reward
 iok roz
 iok sir
 iok to
-iok श
 iphone
 iphone in
 iphone madam
@@ -13069,7 +13389,11 @@ ipo
 ipo allotment
 irritating
 irritating me
+irritating mei
 is
+is 44
+is 91
+is 9876543210
 is an
 is anyone
 is approved
@@ -13091,7 +13415,6 @@ is infected
 is involved
 is it
 is kotak
-is kyc
 is last
 is link
 is loan
@@ -13132,11 +13455,12 @@ it ok
 it please
 it pls
 it s
-it sir
+it will
 item
 item on
 item photo
 iti
+itself
 jaakar
 jaakar details
 jaan
@@ -13151,14 +13475,15 @@ jail ji
 jail ok
 jail please
 jaldi
+jaldi aayega
 jaldi jaldi
+jaldi jaldii
 jaldi ji
 jaldi karo
 jaldi madam
 jaldi now
-jaldi please
 jaldi pls
-jaldi sir
+jaldii
 jama
 jama karo
 jaoge
@@ -13172,10 +13497,9 @@ jayega ok
 jayega sir
 jayegai
 jayegi
+jayegi ji
 jayegi now
-jayegi ok
 jayegi pls
-jayegi sir
 jayenge
 jayenge ji
 jayenge madam
@@ -13194,10 +13518,9 @@ ji abhi
 ji address
 ji advance
 ji allow
-ji anydesk
+ji apne
 ji are
 ji badhai
-ji bheja
 ji bina
 ji bitcoin
 ji bloody
@@ -13205,56 +13528,66 @@ ji call
 ji claim
 ji click
 ji complete
-ji contact
 ji court
 ji customs
 ji cyber
 ji cómo
 ji dad
+ji date
+ji deme
 ji deposit
+ji deprisa
 ji descargue
 ji detectamos
 ji did
+ji dimaag
 ji do
 ji double
 ji download
 ji dígame
 ji electricity
+ji faltu
 ji fast
 ji felicidades
-ji fill
 ji fir
+ji first
 ji gana
 ji give
+ji google
 ji grandma
+ji ha
 ji haan
+ji haga
 ji have
+ji help
 ji hi
 ji high
 ji hijo
-ji how
 ji hum
 ji i
 ji india
+ji install
 ji instant
 ji invest
 ji is
 ji jail
 ji jaldi
+ji jawab
 ji jo
 ji join
-ji kitna
+ji kaun
 ji kitni
 ji kya
 ji last
 ji lea
 ji link
-ji llame
 ji loan
 ji naukri
+ji no
+ji nonsense
 ji online
 ji only
-ji open
+ji pague
 ji paisa
 ji paise
 ji pan
@@ -13262,43 +13595,43 @@ ji parcel
 ji part
 ji pay
 ji payment
+ji pehle
 ji phone
 ji pin
 ji please
 ji power
 ji préstamo
 ji qr
+ji reply
 ji review
 ji rápido
 ji scan
 ji send
+ji sent
 ji share
 ji show
-ji shut
 ji small
 ji stop
 ji su
+ji teamviewer
 ji tell
 ji this
-ji transaction
+ji transfiera
 ji u
-ji update
 ji virus
 ji we
 ji what
-ji where
 ji which
-ji who
 ji why
 ji winner
 ji work
-ji ya
 ji you
 ji your
 ji आपक
-ji जल
+ji इस
 ji न
 ji पहल
+ji भ
 ji म
 jio
 jio claim
@@ -13380,7 +13713,6 @@ karo pls
 karo sir
 karo verification
 karo warna
-karo warnai
 karoi
 karta
 karta hoon
@@ -13389,7 +13721,6 @@ karte
 karte ho
 karunga
 karunga ji
-karunga madam
 karunga pls
 karungai
 kaun
@@ -13399,7 +13730,6 @@ kbc lottery
 kbc se
 ke
 ke abhi
-ke abhii
 ke liye
 ke liyei
 ke loan
@@ -13410,18 +13740,16 @@ kharidna hai
 kho
 kho gaya
 ki
+ki details
 ki lottery
 kids
 kids ok
-kids sir
-kidsi
 kijiye
-kijiye ji
-kijiye now
 kijiye please
+kijiye pls
+kijiye sir
 kitna
 kitna bheja
-kitna bhejai
 kitni
 kitni der
 kitni hai
@@ -13431,6 +13759,7 @@ kotak
 kotak customer
 kotak head
 kotak se
+kotak sir
 kotak स
 kya
 kya bakwas
@@ -13438,9 +13767,9 @@ kya hai
 kya haii
 kya ji
 kya karte
-kya madam
+kya now
+kya ok
 kya please
-kya pls
 kya sir
 kyai
 kyc
@@ -13454,9 +13783,10 @@ kyun
 kyun nahi
 la
 la aplicación
+la comisión
+la comisióni
 la cuenta
 la paciencia
-la pacienciai
 la policía
 la solicitud
 la solicitudi
@@ -13467,11 +13797,9 @@ lagao please
 lagao pls
 lagaoi
 lagegi
-lagegi ji
 lagegi madam
 lagegi now
-lagegi ok
-lagegii
+lagegi sir
 lakh
 lakh and
 lakh approved
@@ -13484,6 +13812,7 @@ lakh claim
 lakh customs
 lakh in
 lakh is
+lakh jama
 lakh ka
 lakh ki
 lakh lagao
@@ -13493,8 +13822,6 @@ lakh pending
 lakh per
 lakh pls
 lakh prize
-lakh processing
-lakh registration
 lakh reward
 lakh sir
 lakh tak
@@ -13503,9 +13830,12 @@ lakh won
 lakh क
 lakh कम
 lakh श
+lakhi
 last
 last chance
+last chancei
 last date
+last datei
 last time
 laundering
 laundering case
@@ -13519,12 +13849,15 @@ le pago
 lea
 lea el
 left
-left madam
-left now
+left ok
+left pls
+lefti
 legal
 legal action
 lena
 lena hai
+liberar
+liberar el
 license
 license expired
 license expiredi
@@ -13536,29 +13869,29 @@ limit
 limit increased
 link
 link bit
-link https
 link i
+link ji
+link loan
 link madam
 link now
 link par
 link parcel
 link pe
+link pls
 link sbi
 link to
 linked
 linked account
 listen
-listen 3000
-listen 91
+listen 9876543210
 listen a
 listen aap
 listen aapka
 listen aapke
 listen aapki
-listen abhi
-listen app
 listen are
 listen badhai
+listen bank
 listen beta
 listen bhai
 listen bheja
@@ -13568,23 +13901,25 @@ listen bloody
 listen call
 listen case
 listen claim
+listen click
 listen courier
 listen court
 listen crypto
 listen customs
-listen cómo
 listen dad
+listen date
 listen deposit
 listen did
 listen do
 listen double
 listen download
 listen dígame
-listen dónde
 listen earn
 listen enter
 listen envíeme
 listen eres
+listen es
+listen estoy
 listen faltu
 listen fast
 listen forward
@@ -13598,9 +13933,9 @@ listen guaranteed
 listen ha
 listen hackers
 listen haga
+listen have
 listen hi
 listen high
-listen how
 listen hurry
 listen i
 listen inversión
@@ -13614,77 +13949,82 @@ listen kitna
 listen kyc
 listen last
 listen legal
+listen link
+listen llame
 listen low
 listen minimum
 listen mum
 listen my
 listen naukri
-listen no
 listen olx
 listen only
 listen otp
+listen pagal
+listen pague
 listen paise
 listen papa
 listen parcel
 listen pay
+listen payment
+listen paytm
+listen phonepe
 listen pin
 listen please
 listen police
 listen préstamo
 listen qr
+listen quick
+listen quickly
 listen read
 listen review
 listen rápido
 listen scan
-listen screenshot
+listen screen
 listen send
+listen sent
 listen share
 listen show
 listen sms
 listen soy
 listen stay
+listen stop
 listen su
 listen sweetheart
 listen tap
 listen tell
 listen this
-listen to
+listen time
 listen trading
-listen transaction
 listen transfer
 listen transfiera
 listen turant
 listen type
 listen update
 listen upto
+listen use
 listen virus
-listen visit
 listen we
 listen what
+listen whatsapp
 listen which
+listen why
 listen windows
+listen ya
 listen you
 listen your
 listen आपक
-listen इस
 listen ओट
-listen जल
 listen न
 listen प
-listen पहल
-listen बकव
-listen भ
 live
 live alone
+live alonei
 liye
 liye please
 liye sir
 liyei
 llama
-llama i
-llama now
-llama ok
-llama pls
+llama ji
 llama sir
 llame
 llame a
@@ -13714,7 +14054,9 @@ loan milegai
 loan no
 loan of
 loan on
+loan please
 loan teamaaxl
+loan teamaaxli
 loan without
 locked
 locked due
@@ -13727,6 +14069,8 @@ london please
 london sir
 lonely
 lonely will
+los
+los gastos
 lose
 lose it
 lose iti
@@ -13756,18 +14100,23 @@ m stuck
 ma
 ma am
 mad
-mad madam
+mad now
+mad please
+mad sir
 madam
+madam 200
+madam 9876543210
 madam a
 madam aapka
+madam aapki
 madam aapne
-madam abhi
 madam account
 madam advance
+madam allow
 madam are
 madam badhai
+madam bank
 madam beta
-madam bheja
 madam bina
 madam call
 madam card
@@ -13776,21 +14125,20 @@ madam click
 madam congratulations
 madam courier
 madam court
-madam cómo
 madam dad
-madam date
 madam deposit
+madam deprisai
+madam descargue
 madam did
-madam dimaag
 madam do
-madam don
-madam download
 madam dígame
 madam earn
 madam electricity
 madam enter
+madam envíe
 madam envíeme
-madam estoy
+madam es
+madam faltu
 madam first
 madam get
 madam ghar
@@ -13798,73 +14146,77 @@ madam give
 madam hackers
 madam hi
 madam hiring
+madam how
 madam hum
 madam hurry
 madam i
-madam install
 madam instant
 madam is
 madam it
-madam jaldi
-madam jawab
 madam join
 madam kbc
-madam kitna
 madam kitni
 madam kya
 madam kyc
-madam last
 madam le
 madam legal
 madam lo
+madam mera
+madam mere
+madam money
 madam mum
 madam mummy
 madam my
 madam naukri
 madam need
+madam no
 madam offer
 madam online
 madam only
 madam otp
-madam pagal
+madam pague
 madam papa
 madam part
 madam pay
+madam payment
+madam pehle
 madam pending
 madam please
 madam police
 madam power
 madam qr
-madam quick
-madam quickly
 madam quiero
-madam right
+madam rápido
 madam scan
-madam screen
 madam screenshot
 madam send
+madam sent
 madam share
-madam show
 madam simple
 madam small
+madam stop
 madam su
-madam tap
 madam tell
 madam the
 madam there
 madam this
-madam to
+madam tiene
+madam time
+madam today
+madam transaction
 madam transfer
 madam upto
 madam usdt
-madam useless
-madam visit
+madam use
 madam we
 madam what
 madam whatsapp
 madam where
+madam which
+madam who
 madam why
 madam work
+madam ya
 madam you
 madam your
 madam आपक
@@ -13905,35 +14257,34 @@ manager now
 manager please
 many
 many questions
+many questionsi
 market
 market tips
 married
-married now
+married madam
 married ok
 married pls
-married sir
-marriedi
 marry
 marry you
 marry youi
 mat
 mat karo
-mat karoi
 me
 me back
 me haga
 me i
 me ji
 me madam
+me now
 me ok
 me on
 me phone
-me please
 me pls
 me proof
 me sir
 me the
 me this
+me ur
 me with
 me your
 meet
@@ -13947,7 +14298,10 @@ mein virus
 mentor
 mentor will
 mera
+mera number
 mera phone
+mere
+mere number
 message
 message you
 mi
@@ -13972,7 +14326,10 @@ minimum documents
 minutes
 minutes ji
 minutes left
+minutes lefti
 minutes madam
+minutes now
+minutes sir
 miss
 miss you
 miss youi
@@ -13991,9 +14348,12 @@ money ji
 money laundering
 money madam
 money not
+money now
 money ok
+money on
 money pls
 money sir
+money to
 money today
 money urgently
 moneyi
@@ -14015,12 +14375,15 @@ mushkil
 mushkil mein
 muy
 muy bonita
+muy pronto
 my
 my dear
 my friend
 my love
 my mic
 my new
+my number
+my numberi
 my phone
 my time
 my upi
@@ -14037,8 +14400,9 @@ nacional now
 nacionali
 nahi
 nahi de
-nahi madam
-nahi pls
+nahi ok
+nahi please
+nahi sir
 namaste
 namaste ji
 name
@@ -14089,16 +14453,18 @@ nonsense just
 not
 not be
 not disconnect
-not ji
 not linked
+not madam
+not now
 not pls
 not received
 not replying
-not replyingi
 not serious
+not sir
 not telling
 noted
 now
+now and
 now for
 now ji
 now just
@@ -14107,6 +14473,7 @@ now now
 now ok
 now or
 now please
+now pleasei
 now pls
 now sir
 nowi
@@ -14118,7 +14485,11 @@ nuevo sir
 number
 number 000012345678901
 number 3456789012345
+number 44
 number 50100234567812
+number 7004561234
+number 91
+number 9876543210
 number and
 number batao
 number first
@@ -14130,6 +14501,7 @@ number madam
 number now
 number ok
 number pe
+number pei
 number please
 number pls
 number save
@@ -14140,10 +14512,11 @@ number won
 numberi
 número
 número de
+número ji
+número madam
+número now
 número nuevo
 número please
-número pls
-número sir
 of
 of 1
 of 10
@@ -14180,23 +14553,25 @@ office ji
 office now
 office please
 officeaibl
-officeaibl ji
+officeaibl ok
 officeaibl pe
-officeaibl sir
 officer
 officer sharma
 officer will
 ok
+ok 50
 ok aap
 ok aapka
 ok aapke
 ok account
 ok address
 ok advance
+ok allow
 ok are
 ok baby
 ok beta
 ok bhai
+ok bheja
 ok bina
 ok call
 ok click
@@ -14205,17 +14580,19 @@ ok congratulations
 ok courier
 ok crypto
 ok cyber
-ok cómo
+ok debe
 ok deposit
-ok did
+ok deprisa
+ok descargue
 ok do
+ok download
 ok drugs
 ok dígame
-ok dónde
-ok estoy
-ok faltu
+ok envíe
+ok es
+ok fast
 ok file
-ok fill
+ok first
 ok free
 ok gana
 ok get
@@ -14224,6 +14601,7 @@ ok give
 ok guaranteed
 ok ha
 ok hackers
+ok haga
 ok hello
 ok hi
 ok high
@@ -14233,58 +14611,67 @@ ok inversión
 ok ipo
 ok is
 ok it
+ok jaldi
 ok jo
 ok join
-ok kitna
+ok kaun
 ok kyc
 ok last
 ok le
-ok llame
 ok lo
 ok loan
 ok main
 ok mamá
 ok mom
-ok money
 ok mummy
-ok no
-ok nonsense
+ok my
+ok number
+ok offer
 ok ok
-ok only
-ok open
 ok otp
+ok pagal
+ok pague
 ok paisa
 ok paise
 ok parcel
 ok part
 ok pay
+ok payment
+ok pehle
+ok please
 ok police
 ok pre
-ok quick
 ok quiero
 ok read
+ok right
+ok rápido
 ok scan
+ok screen
+ok screenshot
 ok send
 ok share
 ok show
+ok shut
 ok simple
 ok sir
 ok soy
 ok stay
+ok stop
 ok su
 ok sweetheart
 ok this
+ok tiene
 ok to
-ok today
 ok trabajo
-ok transfiera
+ok tum
 ok tumse
+ok turant
 ok type
-ok useless
-ok visit
+ok use
 ok we
 ok what
-ok which
+ok whatsapp
+ok who
 ok why
 ok you
 ok your
@@ -14292,6 +14679,7 @@ ok आपक
 ok आपन
 ok इस
 ok जल
+ok पहल
 okay
 okay fine
 okay madam
@@ -14311,15 +14699,16 @@ on 91
 on 9876543210
 on back
 on behalf
-on bit
 on card
 on forex
 on google
 on hold
 on https
 on loan
+on my
 on olx
 on parcel
+on same
 on sbi
 on the
 on this
@@ -14331,9 +14720,11 @@ online job
 only
 only 10
 only 5
-only ji
 only need
+only please
+onlyi
 open
+open bit
 open https
 open loan
 open parcel
@@ -14345,6 +14736,7 @@ or account
 or lose
 or not
 or phonepe
+or phonepei
 orden
 orden de
 ordenador
@@ -14372,27 +14764,32 @@ our lucky
 our telegram
 our trading
 out
-out ji
+out madam
 out please
-outi
 paciencia
 paciencia ok
-pacienciai
+paciencia sir
 package
 package could
 package is
 pagal
 pagal ho
+pagar
+pagar una
 pago
 pago ahora
 pago ahorai
 pago de
 pague
 pague 200
-pague 499
+pague 3000
 pague 50
 pague 5000
+pague el
 pague iok
+pague la
+pague los
+pague rs
 paid
 paid extra
 paid ok
@@ -14411,7 +14808,6 @@ paise bheji
 paise bhejo
 paise chahiye
 paise daalo
-paise daaloi
 paise lagao
 pan
 pan card
@@ -14433,6 +14829,8 @@ paquete está
 par
 par case
 par jaakar
+para
+para liberar
 parcel
 parcel aaya
 parcel contains
@@ -14467,13 +14865,15 @@ pay baili
 pay delivery
 pay first
 pay iok
+pay ji
 pay madam
 pay now
-pay ok
 pay on
 pay or
+pay please
 pay pls
 pay rs
+pay sir
 pay tax
 pay the
 pay to
@@ -14481,7 +14881,6 @@ payi
 payment
 payment done
 payment ho
-payment ji
 payment kiya
 payment now
 payment ok
@@ -14490,6 +14889,8 @@ payment pls
 payment receipt
 payment sir
 paymenti
+paytm
+paytm karo
 pc
 pc has
 pe
@@ -14498,17 +14899,21 @@ pe call
 pe click
 pe dekha
 pe fir
+pe gpay
 pe ji
-pe now
+pe ok
 pe paise
+pe please
 pe pls
+pe sir
 pehle
-pehle 1
-pehle 2
 pehle 200
-pehle 3000
+pehle 499
+pehle 50
 pehle 5000
 pehle iok
+pehle rs
+pei
 pending
 pending for
 pending ji
@@ -14541,18 +14946,21 @@ phone kho
 phone madam
 phone mein
 phone now
+phone number
+phone numberi
 phone ok
-phone pls
+phone please
 phone sir
 phone using
 phone will
-phonei
 phonepe
 phonepe ji
 phonepe madam
 phonepe ok
 phonepe please
 phonepe pls
+phonepe to
+phonepei
 photo
 photo dear
 photo i
@@ -14574,6 +14982,7 @@ play
 play store
 playing
 playing games
+playing gamesi
 please
 please call
 please madam
@@ -14604,7 +15013,6 @@ police ghar
 police please
 police se
 police will
-policei
 policía
 policía nacional
 policía nacionali
@@ -14625,21 +15033,24 @@ premio de
 premium
 premium trading
 primero
+primero ji
+primero ok
+primero please
+primero pls
+primero sir
 primeroi
 prize
-prize ji
+prize madam
 prize money
 prize now
 prize ok
 prize please
-prizei
 processing
 processing fee
 products
 products and
 profession
 profession please
-profession sir
 profit
 profit ji
 profit kamao
@@ -14650,6 +15061,7 @@ profit ok
 profit please
 profit pls
 profiti
+pronto
 proof
 proof now
 proof of
@@ -14668,22 +15080,25 @@ qr scan
 qr to
 que
 que le
+que pagar
 que recibió
 que recibiói
 questions
-questions now
+questions ji
+questionsi
 quick
 quick approval
+quick approvali
 quick before
 quickly
+quickly madam
 quickly ok
 quickly please
 quicksupport
-quicksupport and
-quicksupport download
 quicksupport from
-quicksupport ok
-quicksupport ड
+quicksupport ji
+quicksupport now
+quicksupport sir
 quiero
 quiero comprar
 quiero conocerte
@@ -14694,8 +15109,10 @@ raha hoon
 raha hooni
 rahe
 rahe hain
-rahe ok
+rahe now
 rahe pls
+rahe sir
+rahei
 ram
 ram ji
 ram ram
@@ -14707,11 +15124,10 @@ read the
 ready
 ready to
 real
-real ji
-real ok
+real please
+real sir
+reali
 receipt
-receipt ji
-receipt ok
 receive
 receive bonus
 receive money
@@ -14728,10 +15144,9 @@ recharge of
 recibió
 recibiói
 recording
-recording ji
 recording madam
-recording please
-recording pls
+recording ok
+recording sir
 recordingi
 redeem
 redeem now
@@ -14745,10 +15160,11 @@ refund 499
 refund cellapaytm
 refund iok
 refund ji
-refund madam
-refund now
 refund of
+refund ok
+refund pls
 refund portal
+refundi
 registered
 registered against
 registered on
@@ -14769,9 +15185,10 @@ reply yes
 reply yesi
 replying
 replying ji
-replying madam
-replying please
-replyingi
+replying now
+replying ok
+replying pls
+replying sir
 requiere
 requiere pago
 required
@@ -14805,9 +15222,10 @@ reward points
 right
 right now
 robot
-robot ok
-robot please
-robot pls
+robot i
+robot ji
+robot madam
+robot sir
 roz
 roz ji
 roz now
@@ -14823,7 +15241,6 @@ ruka hai
 ruka haii
 running
 running out
-running outi
 rupees
 rupees and
 rupees as
@@ -14831,10 +15248,14 @@ rupees bharna
 rupees daily
 rupees de
 rupees is
+rupees jama
+rupees ji
 rupees madam
 rupees ok
 rupees per
+rupees pls
 rupees processing
+rupees registration
 rupees reward
 rupees roz
 rupees to
@@ -14843,9 +15264,11 @@ rustdesk
 rustdesk and
 rustdesk download
 rustdesk from
+rustdesk pls
 rustdesk ड
 rápido
 rápido no
+rápido pague
 s
 s me
 s name
@@ -14862,6 +15285,8 @@ salary 50
 salary 5000
 salary iok
 salary rs
+same
+same number
 sanctioned
 sanctioned ok
 sanctioned sir
@@ -14875,10 +15300,13 @@ sbi
 sbi customer
 sbi head
 sbi kyc
+sbi madam
+sbi pls
 sbi se
 sbi स
 sbinoooas6t
-sbinoooas6t sir
+sbinoooas6t ok
+sbinoooas6t please
 scan
 scan karo
 scan karoi
@@ -14903,22 +15331,28 @@ screenshot
 screenshot bhejo
 screenshot bhejoi
 screenshot fast
+screenshot fasti
+screenshot ok
+screenshot please
+screenshot pls
 se
 se aapka
 se baat
 se bol
 se ho
+se hoi
 se illegal
 se llama
 se paisa
 se rozana
 security
-security madam
 security now
-security pls
-security sir
+security ok
+security please
 seguridad
 seguridad de
+seguro
+seguro para
 selected
 selected for
 selfie
@@ -14926,8 +15360,8 @@ selfie for
 send
 send 1
 send 2
-send 499
-send 5000
+send 3000
+send 50
 send a
 send courier
 send iok
@@ -14935,26 +15369,25 @@ send ji
 send karo
 send me
 send money
+send on
 send photo
+send please
 send screenshot
+send the
 send to
 send your
-sendi
 sending
 sending you
 sent
 sent double
+sent now
 sent ok
 sent or
-sent please
-sent sir
+sent pls
 sent you
-senti
 serious
-serious now
-serious ok
-serious pls
-serious sir
+serious ji
+serious please
 será
 será bloqueada
 señora
@@ -14964,6 +15397,7 @@ share
 share cvv
 share karo
 share the
+share ur
 share your
 sharing
 sharing on
@@ -14987,7 +15421,8 @@ simple tasks
 sin
 sin experiencia
 sir
-sir 9876543210
+sir 1
+sir 44
 sir aap
 sir aapka
 sir aapke
@@ -14995,51 +15430,55 @@ sir aapki
 sir aapko
 sir abhi
 sir abuela
-sir account
 sir address
-sir allow
 sir app
 sir are
 sir baby
+sir bank
 sir beta
-sir bheja
 sir bijli
 sir bitcoin
 sir call
-sir click
+sir claim
+sir contact
 sir crypto
+sir cómo
 sir date
+sir debe
 sir deposit
-sir descargue
+sir deprisa
 sir detectamos
+sir did
 sir do
 sir don
+sir download
+sir dónde
 sir es
-sir file
-sir fill
+sir estoy
 sir fir
+sir first
 sir forward
 sir free
 sir gana
+sir give
 sir good
 sir guaranteed
 sir ha
 sir hackers
-sir haga
-sir help
+sir have
 sir hiring
 sir how
 sir hurry
 sir i
+sir install
 sir ipo
 sir is
 sir it
 sir jaan
+sir jawab
 sir jo
 sir join
 sir kaun
-sir kitni
-sir kya
 sir kyc
 sir last
 sir le
@@ -15047,12 +15486,11 @@ sir lea
 sir legal
 sir lo
 sir mom
+sir money
 sir mummy
-sir my
 sir naam
 sir naukri
 sir non
-sir nonsense
 sir olx
 sir open
 sir otp
@@ -15062,67 +15500,73 @@ sir pague
 sir paise
 sir pay
 sir payment
+sir paytm
 sir pin
 sir please
 sir police
 sir power
 sir préstamo
 sir quick
-sir quicksupport
 sir read
 sir review
 sir right
-sir rustdesk
-sir rápido
 sir scan
 sir screenshot
 sir send
+sir sent
 sir share
 sir shipment
 sir show
-sir shut
 sir sms
 sir stay
 sir stock
-sir stop
 sir su
 sir sweetheart
-sir teamviewer
+sir tap
 sir tell
 sir this
 sir today
 sir trading
-sir transaction
-sir transfiera
+sir transfer
+sir tum
 sir turant
 sir type
 sir u
 sir update
 sir upto
 sir usdt
+sir uselessi
 sir virus
+sir visit
 sir we
 sir what
-sir whatsapp
 sir where
+sir which
 sir why
 sir ya
+sir yes
 sir you
 sir your
 sir आपक
 sir आपन
+sir इस
 sir ओट
 sir घर
-sir भ
+sir जल
+sir बकव
 sir म
 site
 site and
-site please
+site now
+site pls
+site sir
 site to
 slow
 slow are
-slow now
-slow ok
+slow ji
+slow please
+slow pls
+slow sir
 slowi
 small
 small investment
@@ -15150,6 +15594,7 @@ solicitudi
 son
 son i
 son is
+soon
 sorteo
 sorteo ok
 sorteo please
@@ -15172,15 +15617,14 @@ stop playing
 stop working
 store
 store and
+store madam
 store now
-store pls
 stuck
 stuck send
 students
 students madam
 students sir
 stupid
-stupid please
 stupid pls
 stupid sir
 su
@@ -15199,7 +15643,6 @@ su tarjeta
 subsidy
 subsidy of
 successful
-successful ji
 summons
 summons issued
 supply
@@ -15209,7 +15652,10 @@ support here
 support team
 support your
 sure
+sure it
 sure profit
+sus
+sus datos
 suspend
 suspend ho
 suspended
@@ -15230,6 +15676,7 @@ t come
 t talk
 t tell
 t waste
+t worry
 tak
 tak turant
 taken
@@ -15247,6 +15694,8 @@ tarjeta ha
 tarjeta pls
 tarjeta sir
 tarjetai
+tasa
+tasa de
 tasks
 tasks and
 tasks daily
@@ -15264,12 +15713,14 @@ team ji
 team please
 team pls
 teamaaxl
-teamaaxl madam
-teamaaxl pe
-teamaaxl sir
+teamaaxl now
+teamaaxl please
+teamaaxl pls
+teamaaxli
 teamviewer
+teamviewer and
 teamviewer download
-teamviewer ok
+teamviewer from
 teamviewer ड
 teamvieweri
 telegram
@@ -15299,6 +15750,7 @@ the job
 the link
 the lucky
 the message
+the money
 the otp
 the payment
 the police
@@ -15325,30 +15777,38 @@ this number
 this numberi
 this qr
 this upi
+thodi
+thodi der
 through
-through pls
+through madam
 through sir
-throughi
 tiempo
+tiempo ji
 tiempo madam
+tiempo now
+tiempo ok
 tiempo pls
-tiempoi
+tiempo sir
 tiene
+tiene que
 tiene un
 time
 time act
 time are
 time i
 time is
+time ji
 time job
+time ok
+time please
 time pls
-time sir
 time waste
 tips
 tips group
 tips with
 to
 to 000012345678901
+to 3456789012345
 to 44
 to 50100234567812
 to 7004561234
@@ -15360,20 +15820,24 @@ to activatei
 to arrest
 to buy
 to claim
+to claimi
 to clear
 to come
 to get
+to help
 to india
 to jail
 to kyc
 to marry
 to meet
+to my
 to pay
 to receive
 to refund
 to release
 to start
 to suspicious
+to this
 to upi
 to verify
 to virus
@@ -15383,11 +15847,13 @@ to you
 to your
 today
 today is
+today itself
 today ji
 today madam
 today now
 today ok
 today only
+today onlyi
 today please
 today pls
 today sir
@@ -15399,7 +15865,7 @@ top
 top and
 top madam
 top now
-top pls
+top ok
 top to
 trabajo
 trabajo desde
@@ -15416,16 +15882,17 @@ trai
 trai se
 transaction
 transaction id
+transaction idi
 transaction successful
 transfer
 transfer to
 transfer your
 transferencia
-transferencia i
-transferencia madam
-transferencia now
-transferencia ok
+transferencia sir
 transferred
+transferred madam
+transferred now
+transferred pls
 transfiera
 transfiera a
 trouble
@@ -15435,12 +15902,15 @@ trouble now
 trouble ok
 tum
 tum bot
-tum ji
+tum now
+tum pls
+tum sir
 tumse
 tumse pyaar
 tumse shaadi
 turant
 turant karo
+turant karoi
 turant milega
 turant milegai
 turant paise
@@ -15455,6 +15925,7 @@ umar kitni
 un
 un accidente
 un bizum
+un ingreso
 un iphone
 un iphonei
 un premio
@@ -15462,20 +15933,18 @@ un robot
 un virus
 una
 una orden
+una tasa
 under
 under arrest
 under digital
 under investigation
 up
 up and
-up madam
-up sir
 up you
 update
 update address
 update addressi
 update in
-update ini
 update karo
 update kyc
 update now
@@ -15484,8 +15953,6 @@ update pan
 update your
 updateaokaxis
 updateaokaxis pe
-updateaokaxis please
-updateaokaxis pls
 upi
 upi app
 upi claim
@@ -15506,6 +15973,9 @@ upto 25
 upto 5
 upto 50
 upto 90
+ur
+ur account
+ur bank
 urgent
 urgent ji
 urgent now
@@ -15520,7 +15990,6 @@ usdt
 usdt investment
 use
 use google
-use ji
 use madam
 use now
 use please
@@ -15530,6 +15999,7 @@ used
 used in
 usei
 useless
+useless madam
 useless please
 uselessi
 using
@@ -15549,6 +16019,7 @@ vamos a
 verification
 verification ji
 verification ke
+verification madam
 verification now
 verification ok
 verification pin
@@ -15561,6 +16032,7 @@ verify now
 verify ok
 verify please
 very
+very soon
 very sweet
 video
 video call
@@ -15590,8 +16062,6 @@ visit parcel
 visit sbi
 vive
 vive i
-vive ji
-vive please
 waiting
 waiting pay
 wallet
@@ -15606,9 +16076,8 @@ warehouse reschedule
 warehouse reschedulei
 warna
 warna band
-warna please
-warna pls
-warnai
+warna ji
+warna now
 warrant
 warrant against
 warrant issued
@@ -15690,9 +16159,12 @@ with me
 with minimum
 with sure
 with you
+with youi
 withdraw
 withdraw anytime
 withdraw you
+within
+within 1
 without
 without documents
 woh
@@ -15717,6 +16189,8 @@ work from
 working
 working today
 working todayi
+worry
+worry it
 xyz
 xyz apply
 ya
@@ -15727,11 +16201,13 @@ yeh naya
 yes
 yes madam
 yes ok
+yes send
+yes very
 yes yes
 yesi
 yet
-yet ji
-yet now
+yet ok
+yet sir
 yo
 yo este
 yo tuve
@@ -15747,9 +16223,7 @@ you dear
 you deari
 you do
 you free
-you freei
 you from
-you fromi
 you got
 you have
 you help
@@ -15761,7 +16235,6 @@ you madam
 you madi
 you making
 you married
-you marriedi
 you need
 you not
 you now
@@ -15772,11 +16245,10 @@ you pay
 you please
 you pls
 you police
-you policei
 you real
+you reali
 you received
 you send
-you sendi
 you sir
 you stupid
 you there
@@ -15831,7 +16303,6 @@ your pan
 your parcel
 your pc
 your phone
-your phonei
 your phonepe
 your photo
 your post
@@ -15881,11 +16352,8 @@ youtube videos
 उनल ड
 ए
 ए ji
-ए madam
-ए ok
 ए please
 ए pls
-ए sir
 एग
 एग i
 एग ji
@@ -15909,7 +16377,6 @@ youtube videos
 कम
 कम ए
 कर
-कर bit
 कर https
 कर i
 कर ji
@@ -15991,11 +16458,9 @@ youtube videos
 पहल
 पहल 1
 पहल 2
-पहल 200
 पहल 3000
-पहल 499
 पहल 50
-पहल iok
+पहल 5000
 फ
 फ ग
 ब
@@ -16028,7 +16493,9 @@ youtube videos
 मत
 मत कर
 य
-य pls
+य madam
+य ok
+य sir
 य क
 यह
 यह म

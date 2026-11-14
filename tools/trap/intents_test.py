@@ -37,3 +37,10 @@ TEST = [
     ("Su préstamo de 5000 euros está aprobado", "offer_loan"),
     ("I love you so much, my darling", "romance"),
 ]
+TEST += [
+    ("Very soon", "confirm"),
+    ("Yes send the money on my number", "gives_payment"),
+    ("Give me ur bank details", "ask_personal"),
+    ("it will be in your account shortly", "confirm"),
+    ("gpay to this mobile number", "gives_payment"),
+]

@@ -8,20 +8,24 @@ ScammerTrap is the decoy on the home screen. It runs **on the phone** (`src/trap
    loan / lottery / job / investment offers, police and account threats, family emergency, delivery, romance, tech support, marketplace,
    asks for OTP, personal details, app install, clicking a link, calling a number, a fee, "did you pay?", urgency, anger, "are you a bot?",
    questions, greetings and "ok". Character and word TF-IDF + one logistic regression per situation, the same kind of model as our scam detector.
-   - Trained on 4,344 example messages in English, Hinglish, Hindi and Spanish.
-   - **Held-out test messages** (phrased separately, never trained on, including real messages from testing): **35/36** correct.
+   - Trained on 4,672 example messages in English, Hinglish, Hindi and Spanish.
+   - **Held-out test messages** (phrased separately, never trained on, including real messages from testing): **39/41** correct.
    - Stricter test, whole phrasings never seen in training (grouped 5-fold cross-validation): 69%. That's why step 2 exists.
-   - The app gives the same answers as the Python model: 36/36 (`node tools/trap/parity_intents.mjs`).
+   - The app gives the same answers as the Python model: 41/41 (`node tools/trap/parity_intents.mjs`).
 2. **Engine rules and extraction** catch what must never be missed: OTP/PIN requests, app installs, and the UPI IDs, accounts, IFSC codes, phone numbers and links the scammer gives.
 3. **Conversation memory**: it reacts once to each new story (loan, lottery, police...), answers the actual request, remembers what it has caught, and steers the scammer to give a second account, bank/IFSC, name and number.
    It never writes a number and never repeats a sentence.
+4. **Persona:** the decoy is a made-up character, never the user: a grandmother (default) or a grandfather, chosen on the ScammerTrap screen.
+   Hindi verb endings and Spanish adjectives change with it (karungi / karunga, nerviosa / nervioso).
+5. **Learning from testing:** messages the decoy got wrong on a real phone ("Very soon", "Yes send the money on my number",
+   "Give me ur bank details") were added to the training data and the held-out test set.
 
 ## Sample conversations (real output; S = scammer, D = decoy, [what it noticed | model readings])
 
 ### user_loan
 ```
 S: Upto 90,000 loan amount available. call this number for quick approval and link
-D [loan+f_loan | offer_loan]: Really, a loan without documents? My bank always says no to old people like me. How soon will the money come into my account?
+D [loan | offer_loan]: Really, a loan without documents? My bank always says no to old people like me.
 S: Call this number first
 D [call_nonum | ask_call]: Which number, dear? I don't see one in your message. And I hear badly on calls, can you write here instead?
 S: 9876543210 call karo
@@ -93,7 +97,7 @@ D [official | intro_official]: Yes, that's me. Is there a problem? I get nervous
 S: Your aadhaar is used in money laundering, arrest warrant issued
 D [gov+f_gov | threat_legal]: Oh no, please don't arrest me, I've never done anything wrong! I'll cooperate, just tell me what to do. What do I need to do to clear my name?
 S: Do not tell anyone, stay on call
-D [isolation | ask_call]: All right, it stays between us. Please tell me what to do.
+D [isolation | ]: All right, it stays between us. Please tell me what to do.
 S: What is your full name and address?
 D [personal | ask_personal]: My grandson keeps all those papers, he'll be back in the evening. Can we do the payment part first?
 S: Transfer savings to RBI safe account
@@ -104,7 +108,7 @@ caught: -
 ### es
 ```
 S: Buenos días, le llamo de su banco
-D [official | greeting,intro_official]: Sí, soy yo. ¿Hay algún problema? Me pongo nerviosa con estas llamadas.
+D [open | greeting]: ¿Sí? No conozco este número. ¿De qué se trata?
 S: Su cuenta será bloqueada hoy
 D [kyc | threat_account]: ¡Ay, ahí me ingresan la pensión! ¿Qué hago para que no la bloqueen?
 S: Dígame el código que le ha llegado
