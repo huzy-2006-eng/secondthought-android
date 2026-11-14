@@ -51,8 +51,15 @@ final class LaunchQueue {
         Uri data = intent.getData();
         if (Intent.ACTION_VIEW.equals(action) && data != null && "secondthought".equals(data.getScheme())) {
             String route = data.getEncodedPath() == null ? "/" : data.getEncodedPath();
-            if (data.getEncodedQuery() != null) route += "?" + data.getEncodedQuery();
             JSObject o = new JSObject();
+            if ("/check".equals(route) && data.getQueryParameter("text") != null) {
+                // From the live SMS check: open Check with the message and its sender filled in.
+                o.put("route", "/check");
+                o.put("text", data.getQueryParameter("text"));
+                o.put("sender", data.getQueryParameter("sender") == null ? "" : data.getQueryParameter("sender"));
+                return o;
+            }
+            if (data.getEncodedQuery() != null) route += "?" + data.getEncodedQuery();
             o.put("route", route);
             return o;
         }

@@ -59,6 +59,12 @@
         </service>
 
         <receiver android:name=".DismissReceiver" android:exported="false" />
+        <!-- Live sender-ID check on incoming SMS (only when the person turns it on in Setup). -->
+        <receiver android:name=".SmsReceiver" android:exported="true" android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <!-- Permissions -->
@@ -68,6 +74,9 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- Scanning a QR code in the checker -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Sender-ID check: pick an SMS from the inbox, and check new SMS as they arrive. Read on the phone only. -->
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
 

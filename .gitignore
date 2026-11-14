@@ -12,3 +12,6 @@ android/app/src/main/res/xml/config.xml
 *.keystore
 .env.local
 tools/parity/expected.json.gz
+tools/sender/big_cases.json
+tools/sender/big_js.json
+tools/sender/js_results.json

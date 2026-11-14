@@ -1,0 +1,477 @@
+{
+ "version": 1,
+ "about": "Known SMS sender IDs (DLT headers) of Indian banks and agencies. 'headers' lists only IDs the organisation publishes or that are widely reported; an ID missing from this list is treated as unknown, never as fake. Verify any header at smsheader.trai.gov.in or by SMS to 1909.",
+ "entities": [
+  {
+   "id": "sbi",
+   "name": "SBI",
+   "kind": "bank",
+   "names": [
+    "sbi",
+    "state bank of india",
+    "state bank",
+    "yono",
+    "onlinesbi"
+   ],
+   "tokens": [
+    "SBI"
+   ],
+   "headers": [
+    "SBIINB",
+    "SBIPSG",
+    "SBICRD",
+    "SBIBNK",
+    "SBYONO",
+    "CBSSBI",
+    "ATMSBI"
+   ]
+  },
+  {
+   "id": "hdfc",
+   "name": "HDFC Bank",
+   "kind": "bank",
+   "names": [
+    "hdfc"
+   ],
+   "tokens": [
+    "HDFC"
+   ],
+   "headers": [
+    "HDFCBK",
+    "HDFCBN"
+   ]
+  },
+  {
+   "id": "icici",
+   "name": "ICICI Bank",
+   "kind": "bank",
+   "names": [
+    "icici",
+    "imobile"
+   ],
+   "tokens": [
+    "ICICI"
+   ],
+   "headers": [
+    "ICICIB",
+    "ICICIT"
+   ]
+  },
+  {
+   "id": "axis",
+   "name": "Axis Bank",
+   "kind": "bank",
+   "names": [
+    "axis bank",
+    "axisbank"
+   ],
+   "tokens": [
+    "AXIS",
+    "AXSB"
+   ],
+   "headers": [
+    "AXISBK",
+    "AXSBKS",
+    "AXSBKT"
+   ]
+  },
+  {
+   "id": "kotak",
+   "name": "Kotak Bank",
+   "kind": "bank",
+   "names": [
+    "kotak"
+   ],
+   "tokens": [
+    "KOTAK"
+   ],
+   "headers": [
+    "KOTAKB"
+   ]
+  },
+  {
+   "id": "pnb",
+   "name": "Punjab National Bank",
+   "kind": "bank",
+   "names": [
+    "pnb",
+    "punjab national bank"
+   ],
+   "tokens": [
+    "PNB"
+   ],
+   "headers": [
+    "PNBSMS"
+   ]
+  },
+  {
+   "id": "bob",
+   "name": "Bank of Baroda",
+   "kind": "bank",
+   "names": [
+    "bank of baroda",
+    "bob world",
+    "baroda bank"
+   ],
+   "tokens": [
+    "BOB",
+    "BARODA"
+   ],
+   "headers": [
+    "BOBTXN",
+    "BOBSMS"
+   ]
+  },
+  {
+   "id": "canara",
+   "name": "Canara Bank",
+   "kind": "bank",
+   "names": [
+    "canara"
+   ],
+   "tokens": [
+    "CANBNK",
+    "CANARA"
+   ],
+   "headers": [
+    "CANBNK"
+   ]
+  },
+  {
+   "id": "union",
+   "name": "Union Bank of India",
+   "kind": "bank",
+   "names": [
+    "union bank"
+   ],
+   "tokens": [
+    "UNION",
+    "UBOI"
+   ],
+   "headers": []
+  },
+  {
+   "id": "indusind",
+   "name": "IndusInd Bank",
+   "kind": "bank",
+   "names": [
+    "indusind"
+   ],
+   "tokens": [
+    "INDUS"
+   ],
+   "headers": []
+  },
+  {
+   "id": "yes",
+   "name": "Yes Bank",
+   "kind": "bank",
+   "names": [
+    "yes bank"
+   ],
+   "tokens": [
+    "YESB"
+   ],
+   "headers": []
+  },
+  {
+   "id": "idfc",
+   "name": "IDFC First Bank",
+   "kind": "bank",
+   "names": [
+    "idfc"
+   ],
+   "tokens": [
+    "IDFC"
+   ],
+   "headers": []
+  },
+  {
+   "id": "paytm",
+   "name": "Paytm",
+   "kind": "payment",
+   "names": [
+    "paytm"
+   ],
+   "tokens": [
+    "PAYTM"
+   ],
+   "headers": [
+    "PAYTMB"
+   ]
+  },
+  {
+   "id": "phonepe",
+   "name": "PhonePe",
+   "kind": "payment",
+   "names": [
+    "phonepe"
+   ],
+   "tokens": [
+    "PHONPE",
+    "PHONEPE"
+   ],
+   "headers": []
+  },
+  {
+   "id": "gpay",
+   "name": "Google Pay",
+   "kind": "payment",
+   "names": [
+    "google pay",
+    "gpay"
+   ],
+   "tokens": [
+    "GPAY"
+   ],
+   "headers": []
+  },
+  {
+   "id": "uidai",
+   "name": "UIDAI (Aadhaar)",
+   "kind": "government",
+   "names": [
+    "uidai",
+    "aadhaar",
+    "aadhar",
+    "adhaar"
+   ],
+   "tokens": [
+    "UIDAI",
+    "AADHAR"
+   ],
+   "headers": []
+  },
+  {
+   "id": "itd",
+   "name": "Income Tax Department",
+   "kind": "government",
+   "names": [
+    "income tax",
+    "incometax",
+    "itd",
+    "cbdt",
+    "it department"
+   ],
+   "tokens": [
+    "ITDEFL",
+    "ITDEPT",
+    "CBDT"
+   ],
+   "headers": [
+    "ITDEFL"
+   ]
+  },
+  {
+   "id": "epfo",
+   "name": "EPFO",
+   "kind": "government",
+   "names": [
+    "epfo",
+    "epf",
+    "provident fund",
+    "uan"
+   ],
+   "tokens": [
+    "EPFO"
+   ],
+   "headers": [
+    "EPFOHO"
+   ]
+  },
+  {
+   "id": "gst",
+   "name": "GST",
+   "kind": "government",
+   "names": [
+    "gstn",
+    "gst portal",
+    "gst department"
+   ],
+   "tokens": [
+    "GSTIND",
+    "GSTN"
+   ],
+   "headers": []
+  },
+  {
+   "id": "indiapost",
+   "name": "India Post",
+   "kind": "government",
+   "names": [
+    "india post",
+    "indiapost",
+    "speed post"
+   ],
+   "tokens": [
+    "INPOST",
+    "IPOST"
+   ],
+   "headers": []
+  },
+  {
+   "id": "challan",
+   "name": "Traffic police / e-Challan",
+   "kind": "government",
+   "names": [
+    "e-challan",
+    "echallan",
+    "challan",
+    "parivahan",
+    "traffic police"
+   ],
+   "tokens": [
+    "PARIVH",
+    "ECHALN",
+    "VAAHAN"
+   ],
+   "headers": []
+  },
+  {
+   "id": "police",
+   "name": "Police / CBI / Cyber Crime",
+   "kind": "government",
+   "names": [
+    "cbi",
+    "cyber crime",
+    "cybercrime",
+    "narcotics",
+    "crime branch",
+    "mumbai police",
+    "delhi police"
+   ],
+   "tokens": [
+    "CBI",
+    "POLICE"
+   ],
+   "headers": []
+  },
+  {
+   "id": "trai",
+   "name": "TRAI / DoT",
+   "kind": "government",
+   "names": [
+    "trai",
+    "department of telecom",
+    "dot india"
+   ],
+   "tokens": [
+    "TRAI"
+   ],
+   "headers": []
+  },
+  {
+   "id": "power",
+   "name": "Electricity board",
+   "kind": "utility",
+   "names": [
+    "electricity",
+    "bijli",
+    "power supply",
+    "electricity board",
+    "mseb",
+    "msedcl",
+    "bescom",
+    "tneb",
+    "bses"
+   ],
+   "tokens": [
+    "BESCOM",
+    "MSEDCL",
+    "BSES",
+    "TNEB"
+   ],
+   "headers": []
+  },
+  {
+   "id": "jio",
+   "name": "Jio",
+   "kind": "telecom",
+   "names": [
+    "jio"
+   ],
+   "tokens": [
+    "JIO"
+   ],
+   "headers": []
+  },
+  {
+   "id": "airtel",
+   "name": "Airtel",
+   "kind": "telecom",
+   "names": [
+    "airtel"
+   ],
+   "tokens": [
+    "AIRTEL",
+    "AIRTL"
+   ],
+   "headers": [
+    "AIRTEL"
+   ]
+  },
+  {
+   "id": "vi",
+   "name": "Vi (Vodafone Idea)",
+   "kind": "telecom",
+   "names": [
+    "vodafone",
+    "vodafone idea"
+   ],
+   "tokens": [
+    "VODA",
+    "VIINFO"
+   ],
+   "headers": []
+  },
+  {
+   "id": "bsnl",
+   "name": "BSNL",
+   "kind": "telecom",
+   "names": [
+    "bsnl"
+   ],
+   "tokens": [
+    "BSNL"
+   ],
+   "headers": []
+  },
+  {
+   "id": "courier",
+   "name": "a courier company",
+   "kind": "courier",
+   "names": [
+    "fedex",
+    "dhl",
+    "bluedart",
+    "blue dart",
+    "delhivery",
+    "dtdc"
+   ],
+   "tokens": [
+    "FEDEX",
+    "BLUDRT",
+    "DLHVRY",
+    "DTDC"
+   ],
+   "headers": []
+  }
+ ],
+ "claim_cues": "dear (customer|user|member|taxpayer|consumer|subscriber|valued|card ?holder|sir|madam)|\\byour (a/c|acct|account|card|kyc|e-?kyc|pan|aadhaa?r|adhaar|yono|net ?banking|mobile banking|reward|points|electricity|power|connection|sim|number|mobile number|parcel|shipment|package|order|refund|challan|vehicle|pf|uan|credit|loan|debit|wallet|bill|bank|tax)|\\ba/c\\b|\\bkyc\\b|\\b(blocked|suspended|deactivated|disconnected|frozen|expir(e|es|ed|ing)|penalty|fine)\\b|\\b(re-?activate|reactivate|verify|update|link) (your|now|immediately|today)|\\bteam\\b|customer (care|support)|\\b(apka|aapka|aapke|apke) (account|khata|bijli|connection|sim|card)|\\byour [a-z]+( bank)? (a/c|account|card|credit card|parcel|package|shipment|order|sim|connection|bill|kyc|refund|points|reward points)|held (at|in) customs|customs (duty|clearance)|\\b(priya|pyare|pyaare|sammanit) grahak",
+ "urgent_cues": "\\b(otp|kyc|pan|blocked|suspend|suspended|deactivat|update|verify|reactivat|password|pin|cvv|refund|disconnect)",
+ "lookalike_digits": {
+  "0": "O",
+  "1": "I",
+  "3": "E",
+  "4": "A",
+  "5": "S",
+  "8": "B",
+  "7": "T"
+ },
+ "sources": {
+  "HDFCBK,HDFCBN": "HDFC Bank security page (hdfc.bank.in/h-security)",
+  "SBIINB,SBIPSG,SBICRD": "SBI phishing guide (sbi.bank.in)",
+  "AXSBKS,AXSBKT": "Axis Bank 'identify genuine communication' page",
+  "others": "widely reported in news / bank SMS; verify at smsheader.trai.gov.in"
+ }
+}

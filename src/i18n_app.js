@@ -1,6 +1,13 @@
 // Text for the Android app's own screens (easy home, unknown caller, setup, more).
 export const APP = {
   en: {
+    sender_label: "Who sent it? (optional)", sender_ph: "e.g. VM-HDFCBK-S or +91 98…", sender_hint: "Adding the sender lets SecondThought check it's really the bank or office it claims to be.",
+    inbox_pick: "Pick an SMS from my inbox", inbox_title: "Recent SMS", inbox_empty: "No SMS found.", inbox_denied: "SecondThought needs permission to read SMS to show your inbox. Messages are checked on this phone only.",
+    inbox_close: "Close", sender_card: "Sender check", sender_trai: "Verify on TRAI's sender ID portal", sender_from: "From",
+    sender_parts_op: "Operator & circle", sender_parts_hdr: "Sender ID", sender_parts_cat: "Category",
+    cat_P: "Promotional", cat_S: "Service", cat_T: "Transactional", cat_G: "Government",
+    setup_sms: "Check SMS senders", setup_sms_sub: "Warns you when an SMS claims to be a bank or government office but comes from a phone number or a fake sender ID. Checked on this phone; nothing is uploaded.",
+    setup_sms_on: "Warn me about fake bank SMS", setup_sms_test: "Send a test warning", setup_sms_tested: "Test sent: check your notifications", sender_cleared: "The words alone scored {n}/100, because scammers copy bank wording. The real sender ID settles it.", sms_alert_body: "Tap to see why",
     care_title: "Who should {name} call for help?", care_sub: "When something looks like a scam, {name} can call or message this person with one tap. Usually that's you.",
     care_simple: "Simple mode is on for older users: large text and a simpler home screen. You can change it in More → Settings.",
     care_later: "I'll do this later", simple_note: "Simple mode · set up by family",
@@ -75,6 +82,13 @@ export const APP = {
     family_title: "Family", family_watch: "I want alerts about someone else", family_watch_sub: "Enter the code from their phone.",
   },
   hi: {
+    sender_label: "किसने भेजा? (वैकल्पिक)", sender_ph: "जैसे VM-HDFCBK-S या +91 98…", sender_hint: "भेजने वाला लिखने से SecondThought जाँच सकता है कि मैसेज सच में उसी बैंक या दफ़्तर से है।",
+    inbox_pick: "मेरे इनबॉक्स से SMS चुनें", inbox_title: "हाल के SMS", inbox_empty: "कोई SMS नहीं मिला।", inbox_denied: "इनबॉक्स दिखाने के लिए SecondThought को SMS पढ़ने की अनुमति चाहिए। मैसेज इसी फोन पर जाँचे जाते हैं।",
+    inbox_close: "बंद करें", sender_card: "भेजने वाले की जाँच", sender_trai: "TRAI के सेंडर ID पोर्टल पर जाँचें", sender_from: "भेजने वाला",
+    sender_parts_op: "ऑपरेटर और सर्कल", sender_parts_hdr: "सेंडर ID", sender_parts_cat: "श्रेणी",
+    cat_P: "प्रचार", cat_S: "सेवा", cat_T: "लेन-देन", cat_G: "सरकारी",
+    setup_sms: "SMS भेजने वालों की जाँच", setup_sms_sub: "जब कोई SMS बैंक या सरकारी दफ़्तर होने का दावा करे पर किसी फोन नंबर या नकली सेंडर ID से आए, तो चेतावनी देता है। इसी फोन पर जाँच; कुछ भी अपलोड नहीं होता।",
+    setup_sms_on: "नकली बैंक SMS पर चेतावनी दें", setup_sms_test: "टेस्ट चेतावनी भेजें", setup_sms_tested: "टेस्ट भेजा गया: नोटिफ़िकेशन देखें", sender_cleared: "सिर्फ़ शब्दों से स्कोर {n}/100 था, क्योंकि ठग बैंक जैसी भाषा की नकल करते हैं। असली सेंडर ID से फ़ैसला होता है।", sms_alert_body: "क्यों, यह देखने के लिए टैप करें",
     care_title: "{name} मदद के लिए किसे फोन करें?", care_sub: "जब कुछ स्कैम जैसा लगे, {name} एक टैप में इस व्यक्ति को फोन या मैसेज कर सकते हैं। आमतौर पर वह आप हैं।",
     care_simple: "बुज़ुर्गों के लिए आसान मोड चालू है: बड़े अक्षर और आसान होम स्क्रीन। इसे और → सेटिंग में बदल सकते हैं।",
     care_later: "बाद में करूँगा", simple_note: "आसान मोड · परिवार ने सेट किया",
@@ -148,6 +162,13 @@ export const APP = {
     family_title: "परिवार", family_watch: "मुझे किसी और के अलर्ट चाहिए", family_watch_sub: "उनके फोन पर दिखा कोड डालें।",
   },
   es: {
+    sender_label: "¿Quién lo envió? (opcional)", sender_ph: "p. ej. VM-HDFCBK-S o +91 98…", sender_hint: "Con el remitente, SecondThought comprueba si de verdad es el banco u oficina que dice ser.",
+    inbox_pick: "Elegir un SMS de mi bandeja", inbox_title: "SMS recientes", inbox_empty: "No hay SMS.", inbox_denied: "SecondThought necesita permiso para leer SMS y mostrar tu bandeja. Los mensajes se comprueban solo en este teléfono.",
+    inbox_close: "Cerrar", sender_card: "Comprobación del remitente", sender_trai: "Verificar en el portal de remitentes de TRAI", sender_from: "De",
+    sender_parts_op: "Operador y región", sender_parts_hdr: "ID de remitente", sender_parts_cat: "Categoría",
+    cat_P: "Promocional", cat_S: "Servicio", cat_T: "Transaccional", cat_G: "Gobierno",
+    setup_sms: "Comprobar remitentes de SMS", setup_sms_sub: "Te avisa cuando un SMS dice ser de un banco u oficina del gobierno pero llega desde un número de teléfono o un ID falso. Se comprueba en este teléfono; no se sube nada.",
+    setup_sms_on: "Avisarme de SMS bancarios falsos", setup_sms_test: "Enviar un aviso de prueba", setup_sms_tested: "Prueba enviada: mira tus notificaciones", sender_cleared: "Solo por las palabras puntuaba {n}/100, porque los estafadores copian el estilo de los bancos. El ID de remitente real lo decide.", sms_alert_body: "Toca para ver por qué",
     care_title: "¿A quién debe llamar {name} si necesita ayuda?", care_sub: "Cuando algo parezca una estafa, {name} podrá llamar o escribir a esta persona con un toque. Normalmente eres tú.",
     care_simple: "Modo sencillo activado para personas mayores: letra grande y una pantalla de inicio más simple. Puedes cambiarlo en Más → Ajustes.",
     care_later: "Lo haré más tarde", simple_note: "Modo sencillo · configurado por la familia",

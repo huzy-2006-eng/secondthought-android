@@ -128,7 +128,7 @@ function Shell({ lang, setLang, large, setLarge }) {
     if (!isNative) return;
     const open = (l) => {
       if (!l || !l.route) return;
-      if (l.text) setShared({ text: l.text, at: Date.now() });
+      if (l.text) setShared({ text: l.text, sender: l.sender, at: Date.now() });
       if (l.image) setShared({ image: l.image, at: Date.now() });
       go(l.route);
     };
@@ -145,7 +145,7 @@ function Shell({ lang, setLang, large, setLarge }) {
 
   let page;
   switch (base) {
-    case "check": page = <Checker key={shared?.at || 0} initialText={shared?.text} initialImage={shared?.image} go={go} />; break;
+    case "check": page = <Checker key={shared?.at || 0} initialText={shared?.text} initialSender={shared?.sender} initialImage={shared?.image} go={go} />; break;
     case "family": page = <Family go={go} />; break;
     case "more": page = <More go={go} />; break;
     case "welcome": page = <Welcome go={go} />; break;

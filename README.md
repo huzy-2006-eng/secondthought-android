@@ -9,7 +9,7 @@ SecondThought server (main project repository) run inside the app, so checks are
 the message never leaves the phone. The server is used only for live family alerts, ScammerTrap, complaint reports and
 the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 
-**Install:** `release/SecondThought-1.0-debug.apk` (version 1.6.2; Android 7+; unknown-caller protection needs Android 10+).
+**Install:** `release/SecondThought-1.0-debug.apk` (version 1.7; Android 7+; unknown-caller protection needs Android 10+).
 
 > **On-device = server, proven:** 100% same verdict on 7,339 messages (incl. 7,275 real Kaggle ScamShield messages never
 > used in training), 39/39 conversations turn by turn, 6,005 links. About 2 ms per check. `npm run parity` re-runs it.
@@ -28,6 +28,7 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 | **Help! Alert my family** | One tap prepares a text to your family member ("I'm getting a suspicious call from a number ending 4612… please call me now") and shows a big **Call** button. Their number is saved only on your phone, and it works without internet. |
 | **Live family alerts (optional)** | The family member installs SecondThought and scans your family QR code (or types the code) in **Family**. They get a live alert the moment a call turns dangerous: the warning only, never the conversation. |
 | **Check anything** | Paste text, **scan a screenshot**, or use **Share → SecondThought** from WhatsApp, SMS, email or the gallery (text or screenshots). QR codes too. The answer is *Scam*, *Suspicious* or *Looks safe*, with the reasons. Screenshot text is read on the phone (English and Hindi script). |
+| **Sender-ID check (India, TRAI DLT)** | Banks and government offices text from a registered sender ID such as `VM-HDFCBK-S` (operator + circle, 6-letter header, category S/T/P/G). SecondThought compares the sender with **who the message claims to be**: a "bank" SMS from a **mobile or foreign number**, a **lookalike ID** (`SBIINB1`, `1CICIB`, `HDFKBK`), **another bank's ID**, or an account/KYC message sent as **Promotional (-P)** is flagged. A **known real ID** (e.g. HDFCBK) clears bank-style wording that would otherwise look like a scam. Works three ways: type the sender, **pick an SMS from the inbox**, or **live: new SMS are checked as they arrive** and only mismatches raise a notification. Screenshot scans read the sender line too. All on the phone. Details: [docs/SENDER_CHECK.md](docs/SENDER_CHECK.md). |
 | **Payment pause** | A cooling-off check before paying someone mentioned in a risky conversation. |
 | **ScammerTrap (fights back)** | On the home screen. A decoy runs **on the phone**: a **trained model** recognises what the scammer is doing in each message (26 situations, e.g. loan offer, "call this number", OTP request, "did you pay?"), and the decoy answers in kind (lottery: *"How do I claim it?"*, police: *"Please don't arrest me"*, OTP request: refuses without a number), in English, Hinglish, Hindi or Spanish, to waste their time and catch their payment details. Copy or share each reply back to the scammer. Works offline. Live counters: time wasted, messages answered, payment details caught, complaints prepared (real numbers from your own use). Samples: [docs/SCAMMERTRAP.md](docs/SCAMMERTRAP.md). |
 | **Scam network and report** | Scammer identifiers (UPI IDs, accounts, numbers, links) link reports into campaigns. A ready complaint report for cybercrime.gov.in / 1930, and one-tap **Report on Chakshu (Sanchar Saathi)** with the details copied for the form. |
@@ -37,9 +38,10 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 
 1. **It asks first, every time.** For each unknown call the notification asks whether to protect it, and the app asks again before doing anything.
 2. **Calls are never listened to or recorded.** The app has no microphone permission at all. During a call you can type what the caller says, and only that text is checked.
-3. **Checks run on the phone.** Messages, screenshots and typed calls are analysed inside the app. Only identifiers a scammer gave (UPI IDs, numbers, links) are looked up in the scam-report network, when online.
-4. **The server sees a conversation only when you need it:** to alert a linked family member (only after the phone has found a scam), or for a complaint report. ScammerTrap runs on the phone. Codes, card, Aadhaar and PAN numbers and your own details are masked on arrival, and nothing is saved.
-5. The caller check sends the number once and **stores nothing**. The lock-screen notification shows only the last 4 digits.
+3. **SMS stay on the phone.** The sender check (inbox picker and live check) reads SMS only on the phone, only after you allow it, and keeps nothing.
+4. **Checks run on the phone.** Messages, screenshots and typed calls are analysed inside the app. Only identifiers a scammer gave (UPI IDs, numbers, links) are looked up in the scam-report network, when online.
+5. **The server sees a conversation only when you need it:** to alert a linked family member (only after the phone has found a scam), or for a complaint report. ScammerTrap runs on the phone. Codes, card, Aadhaar and PAN numbers and your own details are masked on arrival, and nothing is saved.
+6. The caller check sends the number once and **stores nothing**. The lock-screen notification shows only the last 4 digits.
 
 ## How the native parts work
 
@@ -54,6 +56,8 @@ android/app/src/main/java/app/secondthought/guardian/
                             notification taps / shared text -> app screen
   LaunchQueue.java          routes notification taps and "Share to SecondThought" into the app
   DismissReceiver.java      "Not now"
+  SmsReceiver.java          live sender-ID check on incoming SMS (only mismatches notify)
+  SenderCheck.java          Java twin of src/engine/sender.js, same data file (public/engine/senders.json)
 src/                        the app UI (React); pages/Home, Incoming, Setup, More, Family are app-only
 src/engine/                 on-device detection: rules, TF-IDF + logistic-regression models, XGBoost link model
 tools/export_engine.py      exports the server's rules and trained models into public/engine/
@@ -98,6 +102,8 @@ The free server sleeps when idle, so the first request can take up to a minute. 
 | ![](screenshots/preview/00-welcome.png) | ![](screenshots/preview/03-home.png) | ![](screenshots/preview/04-unknown-call-question.png) | ![](screenshots/preview/05-unknown-call-protected.png) | ![](screenshots/preview/06-stop-screen.png) |
 | **Help → text ready** | **Check a message** | **Type what the caller says** | **Live family alert** | **Hindi** |
 | ![](screenshots/preview/05b-help-texted.png) | ![](screenshots/preview/08-check-message.png) | ![](screenshots/preview/09-type-call.png) | ![](screenshots/preview/10-family-alert.png) | ![](screenshots/preview/15-home-hindi.png) |
+| **Sender: real ID** | **Sender: same SMS, mobile no.** | **Pick from SMS inbox** | | |
+| ![](screenshots/preview/20-sender-real.png) | ![](screenshots/preview/21-sender-mobile.png) | ![](screenshots/preview/22-sms-inbox.png) | | |
 | **Offline check (airplane mode)** | **ScammerTrap** | **Screenshot scan** | **Reply / Chakshu** | |
 | ![](screenshots/preview/16-offline-check.png) | ![](screenshots/preview/17-scammertrap.png) | ![](screenshots/preview/18-screenshot-scan.png) | ![](screenshots/preview/08b-check-actions.png) | |
 
@@ -107,6 +113,7 @@ The free server sleeps when idle, so the first request can take up to a minute. 
 - Call screening needs Android 10+, and the person must pick SecondThought as the call-screening app. Only one app can hold that role, so it replaces Truecaller's screening if that was chosen.
 - Help uses a normal text message that the person sends with one tap (apps can't send texts silently without a restricted permission).
 - Live family alerts arrive while the guardian's app is open or in recent use, and the free server forgets pairings when it restarts. Always-on alerts need push messaging (FCM), which is the next step.
+- The sender-ID list covers the main banks, payment apps and agencies, not the whole TRAI registry (which is not public as data). A sender ID not on the list is treated as *unknown*, never as fake, with a link to TRAI's sender ID portal. The SMS permissions are fine for a sideloaded APK; on the Play Store only default SMS apps may use them, so a store version would use the typed sender, screenshots and notification reading instead.
 - This is a debug build (not signed for the Play Store).
 
 ## Built before and during INNOVEX 2026
@@ -118,7 +125,7 @@ The organisers confirmed that work prepared before the event may be used. To be 
 - **During the event (from 14 Nov):** on-device detection with the parity test (`src/engine`, `tools/`),
   a new dark design with animated splash, profile and fingerprint/face/PIN app lock,
   ScammerTrap rebuilt to run on the phone with a trained scammer-intent model (`tools/trap/`, `src/trap/`), on the home screen with real counters, Chakshu reporting, screenshot scan (on-device text recognition)
-  and share-a-screenshot. See the git history for exact times.
+  and share-a-screenshot, and the **sender-ID check** (typed, inbox picker, live on new SMS; `src/engine/sender.js`, `SenderCheck.java`, `tools/sender/`). See the git history for exact times.
 
 ## Credits
 

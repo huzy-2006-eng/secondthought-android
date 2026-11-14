@@ -14,4 +14,12 @@
     <string name="incoming_protect">कॉल सुरक्षित करें</string>
     <string name="incoming_not_now">अभी नहीं</string>
     <string name="share_label">SecondThought से जाँचें</string>
+    <string name="sms_mobile_claim">खुद को %1$s बताता है, पर एक फोन नंबर से आया</string>
+    <string name="sms_intl_claim">खुद को %1$s बताता है, पर विदेशी नंबर से आया</string>
+    <string name="sms_lookalike">नकली सेंडर ID %1$s, %2$s की नकल</string>
+    <string name="sms_mismatch">%1$s होने का दावा, पर %2$s ने भेजा</string>
+    <string name="sms_unrelated">%1$s होने का दावा, पर भेजने वाला %2$s है</string>
+    <string name="sms_promo">ज़रूरी खाते वाला SMS विज्ञापन की तरह भेजा गया</string>
+    <string name="sms_foreign">विदेशी नंबर से लिंक वाला SMS</string>
+    <string name="sms_tap">इसके लिंक न खोलें। क्यों, यह देखने के लिए यहाँ टैप करें।</string>
 </resources>

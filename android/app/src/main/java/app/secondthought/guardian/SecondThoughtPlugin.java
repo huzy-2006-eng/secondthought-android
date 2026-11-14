@@ -23,7 +23,8 @@ import com.getcapacitor.annotation.PermissionCallback;
 @CapacitorPlugin(
     name = "SecondThought",
     permissions = {
-        @Permission(alias = "notifications", strings = { "android.permission.POST_NOTIFICATIONS" })
+        @Permission(alias = "notifications", strings = { "android.permission.POST_NOTIFICATIONS" }),
+        @Permission(alias = "sms", strings = { "android.permission.READ_SMS", "android.permission.RECEIVE_SMS" })
     }
 )
 public class SecondThoughtPlugin extends Plugin {
@@ -67,6 +68,90 @@ public class SecondThoughtPlugin extends Plugin {
         r.put("screeningEnabled", screeningHeld());
         r.put("unknownCallPrompt", prefs().getBoolean("unknown_call_prompt", true));
         r.put("notifications", notificationsOn());
+        r.put("smsSupported", getContext().getPackageManager().hasSystemFeature(android.content.pm.PackageManager.FEATURE_TELEPHONY));
+        r.put("smsRead", smsGranted("android.permission.READ_SMS"));
+        r.put("smsWatch", SmsReceiver.watching(getContext()));
+        call.resolve(r);
+    }
+
+    private boolean smsGranted(String perm) {
+        return androidx.core.content.ContextCompat.checkSelfPermission(getContext(), perm) == android.content.pm.PackageManager.PERMISSION_GRANTED;
+    }
+
+    // ------------------------------------------------------------------ SMS sender check
+    /** Asks for READ_SMS (inbox picker) + RECEIVE_SMS (live check) and turns the live check on. */
+    @PluginMethod
+    public void requestSms(PluginCall call) {
+        if (getPermissionState("sms") == PermissionState.GRANTED) { onSmsPermission(call); return; }
+        requestPermissionForAlias("sms", call, "onSmsPermission");
+    }
+
+    @PermissionCallback
+    private void onSmsPermission(PluginCall call) {
+        boolean read = smsGranted("android.permission.READ_SMS"), receive = smsGranted("android.permission.RECEIVE_SMS");
+        if (receive && call.getBoolean("watch", true)) prefs().edit().putBoolean(SmsReceiver.PREF, true).apply();
+        JSObject r = new JSObject();
+        r.put("read", read);
+        r.put("receive", receive);
+        r.put("smsWatch", SmsReceiver.watching(getContext()));
+        call.resolve(r);
+    }
+
+    @PluginMethod
+    public void setSmsWatch(PluginCall call) {
+        boolean on = Boolean.TRUE.equals(call.getBoolean("enabled", true));
+        prefs().edit().putBoolean(SmsReceiver.PREF, on).apply();
+        JSObject r = new JSObject();
+        r.put("smsWatch", SmsReceiver.watching(getContext()));
+        call.resolve(r);
+    }
+
+    /** Demo / self-test: runs the live SMS check on a sample message and shows the same notification a real one would. */
+    @PluginMethod
+    public void simulateSms(PluginCall call) {
+        String from = call.getString("sender", "+919820144517");
+        String text = call.getString("text", "Dear Customer, your HDFC Bank relationship manager has changed. Please save this number for all future banking help.");
+        try {
+            SenderCheck.Result r = SmsReceiver.checker(getContext()).check(from, text);
+            JSObject o = new JSObject();
+            o.put("alert", r != null && r.alert());
+            o.put("code", r == null ? null : r.code);
+            if (r != null && r.alert()) SmsReceiver.notifyMismatchPublic(getContext(), r, from, text);
+            call.resolve(o);
+        } catch (Exception e) {
+            call.reject("Sender check unavailable: " + e.getMessage());
+        }
+    }
+
+    /** Recent inbox messages with their senders, read on the phone for the in-app picker. Nothing is uploaded. */
+    @PluginMethod
+    public void recentSms(PluginCall call) {
+        if (!smsGranted("android.permission.READ_SMS")) {
+            JSObject r = new JSObject();
+            r.put("denied", true);
+            r.put("messages", new com.getcapacitor.JSArray());
+            call.resolve(r);
+            return;
+        }
+        int limit = Math.max(1, Math.min(100, call.getInt("limit", 40)));
+        com.getcapacitor.JSArray list = new com.getcapacitor.JSArray();
+        try (android.database.Cursor c = getContext().getContentResolver().query(
+                android.provider.Telephony.Sms.Inbox.CONTENT_URI,
+                new String[] { android.provider.Telephony.Sms.ADDRESS, android.provider.Telephony.Sms.BODY, android.provider.Telephony.Sms.DATE },
+                null, null, android.provider.Telephony.Sms.DEFAULT_SORT_ORDER)) {
+            while (c != null && c.moveToNext() && list.length() < limit) {
+                JSObject m = new JSObject();
+                m.put("address", c.getString(0) == null ? "" : c.getString(0));
+                m.put("body", c.getString(1) == null ? "" : c.getString(1));
+                m.put("date", c.getLong(2));
+                list.put(m);
+            }
+        } catch (Exception e) {
+            call.reject("Couldn't read the SMS inbox.");
+            return;
+        }
+        JSObject r = new JSObject();
+        r.put("messages", list);
         call.resolve(r);
     }
 

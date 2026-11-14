@@ -8,6 +8,7 @@ import { normalize } from "./normalize.js";
 import { checkText } from "./checker.js";
 import { extract, redact } from "./extract.js";
 import { pyRe } from "./pyre.js";
+import { initSenders, checkSender, withSender, senderFromScreenshot, parseSender } from "./sender.js";
 
 // Port of backend/app/lang.py: en | hi-Latn (Hinglish) | hi (Devanagari) | es
 const HINGLISH = pyRe(String.raw`\b(hai|hain|hoon|karo|kariye|kijiye|aap|aapka|aapke|mein|nahi|paise|bhej|batao|jaldi|abhi|kya|ji|bhai|bhaiya|mat|wala|rupaye)\b`);
@@ -32,6 +33,7 @@ export async function loadEngine(loader, { blocklist = true } = {}) {
     loader.text("url_model.json").then(JSON.parse), loader.text("top_domains.txt"),
   ]);
   initRules(rules); initTaxonomy(tax); initUrls(urlModel, popular, null);
+  await loader.text("senders.json").then((t) => initSenders(JSON.parse(t))).catch(() => {});
   const model = async (name) => {
     const [meta, terms, idf, coef] = await Promise.all([loader.text(`${name}.json`).then(JSON.parse), loader.text(`${name}.terms.txt`), loader.binary(`${name}.idf.f32`), loader.binary(`${name}.coef.bin`)]);
     return new TextModel(meta, terms, idf, coef);
@@ -46,6 +48,11 @@ export async function loadEngine(loader, { blocklist = true } = {}) {
   return {
     loadMs,
     check: (text) => checkText(text, models),
+    /** Content check + sender-ID check (sender: "VM-HDFCBK-S", "+91 98...", or empty). */
+    checkWithSender: (text, sender) => withSender(checkText(text, models), checkSender(sender, text)),
+    checkSender,
+    parseSender,
+    senderFromScreenshot,
     checkUrl,
     extract,
     redact,

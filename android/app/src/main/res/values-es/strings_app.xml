@@ -14,4 +14,12 @@
     <string name="incoming_protect">Proteger llamada</string>
     <string name="incoming_not_now">Ahora no</string>
     <string name="share_label">Comprobar con SecondThought</string>
+    <string name="sms_mobile_claim">Dice ser %1$s, pero llegó desde un número de teléfono</string>
+    <string name="sms_intl_claim">Dice ser %1$s, pero llegó desde un número extranjero</string>
+    <string name="sms_lookalike">ID de remitente falso %1$s imita a %2$s</string>
+    <string name="sms_mismatch">Dice ser %1$s, pero lo envió %2$s</string>
+    <string name="sms_unrelated">Dice ser %1$s, pero el remitente es %2$s</string>
+    <string name="sms_promo">SMS urgente de cuenta enviado como publicidad</string>
+    <string name="sms_foreign">SMS con enlace desde un número extranjero</string>
+    <string name="sms_tap">No toques sus enlaces. Toca aquí para ver por qué.</string>
 </resources>

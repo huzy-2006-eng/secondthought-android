@@ -22,6 +22,10 @@ export default function Setup({ go, lang, setLang, large, setLarge }) {
   };
   const allowNotifs = async () => { try { await ST.requestNotifications(); } catch (e) { setErr(e.message); } refresh(); };
   const toggleAsk = async (on) => { try { await ST.setUnknownCallPrompt({ enabled: on }); } catch { /* ignore */ } refresh(); };
+  const enableSms = async () => { setErr(null); try { const r = await ST.requestSms({ watch: true }); if (!r.receive) setErr(t("inbox_denied")); } catch (e) { setErr(e.message); } refresh(); };
+  const toggleSms = async (on) => { try { await ST.setSmsWatch({ enabled: on }); } catch { /* ignore */ } refresh(); };
+  const [tested, setTested] = useState(false);
+  const testSms = async () => { try { await ST.simulateSms({}); setTested(true); } catch (e) { setErr(e.message); } };
   const finish = () => { store.set("setupDone", true); go("/"); };
 
   return (
@@ -65,10 +69,24 @@ export default function Setup({ go, lang, setLang, large, setLarge }) {
               </label>
             ) : null}
           </Step>
+          {st.smsSupported !== false ? (
+            <Step n={3} done={st.smsWatch} title={t("setup_sms")} sub={t("setup_sms_sub")}
+              action={<button className="btn primary" onClick={enableSms}>{t("setup_enable")}</button>} t={t}>
+              {st.smsRead || st.smsWatch ? (
+                <>
+                  <label className="row switch">
+                    <input type="checkbox" checked={st.smsWatch} onChange={(e) => toggleSms(e.target.checked)} />
+                    <span>{t("setup_sms_on")}</span>
+                  </label>
+                  {st.smsWatch ? <button className="btn" style={{ marginTop: 8 }} onClick={testSms}><Icon name="bell" />{tested ? t("setup_sms_tested") : t("setup_sms_test")}</button> : null}
+                </>
+              ) : null}
+            </Step>
+          ) : null}
         </>
       ) : null}
 
-      <Step n={isNative ? 3 : 1} done={Boolean(contact)} title={t("setup_family")} sub={t("setup_family_sub")} t={t} />
+      <Step n={isNative ? 4 : 1} done={Boolean(contact)} title={t("setup_family")} sub={t("setup_family_sub")} t={t} />
       <FamilyContact onSaved={setContact} />
 
       {err ? <div className="banner bad"><Icon name="alert" />{err}</div> : null}
