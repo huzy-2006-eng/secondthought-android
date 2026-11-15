@@ -9,7 +9,7 @@ SecondThought server (main project repository) run inside the app, so checks are
 the message never leaves the phone. The server is used only for live family alerts, ScammerTrap, complaint reports and
 the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 
-**Install:** `release/SecondThought-1.7.4.apk` (version 1.7.4, 15 Nov 2026; Android 7+; unknown-caller protection needs Android 10+).
+**Install:** `release/SecondThought-1.7.5.apk` (version 1.7.5, 15 Nov 2026; Android 7+; unknown-caller protection needs Android 10+).
 
 > **On-device = server, proven:** 100% same verdict on 7,339 messages (incl. 7,275 real Kaggle ScamShield messages never
 > used in training), 39/39 conversations turn by turn, 6,005 links. About 2 ms per check. `npm run parity` re-runs it.
@@ -80,14 +80,14 @@ npm run parity       # on-device engine vs the server (same verdict on 7,339 mes
 npm run test:sender  # sender-ID check: 40 cases (incl. Hindi script), plus JS vs Java agreement on 4,284 real messages
 ```
 
-The app version is set in `android/app/build.gradle` (`versionName`), currently **1.7.4**.
+The app version is set in `android/app/build.gradle` (`versionName`), currently **1.7.5**.
 
 To use your own server, set `VITE_API_BASE` in `.env.production` and `api_base` in `android/app/src/main/res/values/strings_app.xml`.
 
 ## Install and try it
 
 ```bash
-adb install -r release/SecondThought-1.7.4.apk
+adb install -r release/SecondThought-1.7.5.apk
 ```
 You can also drag the APK onto the scrcpy window.
 

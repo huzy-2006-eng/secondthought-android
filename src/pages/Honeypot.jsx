@@ -159,7 +159,7 @@ export default function Honeypot({ go }) {
         </div>
       ) : (
         <div className="card stack">
-          <div className="banner good"><Icon name="check" />Stopped after {turns.filter((t) => t.speaker === "other").length} scammer messages, with {ids.length} payment detail(s) caught.</div>
+          <div className="banner good"><Icon name="check" />Stopped after {turns.filter((t) => t.speaker === "other").length} scammer messages, with {ids.length} scammer detail(s) caught (payment IDs, numbers, links).</div>
           <button className="btn primary block" onClick={() => go("/report")}><Icon name="file" />Create the complaint report (and warn others)</button>
           <button className="btn block" onClick={() => go("/intel")}><Icon name="graph" />See the scam network</button>
         </div>

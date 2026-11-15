@@ -1,3 +1,4 @@
+import { APP_VERSION } from "../version.js";
 import Icon from "../components/Icon.jsx";
 import { useState } from "react";
 import { useT } from "../i18n.js";
@@ -50,7 +51,7 @@ export default function More({ go }) {
           <button className="btn big block" onClick={() => setConfirm(false)}>{t("signout_no")}</button>
         </div>
       )}
-      <p className="tiny" style={{ textAlign: "center" }}>SecondThought · {t("more_version")} 1.0.0 · Team NeuroNova</p>
+      <p className="tiny" style={{ textAlign: "center" }}>SecondThought · {t("more_version")} {APP_VERSION} · Team NeuroNova</p>
     </div>
   );
 }

@@ -178,8 +178,8 @@ export default function Checker({ initialText, initialImage, initialSender, go }
           {res.intel?.length ? (
             <div className="banner bad"><Icon name="alert" /><div>{res.intel.map((h) => <div key={h.kind + h.value}><strong>{h.value}</strong> appears in {h.reports} scam report(s) from {h.reporters} people{h.includes_demo_data ? " (includes demo data)" : ""}.</div>)}</div></div>
           ) : null}
-          {res.reasons.filter((r) => r.kind !== "sender").length ? (
-            <ul style={{ margin: 0, paddingLeft: 18 }}>{res.reasons.filter((r) => r.kind !== "sender").map((r, i) => <li key={i} style={{ marginBottom: 6 }}>{r.text}{r.advice ? <div className="tiny">{r.advice}</div> : null}</li>)}</ul>
+          {shownReasons(res).length ? (
+            <ul style={{ margin: 0, paddingLeft: 18 }}>{shownReasons(res).map((r, i) => <li key={i} style={{ marginBottom: 6 }}>{r.text}{r.advice ? <div className="tiny">{r.advice}</div> : null}</li>)}</ul>
           ) : <p className="muted">No warning signs found. Still, never share codes or PINs with anyone.</p>}
           {res.verdict !== "looks safe" ? (
             <div className="stack">
@@ -207,6 +207,16 @@ export default function Checker({ initialText, initialImage, initialSender, go }
       ) : null}
     </>
   );
+}
+
+// The reasons to list under the verdict. When the trained link model flags a link without a rule-based
+// reason, say so instead of the contradictory "No warning signs found".
+function shownReasons(res) {
+  const list = res.reasons.filter((r) => r.kind !== "sender");
+  if (list.length || res.verdict === "looks safe") return list;
+  const links = (res.links || []).filter((l) => l.verdict !== "looks safe");
+  if (links.length) return links.map((l) => ({ kind: "link", text: `The link ${l.domain || l.url} looks like a phishing link to the trained link model (${Math.round(l.probability * 100)}% likely).`, advice: "Don't open it. If it claims to be a company, type that company's address yourself instead." }));
+  return [{ kind: "model", text: `The wording matches known scam messages (risk ${res.score}/100).`, advice: "Don't reply, pay or share codes. Check with the organisation using a number you already have." }];
 }
 
 const LEVEL = { bad: ["bad", "octagon", "var(--critical)"], warn: ["warn", "alert", "var(--warning)"], good: ["good", "check", "var(--good)"], info: ["info", "info", "var(--accent)"] };

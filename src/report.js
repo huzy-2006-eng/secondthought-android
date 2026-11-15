@@ -45,7 +45,12 @@ export async function buildLocalReport({ snap, turns, channel, region = "IN", mo
     `Risk score from SecondThought: ${score}/100 (${level})`,
   ];
   if (moneyLost) lines.push(`Money lost: ${moneyLost}`);
-  lines.push("", "What happened:", snap?.explanation || "Suspicious contact.", "", "Manipulation tactics observed:");
+  // The live explanation says "No scam pattern so far" below the alert line; a complaint needs plain facts instead.
+  const what = !snap?.explanation || /^No scam pattern/.test(snap.explanation)
+    ? `Suspicious contact. SecondThought rated the risk ${score}/100${ids.length ? " and the other person gave the details listed below" : ""}.`
+    : snap.explanation;
+  lines.push("", "What happened:", what, "", "Manipulation tactics observed:");
+  if (!tactics.length) lines.push("- none detected by name (see the conversation below)");
   for (const t of tactics) lines.push(`- ${t.tactic}` + (t.quotes[0] ? `: "${t.quotes[0]}"` : ""));
   lines.push("", "Details the other person gave (payment handles, accounts, numbers, links):");
   lines.push(...(ids.length ? ids.map((e) => `- ${e.kind.toUpperCase()}: ${e.value}`) : ["- none captured"]));
@@ -54,7 +59,7 @@ export async function buildLocalReport({ snap, turns, channel, region = "IN", mo
   lines.push("", "Where to file this:", `- ${ch.where}`, `- ${ch.phone}`, `- ${ch.bank}`);
   return {
     region, country: ch.country, generated_at: Date.now(), scam_type: snap?.scam_type || null, score, level,
-    explanation: snap?.explanation || "", tactics, identifiers: ids, transcript, file_with: ch, text: lines.join("\n"),
+    explanation: what, tactics, identifiers: ids, transcript, file_with: ch, text: lines.join("\n"),
     note: "Prepared on this phone for you to file yourself. SecondThought does not send this to any authority.",
   };
 }
