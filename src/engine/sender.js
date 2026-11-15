@@ -166,17 +166,25 @@ export function checkSender(raw, text) {
 }
 
 /** Combine the sender check into an engine result (score floor + a reason first in the list). */
-export function withSender(result, sc, thresholds = { scam: 60, suspicious: 35 }) {
+export function withSender(result, sc, thresholds = { scam: 60, suspicious: 35 }, { trusted = true } = {}) {
   if (!sc) return result;
+  // Contact details or payment ids in the message (call/WhatsApp this number, pay this UPI ID...): a business advert
+  // doesn't need them, task/job scams do. Their presence keeps the message from being cleared.
+  const contacts = (result.entities || []).some((e) => ["phone", "upi", "account", "iban", "email"].includes(e.kind));
   let score = Math.max(result.score, sc.floor || 0);
   let reasons0 = result.reasons;
   // A known, registered sender ID can't be used by scammers (DLT ties it to the bank). Bank-style wording
   // alone then stops counting against it, unless a link in it looks bad: links are still judged on their own.
-  if (sc.code === "known" && (result.parts?.links || 0) < thresholds.suspicious) {
+  // A sender read from a screenshot could be text the scammer typed into the message, so it can only make the
+  // verdict stricter, never clear it. Typed, inbox and live-SMS senders come from the person or from Android.
+  if (!trusted && ["known", "promo_numeric", "registered", "unlisted", "gov_category"].includes(sc.code)) {
+    sc = { ...sc, untrusted: true, level: sc.level === "good" ? "info" : sc.level };
+  } else if (sc.code === "known" && (result.parts?.links || 0) < thresholds.suspicious) {
     if (score >= thresholds.suspicious) sc = { ...sc, cleared: result.score };
     score = Math.min(score, 20);
     reasons0 = result.reasons.filter((r) => r.kind === "link");
-  } else if (["promo_numeric", "registered", "unlisted"].includes(sc.code) && !sc.urgent && result.score < thresholds.scam && (result.parts?.links || 0) < thresholds.suspicious) {
+  } else if (["promo_numeric", "registered", "unlisted"].includes(sc.code) && !sc.urgent && !contacts && result.score < thresholds.scam
+    && (result.parts?.links || 0) < thresholds.suspicious && (result.parts?.tactics || 0) < thresholds.suspicious) {
     // A registered business sender (not a personal number), no urgent account request, links look fine:
     // mild "sounds like an advert/notice" wording alone is not treated as suspicious.
     if (score >= thresholds.suspicious) sc = { ...sc, cleared: result.score };
@@ -196,7 +204,9 @@ export function withSender(result, sc, thresholds = { scam: 60, suspicious: 35 }
 export function senderFromScreenshot(text) {
   const lines = (text || "").split(/\n/).slice(0, 4);
   for (let i = 0; i < lines.length; i++) {
-    const m = lines[i].match(/(?:^|[\s•·|])([A-Z]{2}-[A-Z0-9]{3,11}(?:-[PSTG])?)(?=$|[\s•·|])/) || lines[i].match(/^\s*(\+?\d[\d\s-]{9,15}\d)\s*$/);
+    // Only a line that holds nothing but the sender (and maybe a time): "14:02 • VM-SBIINB", "VM-SBIINB", "+91 98765 43210"
+    const bare = lines[i].replace(/\b\d{1,2}[:.]\d{2}\s*(am|pm)?\b/gi, "").replace(/[•·|<>‹]/g, " ").trim();
+    const m = bare.match(/^([A-Z]{2}-[A-Z0-9]{3,11}(?:-[PSTG])?)$/) || bare.match(/^(\+?\d[\d\s-]{9,15}\d)$/);
     if (m) {
       const rest = (text || "").split(/\n/);
       rest.splice(i, 1);

@@ -12,7 +12,9 @@ for (const c of cases) {
   if (pass) ok++; else console.log("FAIL", JSON.stringify(c.sender), c.text.slice(0, 50), "→", code, level, r?.title);
 }
 writeFileSync(new URL("js_results.json", import.meta.url), JSON.stringify(got));
+// A sender ID inside a sentence of the message must not be taken as the sender
+if (senderFromScreenshot("Message from VM-HDFCBK your account is blocked\nverify now") === null) ok++; else console.log("FAIL screenshot: sender taken from a sentence");
 const shot = senderFromScreenshot("14:02 • VM-SBIINB\nDear Customer, your SBI YONO account will be suspended today.");
 if (shot?.sender === "VM-SBIINB" && shot.text.startsWith("Dear")) ok++; else console.log("FAIL screenshot", shot);
-console.log(`sender cases: ${ok}/${cases.length + 1}`);
-process.exit(ok === cases.length + 1 ? 0 : 1);
+console.log(`sender cases: ${ok}/${cases.length + 2}`);
+process.exit(ok === cases.length + 2 ? 0 : 1);

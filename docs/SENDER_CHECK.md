@@ -36,6 +36,19 @@ numbers, foreign numbers, or lookalike headers. SecondThought compares **the sen
 "blocked", "aapka khata"...). Measured on the 4,186 normal personal messages in the test set: **1** (0.02%) looked like an
 official claim (it was a real Airtel notice).
 
+## Safety rules (so the check can't be used against the person)
+
+- **Only real senders can clear a message.** A sender typed by the person, picked from the inbox, or coming from the live
+  SMS check is trusted. A sender read from a **screenshot** could be text the scammer typed into the message, so it can
+  only *raise* a warning (mobile number, lookalike, mismatch), never clear one; the card says so.
+- **Senders can't be injected from outside.** Other apps and web links can open SecondThought's Check screen, but never with
+  a pre-filled message or sender. The live SMS warning stores its message on the phone under a random one-time id, and only
+  those ids are accepted.
+- **Registered business senders are cleared only when it's plainly an advert:** no urgent account request, no phone
+  number, UPI ID, account number or email to contact, low manipulation score and safe links. Task/job scams that say
+  "WhatsApp 98…" stay flagged.
+- **Hindi (Devanagari) messages** are recognised too: "प्रिय ग्राहक, आपका एसबीआई खाता…" from a mobile number is flagged.
+
 ## Why the known-sender rule matters
 
 The message model learned that bank wording ("Dear Customer, your HDFC Bank…") is what scams look like, so even real bank
@@ -58,7 +71,7 @@ Screenshot scans also pick up the sender line (`14:02 • VM-SBIINB`).
   Headers come from the banks' own pages where available (HDFC: HDFCBK/HDFCBN; SBI: SBIINB/SBIPSG/SBICRD; Axis:
   AXSBKS/AXSBKT) or are widely reported. A missing header means *unknown*, never *fake*.
 - `src/engine/sender.js` (app) and `SenderCheck.java` (live check) implement the same rules on the same file.
-- `node tools/sender/test.mjs`: 36 cases (real, 6-digit promotional, mobile, foreign, lookalike, mismatch, promotional, contacts, screenshot).
+- `node tools/sender/test.mjs`: 40 cases (real, 6-digit promotional, Hindi script, mobile, foreign, lookalike, mismatch, promotional, contacts, screenshot).
 - `sh tools/sender/run_java.sh`: Java vs JS agreement on those cases and on 4,284 real messages × 7 kinds of sender (100%).
 
 ## Limits

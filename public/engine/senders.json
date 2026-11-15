@@ -11,7 +11,9 @@
     "state bank of india",
     "state bank",
     "yono",
-    "onlinesbi"
+    "onlinesbi",
+    "एसबीआई",
+    "स्टेट बैंक"
    ],
    "tokens": [
     "SBI"
@@ -31,7 +33,8 @@
    "name": "HDFC Bank",
    "kind": "bank",
    "names": [
-    "hdfc"
+    "hdfc",
+    "एचडीएफसी"
    ],
    "tokens": [
     "HDFC"
@@ -47,7 +50,8 @@
    "kind": "bank",
    "names": [
     "icici",
-    "imobile"
+    "imobile",
+    "आईसीआईसीआई"
    ],
    "tokens": [
     "ICICI"
@@ -63,7 +67,8 @@
    "kind": "bank",
    "names": [
     "axis bank",
-    "axisbank"
+    "axisbank",
+    "एक्सिस बैंक"
    ],
    "tokens": [
     "AXIS",
@@ -80,7 +85,8 @@
    "name": "Kotak Bank",
    "kind": "bank",
    "names": [
-    "kotak"
+    "kotak",
+    "कोटक"
    ],
    "tokens": [
     "KOTAK"
@@ -95,7 +101,9 @@
    "kind": "bank",
    "names": [
     "pnb",
-    "punjab national bank"
+    "punjab national bank",
+    "पंजाब नेशनल बैंक",
+    "पीएनबी"
    ],
    "tokens": [
     "PNB"
@@ -111,7 +119,8 @@
    "names": [
     "bank of baroda",
     "bob world",
-    "baroda bank"
+    "baroda bank",
+    "बैंक ऑफ बड़ौदा"
    ],
    "tokens": [
     "BOB",
@@ -127,7 +136,8 @@
    "name": "Canara Bank",
    "kind": "bank",
    "names": [
-    "canara"
+    "canara",
+    "केनरा"
    ],
    "tokens": [
     "CANBNK",
@@ -191,7 +201,8 @@
    "name": "Paytm",
    "kind": "payment",
    "names": [
-    "paytm"
+    "paytm",
+    "पेटीएम"
    ],
    "tokens": [
     "PAYTM"
@@ -205,7 +216,8 @@
    "name": "PhonePe",
    "kind": "payment",
    "names": [
-    "phonepe"
+    "phonepe",
+    "फोनपे"
    ],
    "tokens": [
     "PHONPE",
@@ -234,7 +246,8 @@
     "uidai",
     "aadhaar",
     "aadhar",
-    "adhaar"
+    "adhaar",
+    "आधार"
    ],
    "tokens": [
     "UIDAI",
@@ -251,7 +264,9 @@
     "incometax",
     "itd",
     "cbdt",
-    "it department"
+    "it department",
+    "आयकर",
+    "इनकम टैक्स"
    ],
    "tokens": [
     "ITDEFL",
@@ -270,7 +285,9 @@
     "epfo",
     "epf",
     "provident fund",
-    "uan"
+    "uan",
+    "ईपीएफओ",
+    "पीएफ"
    ],
    "tokens": [
     "EPFO"
@@ -301,7 +318,9 @@
    "names": [
     "india post",
     "indiapost",
-    "speed post"
+    "speed post",
+    "इंडिया पोस्ट",
+    "डाक विभाग"
    ],
    "tokens": [
     "INPOST",
@@ -318,7 +337,9 @@
     "echallan",
     "challan",
     "parivahan",
-    "traffic police"
+    "traffic police",
+    "चालान",
+    "ट्रैफिक पुलिस"
    ],
    "tokens": [
     "PARIVH",
@@ -338,7 +359,10 @@
     "narcotics",
     "crime branch",
     "mumbai police",
-    "delhi police"
+    "delhi police",
+    "पुलिस",
+    "सीबीआई",
+    "साइबर क्राइम"
    ],
    "tokens": [
     "CBI",
@@ -353,7 +377,9 @@
    "names": [
     "trai",
     "department of telecom",
-    "dot india"
+    "dot india",
+    "ट्राई",
+    "दूरसंचार विभाग"
    ],
    "tokens": [
     "TRAI"
@@ -373,7 +399,8 @@
     "msedcl",
     "bescom",
     "tneb",
-    "bses"
+    "bses",
+    "बिजली"
    ],
    "tokens": [
     "BESCOM",
@@ -388,7 +415,8 @@
    "name": "Jio",
    "kind": "telecom",
    "names": [
-    "jio"
+    "jio",
+    "जियो"
    ],
    "tokens": [
     "JIO"
@@ -400,7 +428,8 @@
    "name": "Airtel",
    "kind": "telecom",
    "names": [
-    "airtel"
+    "airtel",
+    "एयरटेल"
    ],
    "tokens": [
     "AIRTEL",
@@ -416,7 +445,8 @@
    "kind": "telecom",
    "names": [
     "vodafone",
-    "vodafone idea"
+    "vodafone idea",
+    "वोडाफोन"
    ],
    "tokens": [
     "VODA",
@@ -429,7 +459,8 @@
    "name": "BSNL",
    "kind": "telecom",
    "names": [
-    "bsnl"
+    "bsnl",
+    "बीएसएनएल"
    ],
    "tokens": [
     "BSNL"
@@ -457,8 +488,8 @@
    "headers": []
   }
  ],
- "claim_cues": "dear (customer|user|member|taxpayer|consumer|subscriber|valued|card ?holder|sir|madam)|\\byour (a/c|acct|account|card|kyc|e-?kyc|pan|aadhaa?r|adhaar|yono|net ?banking|mobile banking|reward|points|electricity|power|connection|sim|number|mobile number|parcel|shipment|package|order|refund|challan|vehicle|pf|uan|credit|loan|debit|wallet|bill|bank|tax)|\\ba/c\\b|\\bkyc\\b|\\b(blocked|suspended|deactivated|disconnected|frozen|expir(e|es|ed|ing)|penalty|fine)\\b|\\b(re-?activate|reactivate|verify|update|link) (your|now|immediately|today)|\\bteam\\b|customer (care|support)|\\b(apka|aapka|aapke|apke) (account|khata|bijli|connection|sim|card)|\\byour [a-z]+( bank)? (a/c|account|card|credit card|parcel|package|shipment|order|sim|connection|bill|kyc|refund|points|reward points)|held (at|in) customs|customs (duty|clearance)|\\b(priya|pyare|pyaare|sammanit) grahak",
- "urgent_cues": "\\b(otp|kyc|pan|blocked|suspend|suspended|deactivat|update|verify|reactivat|password|pin|cvv|refund|disconnect)",
+ "claim_cues": "dear (customer|user|member|taxpayer|consumer|subscriber|valued|card ?holder|sir|madam)|\\byour (a/c|acct|account|card|kyc|e-?kyc|pan|aadhaa?r|adhaar|yono|net ?banking|mobile banking|reward|points|electricity|power|connection|sim|number|mobile number|parcel|shipment|package|order|refund|challan|vehicle|pf|uan|credit|loan|debit|wallet|bill|bank|tax)|\\ba/c\\b|\\bkyc\\b|\\b(blocked|suspended|deactivated|disconnected|frozen|expir(e|es|ed|ing)|penalty|fine)\\b|\\b(re-?activate|reactivate|verify|update|link) (your|now|immediately|today)|\\bteam\\b|customer (care|support)|\\b(apka|aapka|aapke|apke) (account|khata|bijli|connection|sim|card)|\\byour [a-z]+( bank)? (a/c|account|card|credit card|parcel|package|shipment|order|sim|connection|bill|kyc|refund|points|reward points)|held (at|in) customs|customs (duty|clearance)|\\b(priya|pyare|pyaare|sammanit) grahak|प्रिय (ग्राहक|उपभोक्ता|सदस्य)|आपका (खाता|अकाउंट|कार्ड|बिजली|कनेक्शन|सिम|आधार|नंबर|पार्सल)|आपके (खाते|कार्ड)|केवाईसी|ब्लॉक|निलंबित|बंद (हो|कर) (जाएगा|दिया|दी)|काट दिया जाएगा",
+ "urgent_cues": "\\b(otp|kyc|pan|blocked|suspend|suspended|deactivat|update|verify|reactivat|password|pin|cvv|refund|disconnect)|केवाईसी|ओटीपी|ब्लॉक|बंद|अपडेट|सत्यापित|पिन|पासवर्ड|काट",
  "lookalike_digits": {
   "0": "O",
   "1": "I",

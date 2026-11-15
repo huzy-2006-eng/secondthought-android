@@ -13,7 +13,7 @@ final class LaunchQueue {
     private LaunchQueue() {}
 
     static synchronized void offer(Context ctx, Intent intent) {
-        JSObject launch = parse(intent);
+        JSObject launch = parse(ctx, intent);
         if (launch != null && launch.getString("route", "").startsWith("/incoming")) CallNotifier.cancelIncoming(ctx);
         if (launch == null) return;
         if (listener != null) listener.emitLaunch(launch);
@@ -28,7 +28,7 @@ final class LaunchQueue {
 
     static synchronized void attach(SecondThoughtPlugin p) { listener = p; }
 
-    private static JSObject parse(Intent intent) {
+    private static JSObject parse(Context ctx, Intent intent) {
         if (intent == null) return null;
         String action = intent.getAction();
         if (Intent.ACTION_SEND.equals(action) && intent.getType() != null && intent.getType().startsWith("image/")) {
@@ -52,13 +52,18 @@ final class LaunchQueue {
         if (Intent.ACTION_VIEW.equals(action) && data != null && "secondthought".equals(data.getScheme())) {
             String route = data.getEncodedPath() == null ? "/" : data.getEncodedPath();
             JSObject o = new JSObject();
-            if ("/check".equals(route) && data.getQueryParameter("text") != null) {
-                // From the live SMS check: open Check with the message and its sender filled in.
+            if ("/check".equals(route) && data.getQueryParameter("alert") != null) {
+                // From our own live SMS warning: open Check with that SMS and its sender. Only ids the app created
+                // itself are accepted, so another app can't show a scam message with a fake "verified" sender.
                 o.put("route", "/check");
-                o.put("text", data.getQueryParameter("text"));
-                o.put("sender", data.getQueryParameter("sender") == null ? "" : data.getQueryParameter("sender"));
+                org.json.JSONObject sms = SmsReceiver.takeAlert(ctx, data.getQueryParameter("alert"));
+                if (sms != null) {
+                    o.put("text", sms.optString("text", ""));
+                    o.put("sender", sms.optString("sender", ""));
+                }
                 return o;
             }
+            if ("/check".equals(route)) { o.put("route", "/check"); return o; }  // never take text or sender from a link
             if (data.getEncodedQuery() != null) route += "?" + data.getEncodedQuery();
             o.put("route", route);
             return o;

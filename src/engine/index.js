@@ -49,7 +49,7 @@ export async function loadEngine(loader, { blocklist = true } = {}) {
     loadMs,
     check: (text) => checkText(text, models),
     /** Content check + sender-ID check (sender: "VM-HDFCBK-S", "+91 98...", or empty). */
-    checkWithSender: (text, sender) => withSender(checkText(text, models), checkSender(sender, text)),
+    checkWithSender: (text, sender, opts) => withSender(checkText(text, models), checkSender(sender, text), undefined, opts),
     checkSender,
     parseSender,
     senderFromScreenshot,

@@ -192,7 +192,7 @@ export const LINES = {
 // The decoy can be a grandmother (default) or a grandfather. Lines are written for the grandmother;
 // these rules turn them into the grandfather's words (Hindi verb endings and Spanish adjectives are gendered).
 const MALE = {
-  en: [[/\bold lady\b/g, "old man"], [/\bold woman\b/g, "old man"], [/\bmy late husband\b/g, "my late wife"]],
+  en: [[/\bold lady\b/g, "old man"], [/\bold woman\b/g, "old man"], [/\bmy late husband\b/g, "my late wife"], [/\bMy late husband\b/g, "My late wife"]],
   "hi-Latn": [[/\bbudhi aurat\b/gi, "budha aadmi"], [/\bbudhiya\b/gi, "budhe aadmi"], [/\bakeli\b/gi, "akela"], [/\brahi hoon\b/gi, "raha hoon"],
     [/\b(\w+)ungi\b/gi, "$1unga"], [/\b(\w+)ti hoon\b/gi, "$1ta hoon"], [/\bkar rahi\b/gi, "kar raha"]],
   hi: [[/बूढ़ी औरत/g, "बूढ़ा आदमी"], [/रही हूँ/g, "रहा हूँ"], [/ूँगी/g, "ूँगा"], [/ऊँगी/g, "ऊँगा"], [/ती हूँ/g, "ता हूँ"], [/सकती/g, "सकता"]],

@@ -9,7 +9,7 @@ SecondThought server (main project repository) run inside the app, so checks are
 the message never leaves the phone. The server is used only for live family alerts, ScammerTrap, complaint reports and
 the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 
-**Install:** `release/SecondThought-1.7.2.apk` (version 1.7.2, 14 Nov 2026; Android 7+; unknown-caller protection needs Android 10+).
+**Install:** `release/SecondThought-1.7.3.apk` (version 1.7.3, 15 Nov 2026; Android 7+; unknown-caller protection needs Android 10+).
 
 > **On-device = server, proven:** 100% same verdict on 7,339 messages (incl. 7,275 real Kaggle ScamShield messages never
 > used in training), 39/39 conversations turn by turn, 6,005 links. About 2 ms per check. `npm run parity` re-runs it.
@@ -32,7 +32,7 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 | **Payment pause** | A cooling-off check before paying someone mentioned in a risky conversation. |
 | **ScammerTrap (fights back)** | On the home screen. A decoy runs **on the phone**: a **trained model** recognises what the scammer is doing in each message (26 situations, e.g. loan offer, "call this number", OTP request, "did you pay?"), and the decoy answers in kind (lottery: *"How do I claim it?"*, police: *"Please don't arrest me"*, OTP request: refuses without a number), in English, Hinglish, Hindi or Spanish, to waste their time and catch their payment details. Copy or share each reply back to the scammer. Works offline. Live counters: time wasted, messages answered, payment details caught, complaints prepared (real numbers from your own use). Samples: [docs/SCAMMERTRAP.md](docs/SCAMMERTRAP.md). |
 | **Scam network and report** | Scammer identifiers (UPI IDs, accounts, numbers, links) link reports into campaigns. A ready complaint report for cybercrime.gov.in / 1930, and one-tap **Report on Chakshu (Sanchar Saathi)** with the details copied for the form. |
-| **More** | Practice scam calls, alerts for someone you protect, and the scam network. (Accuracy numbers are for judges and developers: see the Results section and `docs/ON_DEVICE.md`, not shown to app users.) |
+| **More** | Practice scam calls, alerts for someone you protect, and the scam network. (Accuracy numbers are for judges and developers: see the parity numbers at the top and `docs/ON_DEVICE.md`, not shown to app users.) |
 
 ## Privacy, by design
 
@@ -40,8 +40,9 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 2. **Calls are never listened to or recorded.** The app has no microphone permission at all. During a call you can type what the caller says, and only that text is checked.
 3. **SMS stay on the phone.** The sender check (inbox picker and live check) reads SMS only on the phone, only after you allow it, and keeps nothing.
 4. **Checks run on the phone.** Messages, screenshots and typed calls are analysed inside the app. Only identifiers a scammer gave (UPI IDs, numbers, links) are looked up in the scam-report network, when online.
-5. **The server sees a conversation only when you need it:** to alert a linked family member (only after the phone has found a scam), or for a complaint report. ScammerTrap runs on the phone. Codes, card, Aadhaar and PAN numbers and your own details are masked on arrival, and nothing is saved.
-6. The caller check sends the number once and **stores nothing**. The lock-screen notification shows only the last 4 digits.
+5. **No cloud backup.** Android backup and device-transfer are switched off for SecondThought, so the profile, family contact and codes are not copied to Google's servers or to another phone.
+6. **The server sees a conversation only when you need it:** to alert a linked family member (only after the phone has found a scam), or for a complaint report. ScammerTrap runs on the phone. Codes, card, Aadhaar and PAN numbers and your own details are masked on arrival, and nothing is saved.
+7. The caller check sends the number once and **stores nothing**. The lock-screen notification shows only the last 4 digits.
 
 ## How the native parts work
 
@@ -76,17 +77,17 @@ npm run apk          # vite build -> cap sync -> gradlew assembleDebug
 # APK: android/app/build/outputs/apk/debug/app-debug.apk
 
 npm run parity       # on-device engine vs the server (same verdict on 7,339 messages)
-npm run test:sender  # sender-ID check: 36 cases, plus JS vs Java agreement on 4,284 real messages
+npm run test:sender  # sender-ID check: 40 cases (incl. Hindi script), plus JS vs Java agreement on 4,284 real messages
 ```
 
-The app version is set in `android/app/build.gradle` (`versionName`), currently **1.7.2**.
+The app version is set in `android/app/build.gradle` (`versionName`), currently **1.7.3**.
 
 To use your own server, set `VITE_API_BASE` in `.env.production` and `api_base` in `android/app/src/main/res/values/strings_app.xml`.
 
 ## Install and try it
 
 ```bash
-adb install -r release/SecondThought-1.7.2.apk
+adb install -r release/SecondThought-1.7.3.apk
 ```
 You can also drag the APK onto the scrcpy window.
 

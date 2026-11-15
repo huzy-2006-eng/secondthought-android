@@ -34,6 +34,8 @@ const VERDICT = {
 export default function Checker({ initialText, initialImage, initialSender, go }) {
   const [text, setText] = useState(initialText || "");
   const [sender, setSender] = useState(initialSender || "");
+  // A sender read from a screenshot might be text the scammer typed into the message: it can flag, never clear.
+  const [shotSender, setShotSender] = useState(false);
   const [inbox, setInbox] = useState(null);
   // The message box grows with the text (up to ~8 lines) so the start of a long SMS isn't hidden.
   const box = useRef(null);
@@ -56,8 +58,8 @@ export default function Checker({ initialText, initialImage, initialSender, go }
     // The sender line at the top of an SMS screenshot ("VM-SBIINB", "+91 98...") becomes the sender.
     const found = senderFromScreenshot(txt);
     let snd = sender;
-    if (found && found.text) { txt = found.text; snd = found.sender; setSender(snd); }
-    setText(txt); setFromImage(true); run(txt, snd);
+    if (found && found.text) { txt = found.text; snd = found.sender; setSender(snd); setShotSender(true); }
+    setText(txt); setFromImage(true); run(txt, snd, !found);
   };
   const scanScreenshot = async () => {
     setErr(null); setReading(true);
@@ -83,7 +85,7 @@ export default function Checker({ initialText, initialImage, initialSender, go }
     openExternal(CHAKSHU_URL);
   };
 
-  const run = async (value = text, from = sender) => {
+  const run = async (value = text, from = sender, trusted = !shotSender) => {
     const v = value.trim();
     if (!v) return;
     setBusy(true); setErr(null);
@@ -91,7 +93,7 @@ export default function Checker({ initialText, initialImage, initialSender, go }
       // Checked inside the app by the same rules and trained models as the server: the text never leaves the phone.
       const engine = await getEngine();
       const t0 = performance.now();
-      const r = engine.checkWithSender(v, from);
+      const r = engine.checkWithSender(v, from, { trusted });
       r.ms = Math.max(1, Math.round(performance.now() - t0));
       recordCheck(r.verdict);
       setRes(r);
@@ -102,7 +104,7 @@ export default function Checker({ initialText, initialImage, initialSender, go }
 
   // Text shared from another app ("Share → SecondThought") is checked straight away.
   useEffect(() => {
-    if (initialText) { setText(initialText); setSender(initialSender || ""); run(initialText, initialSender || ""); }
+    if (initialText) { setText(initialText); setSender(initialSender || ""); setShotSender(false); run(initialText, initialSender || "", true); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialText]);
 
@@ -130,7 +132,7 @@ export default function Checker({ initialText, initialImage, initialSender, go }
       setInbox(r.messages || []);
     } catch (e) { setErr(e.message || t("inbox_denied")); }
   };
-  const pickSms = (m) => { setInbox(null); setText(m.body); setSender(m.address); setFromImage(false); run(m.body, m.address); };
+  const pickSms = (m) => { setInbox(null); setText(m.body); setSender(m.address); setShotSender(false); setFromImage(false); run(m.body, m.address, true); };
 
   const v = res ? VERDICT[res.verdict] : null;
   return (
@@ -144,7 +146,7 @@ export default function Checker({ initialText, initialImage, initialSender, go }
         <div className="senderfield">
           <label htmlFor="st-sender" className="tiny">{t("sender_label")}</label>
           <div className="pillinput sender"><Icon name="user" />
-            <input id="st-sender" value={sender} maxLength={40} onChange={(e) => setSender(e.target.value)} placeholder={t("sender_ph")} title={t("sender_hint")} autoCapitalize="characters" spellCheck={false} /></div>
+            <input id="st-sender" value={sender} maxLength={40} onChange={(e) => { setSender(e.target.value); setShotSender(false); }} placeholder={t("sender_ph")} title={t("sender_hint")} autoCapitalize="characters" spellCheck={false} /></div>
         </div>
         <button className="btn primary big block" disabled={busy || !text.trim()} onClick={() => run()}><Icon name="search" />{busy ? "Checking…" : "Check it"}</button>
         {isNative ? <button className="btn big block" onClick={openInbox}><Icon name="inbox" />{t("inbox_pick")}</button> : null}
@@ -161,8 +163,8 @@ export default function Checker({ initialText, initialImage, initialSender, go }
         {scanning ? <CameraScan onCode={(d) => { setScanning(false); setText(d); run(d); }} onError={(m) => { setScanning(false); setErr(m); }} /> : null}
         <div>
           <div className="tiny" style={{ marginBottom: 6 }}>Try an example:</div>
-          <div className="row">{SENDER_EXAMPLES.map((e) => <button key={e.label} className="chip senderchip" style={{ border: 0, cursor: "pointer", textAlign: "left" }} onClick={() => { setText(e.text); setSender(e.sender); run(e.text, e.sender); }}><Icon name="user" style={{ width: 13, height: 13, verticalAlign: "-2px" }} /> {e.label}</button>)}
-            {EXAMPLES.map((e) => <button key={e} className="chip" style={{ border: 0, cursor: "pointer", textAlign: "left" }} onClick={() => { setText(e); setSender(""); run(e, ""); }}>{e.length > 46 ? e.slice(0, 44) + "…" : e}</button>)}</div>
+          <div className="row">{SENDER_EXAMPLES.map((e) => <button key={e.label} className="chip senderchip" style={{ border: 0, cursor: "pointer", textAlign: "left" }} onClick={() => { setText(e.text); setSender(e.sender); setShotSender(false); run(e.text, e.sender, true); }}><Icon name="user" style={{ width: 13, height: 13, verticalAlign: "-2px" }} /> {e.label}</button>)}
+            {EXAMPLES.map((e) => <button key={e} className="chip" style={{ border: 0, cursor: "pointer", textAlign: "left" }} onClick={() => { setText(e); setSender(""); setShotSender(false); run(e, "", true); }}>{e.length > 46 ? e.slice(0, 44) + "…" : e}</button>)}</div>
         </div>
         {err ? <div className="banner bad"><Icon name="alert" />{err}</div> : null}
       </div>
@@ -222,6 +224,7 @@ export function SenderCard({ sc, t }) {
         </div>
       ) : <div className="sc-parts"><span className="hdr"><small>{t("sender_from")}</small><b>{s.value}</b></span></div>}
       <p className="tiny" style={{ margin: 0 }}>{sc.detail}</p>
+      {sc.untrusted ? <p className="tiny" style={{ margin: 0 }}>{t("sender_untrusted")}</p> : null}
       {sc.cleared ? <p className="tiny" style={{ margin: 0 }}>{t(sc.code === "known" ? "sender_cleared" : "sender_cleared_reg", { n: sc.cleared })}</p> : null}
       {s.type === "header" && sc.level !== "good" ? <button className="btn" onClick={() => openExternal(TRAI_HEADER_URL)}><Icon name="external" />{t("sender_trai")}</button> : null}
     </div>

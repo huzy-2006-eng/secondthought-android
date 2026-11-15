@@ -204,5 +204,23 @@
   "sender": "650022",
   "text": "Your Airtel Black benefits are waiting.",
   "code": null
+ },
+ {
+  "sender": "+91 98765 43210",
+  "text": "प्रिय ग्राहक, आपका एसबीआई खाता आज बंद हो जाएगा। तुरंत केवाईसी अपडेट करें।",
+  "code": "mobile_claim",
+  "level": "bad"
+ },
+ {
+  "sender": "+91 98765 43210",
+  "text": "आपका बिजली कनेक्शन आज रात काट दिया जाएगा।",
+  "code": "mobile_claim",
+  "level": "bad"
+ },
+ {
+  "sender": "+91 98765 43210",
+  "text": "कल शाम को मिलते हैं, खाना साथ खाएँगे।",
+  "code": "mobile",
+  "level": "info"
  }
 ]
