@@ -4,6 +4,7 @@ import Icon from "../components/Icon.jsx";
 import { isNative, shareText } from "../native.js";
 import { useSession } from "../session.jsx";
 import { reportFiled } from "../trapstats.js";
+import { buildLocalReport } from "../report.js";
 import { openExternal, CHAKSHU_URL } from "../native.js";
 
 const REGIONS = [["IN", "India"], ["US", "United States"], ["UK", "United Kingdom"], ["ES", "España"], ["OTHER", "Other country"]];
@@ -16,6 +17,8 @@ export default function Report({ go }) {
   const [rep, setRep] = useState(null);
   const [err, setErr] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [shareNote, setShareNote] = useState(null);
 
   if (!s.sessionId) {
     return (
@@ -27,10 +30,27 @@ export default function Report({ go }) {
     );
   }
 
+  // The complaint is written on the phone, so it always works (offline too, or when the free server is busy).
+  // Only the optional "share with the network" step uses the server; if that fails the complaint is still ready.
   const generate = async () => {
-    setErr(null);
+    setErr(null); setShareNote(null); setBusy(true);
     s.setRegion(region);
-    try { const r = await api.report(await s.ensureServer(), { region, money_lost: lost || null, share_with_network: share }); setRep(r); reportFiled(Boolean(r.shared)); } catch (e) { setErr(`Preparing the complaint needs the internet (${e.message}).`); }
+    let local;
+    try {
+      local = await buildLocalReport({ snap: s.snap, turns: s.turns, channel: s.channel, region, moneyLost: lost || null });
+      setRep(local);
+    } catch (e) { setErr(`Couldn't prepare the complaint: ${e.message}`); setBusy(false); return; }
+    if (share && local.identifiers.length) {
+      try {
+        const r = await api.report(await s.ensureServer(), { region, money_lost: lost || null, share_with_network: true });
+        setRep({ ...local, shared: r.shared });
+        reportFiled(Boolean(r.shared));
+      } catch {
+        reportFiled(false);
+        setShareNote("Your complaint is ready below. Sharing the scammer's details with the network didn't work just now (no internet, or the server is busy); you can try again in a minute.");
+      }
+    } else reportFiled(false);
+    setBusy(false);
   };
   const copy = async () => {
     try { await navigator.clipboard.writeText(rep.text); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { setErr("Copy failed; select the text and copy it manually."); }
@@ -58,11 +78,12 @@ export default function Report({ go }) {
         </div>
         <label className="row"><input type="checkbox" checked={share} onChange={(e) => setShare(e.target.checked)} style={{ width: 20, height: 20 }} />
           Also add the scammer's details (never yours) to the shared network</label>
-        <button className="btn primary block" onClick={generate}><Icon name="file" />Prepare my complaint</button>
+        <button className="btn primary block" onClick={generate} disabled={busy}><Icon name="file" />{busy ? "Preparing…" : "Prepare my complaint"}</button>
         {err ? <div className="banner bad"><Icon name="alert" />{err}</div> : null}
       </div>
       {rep ? (
         <div className="card stack">
+          {shareNote ? <div className="banner info"><Icon name="info" />{shareNote}</div> : null}
           {rep.shared ? <div className="banner good"><Icon name="check" />{rep.shared.identifiers} scammer detail(s) shared with the network.</div> : null}
           <h2>File it here</h2>
           <ul style={{ margin: 0, paddingLeft: 18 }}>

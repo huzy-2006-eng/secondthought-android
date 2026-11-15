@@ -9,7 +9,7 @@ SecondThought server (main project repository) run inside the app, so checks are
 the message never leaves the phone. The server is used only for live family alerts, ScammerTrap, complaint reports and
 the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 
-**Install:** `release/SecondThought-1.7.3.apk` (version 1.7.3, 15 Nov 2026; Android 7+; unknown-caller protection needs Android 10+).
+**Install:** `release/SecondThought-1.7.4.apk` (version 1.7.4, 15 Nov 2026; Android 7+; unknown-caller protection needs Android 10+).
 
 > **On-device = server, proven:** 100% same verdict on 7,339 messages (incl. 7,275 real Kaggle ScamShield messages never
 > used in training), 39/39 conversations turn by turn, 6,005 links. About 2 ms per check. `npm run parity` re-runs it.
@@ -31,7 +31,7 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 | **Sender-ID check (India, TRAI DLT)** | Banks and government offices text from a registered sender ID such as `VM-HDFCBK-S` (operator + circle, 6-letter header, category S/T/P/G). SecondThought compares the sender with **who the message claims to be**: a "bank" SMS from a **mobile or foreign number**, a **lookalike ID** (`SBIINB1`, `1CICIB`, `HDFKBK`), **another bank's ID**, or an account/KYC message sent as **Promotional (-P)** is flagged. A **known real ID** (e.g. HDFCBK) clears bank-style wording that would otherwise look like a scam. Works three ways: type the sender, **pick an SMS from the inbox**, or **live: new SMS are checked as they arrive** and only mismatches raise a notification. Screenshot scans read the sender line too. All on the phone. Details: [docs/SENDER_CHECK.md](docs/SENDER_CHECK.md). |
 | **Payment pause** | A cooling-off check before paying someone mentioned in a risky conversation. |
 | **ScammerTrap (fights back)** | On the home screen. A decoy runs **on the phone**: a **trained model** recognises what the scammer is doing in each message (26 situations, e.g. loan offer, "call this number", OTP request, "did you pay?"), and the decoy answers in kind (lottery: *"How do I claim it?"*, police: *"Please don't arrest me"*, OTP request: refuses without a number), in English, Hinglish, Hindi or Spanish, to waste their time and catch their payment details. Copy or share each reply back to the scammer. Works offline. Live counters: time wasted, messages answered, payment details caught, complaints prepared (real numbers from your own use). Samples: [docs/SCAMMERTRAP.md](docs/SCAMMERTRAP.md). |
-| **Scam network and report** | Scammer identifiers (UPI IDs, accounts, numbers, links) link reports into campaigns. A ready complaint report for cybercrime.gov.in / 1930, and one-tap **Report on Chakshu (Sanchar Saathi)** with the details copied for the form. |
+| **Scam network and report** | Scammer identifiers (UPI IDs, accounts, numbers, links) link reports into campaigns. A ready complaint report for cybercrime.gov.in / 1930, **written on the phone** (works offline; the server is only used if you choose to share the scammer's details with the network), and one-tap **Report on Chakshu (Sanchar Saathi)** with the details copied for the form. |
 | **More** | Practice scam calls, alerts for someone you protect, and the scam network. (Accuracy numbers are for judges and developers: see the parity numbers at the top and `docs/ON_DEVICE.md`, not shown to app users.) |
 
 ## Privacy, by design
@@ -41,7 +41,7 @@ the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 3. **SMS stay on the phone.** The sender check (inbox picker and live check) reads SMS only on the phone, only after you allow it, and keeps nothing.
 4. **Checks run on the phone.** Messages, screenshots and typed calls are analysed inside the app. Only identifiers a scammer gave (UPI IDs, numbers, links) are looked up in the scam-report network, when online.
 5. **No cloud backup.** Android backup and device-transfer are switched off for SecondThought, so the profile, family contact and codes are not copied to Google's servers or to another phone.
-6. **The server sees a conversation only when you need it:** to alert a linked family member (only after the phone has found a scam), or for a complaint report. ScammerTrap runs on the phone. Codes, card, Aadhaar and PAN numbers and your own details are masked on arrival, and nothing is saved.
+6. **The server sees a conversation only when you need it:** to alert a linked family member (only after the phone has found a scam), or when you choose to share a scammer's details with the network. Complaint reports are written on the phone. ScammerTrap runs on the phone. Codes, card, Aadhaar and PAN numbers and your own details are masked on arrival, and nothing is saved.
 7. The caller check sends the number once and **stores nothing**. The lock-screen notification shows only the last 4 digits.
 
 ## How the native parts work
@@ -80,14 +80,14 @@ npm run parity       # on-device engine vs the server (same verdict on 7,339 mes
 npm run test:sender  # sender-ID check: 40 cases (incl. Hindi script), plus JS vs Java agreement on 4,284 real messages
 ```
 
-The app version is set in `android/app/build.gradle` (`versionName`), currently **1.7.3**.
+The app version is set in `android/app/build.gradle` (`versionName`), currently **1.7.4**.
 
 To use your own server, set `VITE_API_BASE` in `.env.production` and `api_base` in `android/app/src/main/res/values/strings_app.xml`.
 
 ## Install and try it
 
 ```bash
-adb install -r release/SecondThought-1.7.3.apk
+adb install -r release/SecondThought-1.7.4.apk
 ```
 You can also drag the APK onto the scrcpy window.
 

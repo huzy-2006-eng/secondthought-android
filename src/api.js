@@ -4,12 +4,25 @@
 // server (VITE_API_BASE, set in .env.android). In the browser they stay same-origin.
 export const API_BASE = (import.meta.env.VITE_API_BASE || "").replace(/\/$/, "");
 
-async function request(method, path, body) {
-  const res = await fetch(API_BASE + path, {
-    method,
-    headers: body ? { "Content-Type": "application/json" } : undefined,
-    body: body ? JSON.stringify(body) : undefined,
-  });
+const BUSY = "The SecondThought server is busy or starting up. Please try again in a minute.";
+const UNREACHABLE = "Can't reach the SecondThought server right now. Check the internet connection and try again.";
+
+async function request(method, path, body, attempt = 0) {
+  let res;
+  try {
+    res = await fetch(API_BASE + path, {
+      method,
+      headers: body ? { "Content-Type": "application/json" } : undefined,
+      body: body ? JSON.stringify(body) : undefined,
+    });
+  } catch {
+    throw new Error(UNREACHABLE);
+  }
+  // The free server answers 502/503/504 while it restarts: read-only requests are retried once.
+  if ([502, 503, 504].includes(res.status)) {
+    if (method === "GET" && attempt === 0) { await new Promise((r) => setTimeout(r, 2500)); return request(method, path, body, 1); }
+    throw new Error(BUSY);
+  }
   let data = null;
   try {
     data = await res.json();
