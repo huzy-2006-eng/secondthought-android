@@ -9,7 +9,7 @@ SecondThought server (main project repository) run inside the app, so checks are
 the message never leaves the phone. The server is used only for live family alerts, ScammerTrap, complaint reports and
 the scam-report network. See [docs/ON_DEVICE.md](docs/ON_DEVICE.md).
 
-**Install:** `release/SecondThought-1.0-debug.apk` (version 1.7.2; Android 7+; unknown-caller protection needs Android 10+).
+**Install:** `release/SecondThought-1.7.2.apk` (version 1.7.2, 14 Nov 2026; Android 7+; unknown-caller protection needs Android 10+).
 
 > **On-device = server, proven:** 100% same verdict on 7,339 messages (incl. 7,275 real Kaggle ScamShield messages never
 > used in training), 39/39 conversations turn by turn, 6,005 links. About 2 ms per check. `npm run parity` re-runs it.
@@ -74,14 +74,19 @@ You need Node 20+, JDK 21 and the Android SDK (platform 36).
 npm install
 npm run apk          # vite build -> cap sync -> gradlew assembleDebug
 # APK: android/app/build/outputs/apk/debug/app-debug.apk
+
+npm run parity       # on-device engine vs the server (same verdict on 7,339 messages)
+npm run test:sender  # sender-ID check: 36 cases, plus JS vs Java agreement on 4,284 real messages
 ```
+
+The app version is set in `android/app/build.gradle` (`versionName`), currently **1.7.2**.
 
 To use your own server, set `VITE_API_BASE` in `.env.production` and `api_base` in `android/app/src/main/res/values/strings_app.xml`.
 
 ## Install and try it
 
 ```bash
-adb install -r release/SecondThought-1.0-debug.apk
+adb install -r release/SecondThought-1.7.2.apk
 ```
 You can also drag the APK onto the scrcpy window.
 
@@ -90,6 +95,8 @@ You can also drag the APK onto the scrcpy window.
 3. For a real test, call the phone from a number that is **not** saved in its contacts. Then call it from a saved contact: no prompt appears.
 4. Add a family member's number in **Family**, then press **Help!**: your messages app opens with the text ready, and **Call** opens the dialler.
 5. Live alerts: on a second phone, open **Family → I want alerts about someone else** and enter the pairing code. Then play the demo scam call on the first phone.
+6. Sender-ID check: in **Check**, tap the examples **Bank SMS from VM-HDFCBK-S** and then **Same SMS from +91 98201 44517**: the same text is *Looks safe* from the real sender ID and *Scam* from a phone number. **Pick an SMS from my inbox** checks a real SMS with its sender.
+7. Live SMS check: in **More → Settings**, step 3 **Check SMS senders** → **Turn on** (allow SMS), then **Send a test warning**. Real SMS that claim to be a bank or government office but come from a phone number or a fake sender ID now raise a warning.
 
 The free server sleeps when idle, so the first request can take up to a minute. The app shows *"Connecting…"* while it waits.
 
